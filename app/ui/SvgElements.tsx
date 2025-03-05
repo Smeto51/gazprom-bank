@@ -30,8 +30,7 @@ export const Magnifier = () => {
   viewBox="0 0 12 12"
 >
   <path
-    fill-rule="evenodd"
-    clip-rule="evenodd"
+    fillRule="evenodd"
     d="M7.892 8.702a4.374 4.374 0 1 1 1.06-1.06L11.03 9.72a.75.75 0 1 1-1.06 1.06L7.892 8.702Zm.607-3.578a3.124 3.124 0 1 1-6.249 0 3.124 3.124 0 0 1 6.249 0Z"
     fill="#1C1C1E"
   ></path>

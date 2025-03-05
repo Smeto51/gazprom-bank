@@ -5,7 +5,7 @@ import Link from "next/link";
 import SquareOfDots, { Magnifier } from "./SvgElements";
 // Возможно понадобиться позже box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.5)
 //shrink-0 - сжатие, если 0, то сжатие не происходи, в данном контексте отменит перенос элементов
-export const Header = () => {
+const Header = () => {
   return (
     <header>
       <div className="header_full_main_menu flex  justify-center p-2 text-[14px] shadow-md">
@@ -37,9 +37,4 @@ export const Header = () => {
   );
 };
 
-/**
-
-#696e82
-#476bf0
-#f4f6fa
-*/
+export default Header;

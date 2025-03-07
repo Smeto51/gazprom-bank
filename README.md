@@ -12,6 +12,10 @@ You can check the site on [Vercel Platform](https://gazprom-bank.vercel.app/)
 
 ## Version 1.01
 
+    Made dropdown
+
+## Version 1.01
+
 ## Version 1.00
 
     A navigation bar without functionality has been created

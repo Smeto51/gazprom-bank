@@ -2,6 +2,14 @@
   --spacingHeader: 20px;
 }
 
+.custom-shadow {
+  box-shadow: 0px 0px 14px 0px rgba(0, 0, 0, 0.15);
+}
+
+.hoverLink a:hover {
+  color: black;
+}
+
 .header_full_main_menu {
   height: 72px;
 }

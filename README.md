@@ -10,12 +10,14 @@ bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/
 
 You can check the site on [Vercel Platform](https://gazprom-bank.vercel.app/)
 
-## Version 1.01
+## Version 0.1.2
+
+    Add animation in Header
+
+## Version 0.1.1
 
     Made dropdown
 
-## Version 1.01
-
-## Version 1.00
+## Version 0.1.0
 
     A navigation bar without functionality has been created

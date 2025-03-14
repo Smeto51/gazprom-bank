@@ -2,7 +2,7 @@ const SquareOfDots = () => {
   const fillColor: string = "rgba(30, 34, 46, 0.32)"; //gray
   return (
     <svg
-      className="group-hover:[&>circle]:fill-black hover:scale-105 transition-transform duration-300"
+      className="group-hover:[&>circle]:fill-black hover:scale-120 transition-transform duration-300"
       width="25"
       height="24"
       viewBox="0 0 25 24"

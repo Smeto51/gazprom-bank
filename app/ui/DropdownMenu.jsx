@@ -26,7 +26,7 @@ const DropdownMenu = () => {
 
   return (
     <div className="relative" ref={dropDownRef}>
-      <button onClick={toggleMenu} className="group">
+      <button onClick={toggleMenu} className="group cursor-pointer">
         <ThreeDots />
       </button>
       <div
@@ -41,9 +41,7 @@ const DropdownMenu = () => {
         transition-all` /** Анимирует все изменения (прозрачность и трансформацию).*/
         }
       >
-        <div className="duration-300 px-5">
-          <Link href="">Инвесторам</Link>
-        </div>
+        <div className="duration-300 px-5"></div>
       </div>
     </div>
   );

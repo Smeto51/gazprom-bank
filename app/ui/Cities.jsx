@@ -5,20 +5,6 @@ const Cities = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const inputRef = useRef(null);
 
-  const handleFocus = () => {
-    if (inputRef.current) {
-      inputRef.current.placeholder = "";
-      setIsInputFocused(true);
-    }
-  };
-
-  const handleBlur = () => {
-    if (inputRef.current) {
-      inputRef.current.placeholder = "Поиск по городам";
-      setIsInputFocused(false);
-    }
-  };
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -42,16 +28,25 @@ const Cities = () => {
               <h1 className="font-[Arial, sans-serif] text-[28px] font-semibold">
                 Выберите город
               </h1>
+              <span
+                className={`absolute p-3 mt-5.5 transform transition-all duration-200 -z-1 
+                  ${
+                    isInputFocused
+                      ? "-translate-y-4 text-blue-500 text-[14px]"
+                      : "text-gray-400 text-[16px]"
+                  }`}
+              >
+                Поиск по городам
+              </span>
               <input
                 type="text"
                 id="city"
                 ref={inputRef}
-                className="w-[100%] border border-gray-300 rounded-[5px] mt-4 h-14 p-3 text-[16px] focus:outline-none focus:border-blue-500 "
-                placeholder="Поиск по городам"
-                onFocus={handleFocus}
-                onBlur={handleBlur}
+                className="w-[100%] border border-gray-300 rounded-[5px] mt-4 h-14 p-3 pt-7 text-[16px] focus:outline-none focus:border-blue-500 "
+                onFocus={() => setIsInputFocused(true)}
+                onBlur={() => setIsInputFocused(false)}
               ></input>
-              <label
+              {/*<label
                 className={`absolute p-5 mt-3 left-8 transform transition-all duration-200 -z-2
                 ${
                   isInputFocused
@@ -60,7 +55,7 @@ const Cities = () => {
                 }`}
               >
                 Поиск по городам
-              </label>
+              </label>*/}
             </div>
           </div>
         </div>

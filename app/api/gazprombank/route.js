@@ -26,8 +26,9 @@ export async function GET() {
     // Возвращаем JSON-ответ клиенту
     return NextResponse.json(data);
   } catch (error) {
+    console.error("Ошибка при загрузке данных:", error);
     return NextResponse.json(
-      { error: "Ошибка при загрузке данных" },
+      { error: "Ошибка при загрузке данных", detail: error.message },
       { status: 500 }
     );
   }

@@ -14,7 +14,7 @@ interface CitiesData {
 const getCities = async (): Promise<CitiesData | null> => {
   try {
     const getCitites = await fetch("/api/gazprombank");
-    let data = await getCitites.json();
+    const data = await getCitites.json();
     return data.cities as CitiesData;
   } catch (error) {
     console.error("Ошибка при загрузку данных:", error);

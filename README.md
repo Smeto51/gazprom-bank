@@ -10,6 +10,10 @@ bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/
 
 You can check the site on [Vercel Platform](https://gazprom-bank.vercel.app/)
 
+## Version 0.1.3
+
+    Added display of cities on the screen
+
 ## Version 0.1.2
 
     Add animation in Header

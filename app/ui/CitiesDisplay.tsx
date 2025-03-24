@@ -11,11 +11,35 @@ interface CitiesData {
   [key: string]: City[];
 }
 
+interface CachedData {
+  data: CitiesData;
+  timestamp: number;
+}
+
+const CACHE_DURATION = 3 * 60 * 60 * 1000;
+
 const getCities = async (): Promise<CitiesData | null> => {
+  const cachedCities = localStorage.getItem('cities');
+  if (cachedCities) {
+    const parseData: CachedData = JSON.parse(cachedCities);
+    const isCacheValid = Date.now() - parseData.timestamp < CACHE_DURATION;
+    if (isCacheValid) {
+      return parseData.data;
+    } 
+  }
   try {
     const getCitites = await fetch("/api/gazprombank");
     const data = await getCitites.json();
-    return data.cities as CitiesData;
+
+    if (data.cities) {
+      const dataToCache: CachedData = {
+        data: data.cities,
+        timestamp: Date.now()
+      };
+      localStorage.setItem('cities', JSON.stringify(dataToCache));
+      return data.cities;
+    }
+    return null;
   } catch (error) {
     console.error("Ошибка при загрузку данных:", error);
     return null;
@@ -24,18 +48,12 @@ const getCities = async (): Promise<CitiesData | null> => {
 
 const CitiesDisplay = () => {
   const [cities, setCities] = useState<CitiesData | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    getCities().then((data) => {
-      if (data) {
-      setCities(data);
-      setIsLoading(true);
-      }
-    });
+    getCities().then(setCities);
   }, []);
 
-  if (!isLoading || !cities) {
+  if (!cities) {
     return <div>Загрузка...</div>;
   }
 

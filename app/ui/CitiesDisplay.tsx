@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface City {
   id: number;
@@ -11,49 +11,21 @@ interface CitiesData {
   [key: string]: City[];
 }
 
-interface CachedData {
-  data: CitiesData;
-  timestamp: number;
+// Пропсы для компонента CitiesDisplay
+interface CitiesDisplayProps {
+  cities: CitiesData | null;
 }
 
-const CACHE_DURATION = 3 * 60 * 60 * 1000;
-
-const getCities = async (): Promise<CitiesData | null> => {
-  const cachedCities = localStorage.getItem('cities');
-  if (cachedCities) {
-    const parseData: CachedData = JSON.parse(cachedCities);
-    const isCacheValid = Date.now() - parseData.timestamp < CACHE_DURATION;
-    if (isCacheValid) {
-      return parseData.data;
-    } 
-  }
-  try {
-    const getCitites = await fetch("/api/gazprombank");
-    const data = await getCitites.json();
-
-    if (data.cities) {
-      const dataToCache: CachedData = {
-        data: data.cities,
-        timestamp: Date.now()
-      };
-      localStorage.setItem('cities', JSON.stringify(dataToCache));
-      return data.cities;
-    }
-    return null;
-  } catch (error) {
-    console.error("Ошибка при загрузку данных:", error);
-    return null;
-  }
-};
-
-const CitiesDisplay = () => {
-  const [cities, setCities] = useState<CitiesData | null>(null)
+const CitiesDisplay: React.FC<CitiesDisplayProps> = ({ cities }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    getCities().then(setCities);
-  }, []);
+    if (cities) {
+      setIsLoading(false); // Данные загружены
+    }
+  }, [cities]);
 
-  if (!cities) {
+  if (isLoading || !cities) {
     return <div>Загрузка...</div>;
   }
 
@@ -61,7 +33,6 @@ const CitiesDisplay = () => {
 
   return (
     <>
-      {" "}
       {letters.map((letter) => (
         <div key={letter} className="">
           <h2 className="font-semibold text-xl mt-4 text-[#476bf0] lg:pb-[8px]">
@@ -83,4 +54,4 @@ const CitiesDisplay = () => {
   );
 };
 
-export default CitiesDisplay;
+export default React.memo(CitiesDisplay);

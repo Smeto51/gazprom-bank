@@ -4,6 +4,7 @@
 
 .custom-background-cities {
   background: rgba(30, 34, 46, 0.64);
+  backdrop-filter: blur(5px);
 }
 
 .custom-shadow {
@@ -18,6 +19,29 @@
   height: 72px;
 }
 
+.custom-scrollbar {
+  scroll-behavior: smooth;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(241, 241, 241, 1);
+  margin-bottom: 30px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(30, 34, 46, 0.16);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(71, 104, 191, 0.8);
+  cursor: pointer;
+}
+
 @media only screen and (min-width: 1024px) {
   .header_full_main_menu {
     background-color: #f4f6fa;
@@ -26,6 +50,11 @@
   .wrapper {
     padding-left: 44px;
     padding-right: 44px;
+  }
+  .custom-background-CrossSVG {
+    top: 32px;
+    right: 32px;
+    border-radius: 20px;
   }
 }
 

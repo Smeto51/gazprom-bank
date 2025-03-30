@@ -68,7 +68,7 @@ const CitiesModal = ({
       fixed 
       custom-background-CrossSVG bg-white/[0.08]
       w-10 h-10 top-4 right-4
-      flex items-center justify-center cursor-pointer hover:bg-blue-500 group
+      flex items-center justify-center cursor-pointer hover:bg-blue-500 group duration-500
       "
       >
         <CrossSVG />

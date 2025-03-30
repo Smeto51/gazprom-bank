@@ -15,7 +15,7 @@ type CityItem = {
 
 const CityItem = memo(({ name, onSelect }: CityItem) => (
   <li
-    className="lg:pb-0 text-base leading-[20px] hover:text-[#4768BF] transform transition-all duration-200"
+    className="lg:pb-0 text-base leading-[20px] hover:text-[#4768BF] transform transition-all duration-200 cursor-pointer"
     onClick={() => onSelect(name)}
   >
     {name}

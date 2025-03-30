@@ -10,6 +10,15 @@ bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/
 
 You can check the site on [Vercel Platform](https://gazprom-bank.vercel.app/)
 
+## Version 0.1.4
+
+    Data is loaded via the ReactQuery library
+    Search and office selection has been configured
+    Close modal window if next to or city selected
+    Customized scrollbox in modal window
+    The City components are broken down into components for ease of use and support.
+    Save the selected city after reloading the page
+
 ## Version 0.1.3
 
     Added display of cities on the screen

@@ -1,6 +1,6 @@
 {
   "name": "gazprom-bank",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/query-core": "^5.69.0",
+    "@tanstack/react-query": "^5.69.0",
     "ajax": "^0.0.4",
     "axios": "^1.8.3",
-    "next": "15.2.1",
+    "next": "^15.2.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-scrollbar": "^4.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

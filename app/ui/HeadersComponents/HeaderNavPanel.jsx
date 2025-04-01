@@ -1,5 +1,5 @@
 "use client";
-import Magnifier, { ThreeDots } from "./SvgElements";
+import { ThreeDots, Magnifier } from "../SvgElements";
 //wrapper
 const HeaderNavPanel = () => {
   const navItems = [

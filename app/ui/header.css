@@ -2,6 +2,12 @@
   --spacingHeader: 20px;
 }
 
+:active,
+:hover,
+:focus {
+  outline: 0;
+  outline-offset: 0;
+}
 .custom-background-cities {
   background: rgba(30, 34, 46, 0.64);
   backdrop-filter: blur(5px);

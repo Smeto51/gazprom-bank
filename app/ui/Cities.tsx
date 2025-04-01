@@ -119,7 +119,10 @@ const CitiesContent = () => {
 
   return (
     <>
-      <button onClick={toggleMenu} className="cursor-pointer text-[#4768BF] ">
+      <button
+        onClick={toggleMenu}
+        className="cursor-pointer text-[#4768BF] whitespace-nowrap"
+      >
         {selectedCity}
       </button>
 

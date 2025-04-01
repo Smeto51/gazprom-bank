@@ -59,7 +59,7 @@ const CitiesModal = ({
   return (
     <div
       className={`
-        fixed inset-0 custom-background-cities w-[100vw] flex justify-center items-center transition-opacity duration-200 ease-in-out
+        fixed inset-0 custom-background-cities w-[100vw] flex justify-center items-center transition-opacity duration-200 ease-in-out z-1
         ${isVisible ? "opacity-100" : "opacity-0"}`}
       onClick={handleClickOutside}
     >

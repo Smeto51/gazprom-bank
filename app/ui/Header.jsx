@@ -8,7 +8,8 @@ import SquareOfDots, {
   ThreeDots,
 } from "./SvgElements";
 import DropdownMenu from "./DropdownMenu";
-import HeaderNavPanel from "./HeaderNavPanel";
+import HeaderNavPanel from "./HeadersComponents/HeaderNavPanel";
+import HeaderSearching from "./HeadersComponents/HeaderMagnifierSearching";
 
 import Cities from "./Cities";
 const Header = () => {
@@ -16,7 +17,7 @@ const Header = () => {
     <header className="w-full">
       <div className="header_full_main_menu">
         <div className="container wrapper mx-auto flex h-full text-[14px] text-[#696e82] gap-10">
-          <div className="flex space-x-5 items-center hoverLink whitespace-nowrap ">
+          <div className="flex space-x-5 items-center hoverLink whitespace-nowrap">
             <div tabIndex="0">
               <Link href="" className="group ">
                 <SquareOfDots />
@@ -43,8 +44,8 @@ const Header = () => {
             </div>
             {/*<DropdownMenu />*/}
           </div>
-          <div className="flex items-center text-black justify-end">
-            <div className="flex space-x-10 w-full">
+          <div className="flex items-center text-black ml-auto ">
+            <div className="flex space-x-8 w-full">
               <Cities />
               <div className="whitespace-nowrap">
                 <Link
@@ -71,6 +72,7 @@ const Header = () => {
           </div>
         </div>
         <HeaderNavPanel />
+        <HeaderSearching />
       </div>
     </header>
   );

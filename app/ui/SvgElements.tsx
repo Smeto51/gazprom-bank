@@ -25,7 +25,7 @@ const SquareOfDots = () => {
 };
 
 export default SquareOfDots;
-
+/**currentColor — это специальное значение в CSS и SVG, которое означает "использовать текущий цвет текста".  */
 export const Magnifier = () => {
   return (
     <svg
@@ -38,7 +38,7 @@ export const Magnifier = () => {
       <path
         fillRule="evenodd"
         d="M7.892 8.702a4.374 4.374 0 1 1 1.06-1.06L11.03 9.72a.75.75 0 1 1-1.06 1.06L7.892 8.702Zm.607-3.578a3.124 3.124 0 1 1-6.249 0 3.124 3.124 0 0 1 6.249 0Z"
-        fill="#1C1C1E"
+        fill="currentColor"
         className={pathClassBlueHover}
       ></path>
     </svg>
@@ -55,7 +55,7 @@ export const ThreeDots = () => {
       <path
         d="M5 17a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm7 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm7 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
         fill="#696e82"
-        className="group-hover:fill-blue-500 transition-colors duration-200" // transition-colors - делаем плавной анимацию
+        className="group-hover:fill-blue-500 transition-colors duration-200"
       />
     </svg>
   );

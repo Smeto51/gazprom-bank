@@ -59,19 +59,25 @@ const CitiesModal = ({
   return (
     <div
       className={`
-        fixed inset-0 custom-background-cities w-[100vw] flex justify-center items-center transition-opacity duration-200 ease-in-out z-1
+        fixed inset-0 custom-background-cities w-[100vw] flex justify-center items-center transition-opacity duration-200 ease-in-out z-15
         ${isVisible ? "opacity-100" : "opacity-0"}`}
       onClick={handleClickOutside}
     >
       <div
         className="
-      fixed 
-      custom-background-CrossSVG bg-white/[0.08]
-      w-10 h-10 top-4 right-4
-      flex items-center justify-center cursor-pointer hover:bg-blue-500 group duration-500
-      "
+        fixed flex items-center justify-center
+        w-10 h-10 top-4 right-4 
+        custom-background-CrossSVG bg-white/[0.08] hover:bg-blue-500 duration-500 group"
       >
-        <CrossSVG />
+        <div
+          className="
+          w-4 h-4 
+          flex text-gray-300
+          cursor-pointer hover:bg-blue-500 group-hover:scale-150 transition-transform duration-500
+          "
+        >
+          <CrossSVG />
+        </div>
       </div>
       <div
         ref={modalRef}

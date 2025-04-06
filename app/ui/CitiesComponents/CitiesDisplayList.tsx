@@ -15,7 +15,7 @@ type CityItem = {
 
 const CityItem = memo(({ name, onSelect }: CityItem) => (
   <li
-    className="lg:pb-0 text-base leading-[20px] hover:text-[#4768BF] transform transition-all duration-200"
+    className="lg:pb-0 text-base leading-[20px] hover:text-[#4768BF] transform transition-all duration-200 cursor-pointer"
     onClick={() => onSelect(name)}
   >
     {name}
@@ -41,7 +41,7 @@ const CitiesList = memo(({ cities, onSelect }: CitiesListProps) => {
     <div className="mt-10 relative h-[calc(100%-150px)]">
       <div
         ref={scrollContainerRef}
-        className="overflow-y-auto h-full custom-scrollbar"
+        className="overflow-y-auto h-full custom-scrollbar custom-scrollbarCity"
         onScroll={handleScroll}
       >
         {hasLetters && (

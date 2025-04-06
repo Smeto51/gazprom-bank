@@ -20,7 +20,7 @@ const HeaderMenu = () => {
         </div>
         <Link
           href=""
-          className="group mr-6 hover:scale-105 transition-transform duration-300 "
+          className="group mr-6 hover:scale-105 transition-transform duration-300 text-blue-600"
         >
           <GazpromBankSvg />
         </Link>

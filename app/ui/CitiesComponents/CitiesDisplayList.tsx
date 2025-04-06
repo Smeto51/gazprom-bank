@@ -41,7 +41,7 @@ const CitiesList = memo(({ cities, onSelect }: CitiesListProps) => {
     <div className="mt-10 relative h-[calc(100%-150px)]">
       <div
         ref={scrollContainerRef}
-        className="overflow-y-auto h-full custom-scrollbar"
+        className="overflow-y-auto h-full custom-scrollbar custom-scrollbarCity"
         onScroll={handleScroll}
       >
         {hasLetters && (

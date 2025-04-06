@@ -15,6 +15,7 @@ You can check the site on [Vercel Platform](https://gazprom-bank.vercel.app/)
     Added "Magnifier" and "Cross" elements
     The cross erases the Input text
     Added animated window with QR code
+    Added animated window with BecomeClient
 
 ## Version 0.1.4
 

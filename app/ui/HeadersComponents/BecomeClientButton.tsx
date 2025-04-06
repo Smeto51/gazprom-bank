@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useRef, useState } from "react";
 import { BUTTON_BLACK } from "./HeaderNavPanel";
 import {
   BankCardSVG,
@@ -10,6 +10,7 @@ import {
   PrivateBunkingSVG,
   PreciousMetaksSVG,
 } from "../SvgElements";
+import { useModal } from "@/app/hooks/useModal";
 
 type BankServiceLinkProps = {
   href: string;
@@ -50,37 +51,20 @@ const BankServiceLink = ({
 };
 
 const BecomeClinetButton = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-
+  const { modalIsOpen, isAnimating, modalRef, toggleModalQR } = useModal();
   const [isHover, setIsHover] = useState(false);
+  const [showTopGradient, setShowTopGradient] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const toggleModalQR = useCallback(() => {
-    if (modalIsOpen) {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setModalIsOpen(false);
-        setIsAnimating(false);
-      }, 300);
-    } else {
-      setModalIsOpen(true);
+  const handleScroll = useCallback((): void => {
+    if (scrollContainerRef.current) {
+      const { scrollTop } = scrollContainerRef.current;
+      setShowTopGradient(scrollTop > 0);
     }
-  }, [modalIsOpen]);
-
-  useEffect(() => {
-    if (!modalIsOpen) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key == "Escape") {
-        toggleModalQR();
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [modalIsOpen, toggleModalQR]);
+  }, []);
 
   return (
-    <div className="relative">
+    <div className="relative" ref={modalRef}>
       <button
         className={`flex ${BUTTON_BLACK} px-6 whitespace-nowrap ${
           modalIsOpen ? "bg-gray-800" : ``
@@ -105,12 +89,14 @@ const BecomeClinetButton = () => {
             className="
             h-full max-h-121 pl-2
             bg-white custom-shadow rounded-[12px] whitespace-nowrap 
-            overflow-hidden pr-1"
+            overflow-hidden pr-1 relative"
           >
             <div
+              ref={scrollContainerRef}
+              onScroll={handleScroll}
               className={`${
                 isHover ? "overflow-y-auto" : "pr-1 overflow-y-hidden"
-              } h-full max-h-115.5 custom-scrollbar `}
+              } h-full max-h-116.5 custom-scrollbar pb-1`}
             >
               <div className="font-semibold text-[20px] p-4">
                 Стать клиентом
@@ -171,9 +157,16 @@ const BecomeClinetButton = () => {
                   description="Самым взыскательным клиентам"
                   bg="bg-[#787878]"
                 />
-                <div className="p-1" />
               </>
             </div>
+            <div
+              className={`absolute top-0 left-0 right-0 h-[30px] pointer-events-none w-[calc(100%-var(--scrollbar-width,8px))] ${
+                showTopGradient
+                  ? "bg-gradient-to-b from-white to-transparent opacity-100 transition-all duration-300"
+                  : "opacity-0"
+              }`}
+            ></div>
+            <div className="absolute h-[30px] -bottom-1 left-0 right-0 bg-gradient-to-t from-white to-transparent pointer-events-none rounded-[12px]" />
           </div>
         )}
       </div>

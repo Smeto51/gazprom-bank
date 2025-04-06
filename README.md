@@ -16,6 +16,7 @@ You can check the site on [Vercel Platform](https://gazprom-bank.vercel.app/)
     The cross erases the Input text
     Added animated window with QR code
     Added animated window with BecomeClient
+    Added Custom Hook useModal
 
 ## Version 0.1.4
 

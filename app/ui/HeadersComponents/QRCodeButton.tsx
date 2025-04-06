@@ -1,36 +1,11 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
 import { QrSVG } from "../SvgElements";
 import { BUTTON_BLACK } from "./HeaderNavPanel";
 import Image from "next/image";
+import { useModal } from "@/app/hooks/useModal";
 
 const QRCodeButton = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-
-  const toggleModalQR = useCallback(() => {
-    if (modalIsOpen) {
-      setIsAnimating(true);
-      setTimeout(() => {
-        setModalIsOpen(false);
-        setIsAnimating(false);
-      }, 300);
-    } else {
-      setModalIsOpen(true);
-    }
-  }, [modalIsOpen]);
-
-  useEffect(() => {
-    if (!modalIsOpen) return;
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key == "Escape") {
-        toggleModalQR();
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [modalIsOpen, toggleModalQR]);
+  const { modalIsOpen, isAnimating, modalRef, toggleModalQR } = useModal();
 
   return (
     <>
@@ -52,6 +27,7 @@ const QRCodeButton = () => {
                         ? "opacity-100 translate-y-0 "
                         : "opacity-0 translate-y-5 pointer-events-none "
                     }`}
+        ref={modalRef}
       >
         {modalIsOpen && (
           <div className="min-w-86 max-w-86 h-100% bg-white duration-300 rounded-[12px] custom-shadow p-0 ">

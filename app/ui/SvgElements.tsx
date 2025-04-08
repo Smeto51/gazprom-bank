@@ -2,24 +2,23 @@ const pathClassBlueHover: string =
   "group-hover:fill-blue-700 transition-colors duration-200";
 
 const SquareOfDots = () => {
-  const fillColor: string = "rgba(30, 34, 46, 0.32)"; //gray
   return (
     <svg
-      className="group-hover:[&>circle]:fill-black hover:scale-120 transition-transform duration-300"
+      className=""
       width="25"
       height="24"
       viewBox="0 0 25 25"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="2" cy="2" r="2.1" fill={fillColor}></circle>
-      <circle cx="12.5" cy="2" r="2.1" fill={fillColor}></circle>
-      <circle cx="22.5" cy="2" r="2.1" fill={fillColor}></circle>
-      <circle cx="2.5" cy="12" r="2.1" fill={fillColor}></circle>
+      <circle cx="2" cy="2" r="2.1" fill="currentColor"></circle>
+      <circle cx="12.5" cy="2" r="2.1" fill="currentColor"></circle>
+      <circle cx="22.5" cy="2" r="2.1" fill="currentColor"></circle>
+      <circle cx="2.5" cy="12" r="2.1" fill="currentColor"></circle>
       <circle cx="12.5" cy="12" r="2.1" fill="#1e222e"></circle>
-      <circle cx="22.5" cy="12" r="2.1" fill={fillColor}></circle>
-      <circle cx="2.5" cy="22" r="2.1" fill={fillColor}></circle>
-      <circle cx="12.5" cy="22" r="2.1" fill={fillColor}></circle>
-      <circle cx="22.5" cy="22" r="2.1" fill={fillColor}></circle>
+      <circle cx="22.5" cy="12" r="2.1" fill="currentColor"></circle>
+      <circle cx="2.5" cy="22" r="2.1" fill="currentColor"></circle>
+      <circle cx="12.5" cy="22" r="2.1" fill="currentColor"></circle>
+      <circle cx="22.5" cy="22" r="2.1" fill="currentColor"></circle>
     </svg>
   );
 };

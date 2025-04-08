@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useModal } from "@/app/hooks/useModal";
 
 const QRCodeButton = () => {
-  const { modalIsOpen, isAnimating, modalRef, toggleModalQR } = useModal();
+  const { modalIsOpen, toggleModalQR, modalClasses } = useModal();
 
   return (
     <>
@@ -20,28 +20,18 @@ const QRCodeButton = () => {
           <QrSVG />
         </div>
       </button>
-      <div
-        className={`absolute right-0 top-full mt-2 transition-all ease-in-out duration-300 
-                    ${
-                      modalIsOpen && !isAnimating
-                        ? "opacity-100 translate-y-0 "
-                        : "opacity-0 translate-y-5 pointer-events-none "
-                    }`}
-        ref={modalRef}
-      >
-        {modalIsOpen && (
-          <div className="min-w-86 max-w-86 h-100% bg-white duration-300 rounded-[12px] custom-shadow p-0 ">
-            <div className="text-[20px] font-semibold p-6">
-              Мобильное приложение Газпром банка
-            </div>
-            <Image
-              src="https://cdn.gpb.ru/upload/files/iblock/1d8/emn24a05rfa7u554qh5kfsb9rhgok3h6/x1_688x392.png"
-              alt="Мобильное приложение Газпромбанка"
-              width={688}
-              height={392}
-            />
+      <div className={`${modalClasses} right-0`}>
+        <div className="min-w-86 max-w-86 h-100% bg-white duration-300 rounded-[12px] custom-shadow p-0 ">
+          <div className="text-[20px] font-semibold p-6 ">
+            Мобильное приложение Газпром банка
           </div>
-        )}
+          <Image
+            src="https://cdn.gpb.ru/upload/files/iblock/1d8/emn24a05rfa7u554qh5kfsb9rhgok3h6/x1_688x392.png"
+            alt="Мобильное приложение Газпромбанка"
+            width={688}
+            height={392}
+          />
+        </div>
       </div>
     </>
   );

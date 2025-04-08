@@ -2,10 +2,17 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+
 export const useModal = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
     const modalRef = useRef<HTMLDivElement>(null);
+
+    const modalClasses = `absolute top-full mt-2 transition ease-in-out duration-300 z-20 ${
+      modalIsOpen && !isAnimating
+        ? "opacity-100 translate-y-0"
+        : "opacity-0 translate-y-5 pointer-events-none"
+    }`;
 
     const closeModal = useCallback(() => {
         setIsAnimating(true);
@@ -49,5 +56,5 @@ export const useModal = () => {
           };
         }, [modalIsOpen, closeModal]);
 
-        return {modalIsOpen, isAnimating, modalRef, toggleModalQR }
+        return {modalIsOpen, modalRef, toggleModalQR, modalClasses }
 }

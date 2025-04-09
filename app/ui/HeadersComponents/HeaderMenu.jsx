@@ -22,7 +22,7 @@ const DefoultLinkGPB = ({ href, title }) => {
 const HeaderMenu = ({ onSearchClick }) => {
   const { toggleModalQR, modalClasses } = useModal();
   return (
-    <div className="container wrapper mx-auto flex h-full text-[14px] text-[#696e82] gap-10 relative bg-[#f4f6fa] z-20">
+    <div className="wrapper ml-auto mr-auto flex h-full w-full text-[15px] text-[#696e82] gap-10 relative bg-[#f4f6fa] z-20">
       <div className="flex space-x-5 items-center hoverLink whitespace-nowrap">
         <ProjectsBankButton />
         <Link

@@ -4,7 +4,9 @@ import { Magnifier, CrossSVG } from "../SvgElements";
 
 const BORDER_RADIUS: string = "rounded-[8px]";
 
-const HeaderSearching = memo(() => {
+type HeaderSearchingProps = { onClose: () => void };
+
+const HeaderSearching = memo(({ onClose }: HeaderSearchingProps) => {
   const [searchValue, setSearchValue] = useState<string>("");
 
   const handleClearInput = useCallback(() => {
@@ -17,6 +19,10 @@ const HeaderSearching = memo(() => {
     },
     []
   );
+
+  const handleSearch = useCallback(() => {
+    onClose();
+  }, [onClose]);
 
   return (
     <div className="relative lg:h-auto ">
@@ -57,12 +63,16 @@ const HeaderSearching = memo(() => {
           </div>
           <button
             className={`bg-[#2b61ec] cursor-pointer text-white ${BORDER_RADIUS} p-[20px] px-6 hover:bg-[#3356d7] transition-colors duration-200 focus:outline-none`}
+            onClick={handleSearch}
           >
             Найти
           </button>
         </div>
       </div>
-      <div className="absolute top-0 left-0 bg-black/50 w-full h-[100vh] z-0 cursor-pointer" />
+      <div
+        className="absolute top-0 left-0 bg-black/50 w-full h-[100vh] z-0 cursor-pointer"
+        onClick={handleSearch}
+      />
     </div>
   );
 });

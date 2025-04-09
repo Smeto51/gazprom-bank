@@ -24,7 +24,7 @@ const NAV_ITEMS = [
 
 const HeaderNavPanel = () => {
   return (
-    <nav className="relative lg:h-22 h-full border-b border-gray-300 z-10">
+    <nav className="relative lg:h-22 h-full border-b border-gray-300 z-10 bg-white">
       <div className="container wrapper mx-auto flex items-center h-full text-[16px]">
         <div className="flex space-x-7 whitespace-nowrap">
           {NAV_ITEMS.map((item) => (

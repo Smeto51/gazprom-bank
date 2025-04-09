@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import SquareOfDots from "../SvgElements";
 import { useModal } from "@/app/hooks/useModal";
 import { BankServiceLink } from "./BecomeClientButton";
@@ -36,7 +35,7 @@ const ProjectsBankButton = () => {
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >
-        <div className="bg-white h-full max-h-121 lg:min-w-86 pl-2 pr-2 custom-shadow rounded-[12px] overflow-hidden">
+        <div className="bg-white h-full max-h-121 lg:min-w-86 pl-2 pr-2 custom-shadow rounded-[12px] overflow-hidden transition-transform duration-300 ">
           <div
             ref={scrollContainerRef}
             onScroll={handleScroll}
@@ -44,7 +43,7 @@ const ProjectsBankButton = () => {
               isHover ? "overflow-y-auto" : "pr-1 overflow-y-hidden"
             } h-full max-h-116.5 custom-scrollbar pb-1`}
           >
-            <div className="font-semibold text-[20px] p-4 text-black">
+            <div className="font-semibold text-[20px] p-4 text-black ">
               Все проекты банка
             </div>
             <>
@@ -142,4 +141,3 @@ const ProjectsBankButton = () => {
 };
 
 export default ProjectsBankButton;
-/** bg-white w-72 h-22 max-h-full rounded-[12px] custom-shadow p-2 */

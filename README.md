@@ -10,6 +10,10 @@ bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/
 
 You can check the site on [Vercel Platform](https://gazprom-bank.vercel.app/)
 
+## Version 0.1.6
+
+    When you click on the Magnifier, a search appears with animation
+
 ## Version 0.1.5
 
     Added "Magnifier" and "Cross" elements

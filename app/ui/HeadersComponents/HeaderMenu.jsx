@@ -19,10 +19,10 @@ const DefoultLinkGPB = ({ href, title }) => {
   );
 };
 
-const HeaderMenu = () => {
-  const { modalIsOpen, toggleModalQR, modalClasses } = useModal();
+const HeaderMenu = ({ onSearchClick }) => {
+  const { toggleModalQR, modalClasses } = useModal();
   return (
-    <div className="container wrapper mx-auto flex h-full text-[14px] text-[#696e82] gap-10">
+    <div className="container wrapper mx-auto flex h-full text-[14px] text-[#696e82] gap-10 relative bg-[#f4f6fa] z-20">
       <div className="flex space-x-5 items-center hoverLink whitespace-nowrap">
         <ProjectsBankButton />
         <Link
@@ -66,7 +66,10 @@ const HeaderMenu = () => {
               банкоматы
             </Link>
           </div>
-          <button className="group hover:scale-120 transition-transform duration-300 ">
+          <button
+            className="group hover:scale-120 transition-transform duration-300 "
+            onClick={onSearchClick}
+          >
             <Magnifier />
           </button>
           <div>
@@ -81,8 +84,8 @@ const HeaderMenu = () => {
 
             <div className={`${modalClasses} right-0`}>
               <div className=" bg-white w-72 h-22 max-h-full rounded-[12px] custom-shadow p-2">
-                <DefoultLinkGPB href={""} bg={""} title={"Интернет-банк"} />
-                <DefoultLinkGPB href={""} bg={""} title={"ГПБ Бизнес-онлайн"} />
+                <DefoultLinkGPB href={""} title={"Интернет-банк"} />
+                <DefoultLinkGPB href={""} title={"ГПБ Бизнес-онлайн"} />
               </div>
             </div>
           </div>

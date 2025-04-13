@@ -96,7 +96,7 @@ const HeaderNavPanel = () => {
           <QRCodeButton />
         </div>
       </div>
-      {process.env.NODE_ENV === "development" && (
+      {/*process.env.NODE_ENV === "development" && (
         <div className="fixed bottom-4 left-100 bg-gray-200 p-20 rounded shadow text-[20px] text-black ">
           <div>Навигационая панель</div>
           <br />
@@ -111,7 +111,7 @@ const HeaderNavPanel = () => {
             Общая ширина: {leftBlockRefSize.width + rightBlockRefSize.width}px
           </div>
         </div>
-      )}
+      )*/}
     </nav>
   );
 };

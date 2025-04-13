@@ -36,7 +36,7 @@ export const BankServiceLink = ({
 }: BankServiceLinkProps) => {
   return (
     <Link href={href}>
-      <div className="flex p-4 rounded-[8px] transition-colors duration-400 hover:bg-[#f4f6fa] group ">
+      <div className="flex p-4 rounded-[8px] transition-colors duration-400 hover:bg-[#f4f6fa] group">
         <div
           className={`flex items-center h-11 w-10 ${bg} mr-4 rounded-[12px]`}
         >

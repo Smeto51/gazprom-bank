@@ -34,9 +34,8 @@ const HeaderMenu = ({ onSearchClick }) => {
   const { toggleModalQR: toggleModalMenu, modalClasses: modalClassesMenu } =
     useModal();
   const leftBlockRef = useRef(null);
-
   const [hiddenItems, setHiddenItems] = useState([]);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [cityChanged, setCityChanged] = useState([]);
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -50,8 +49,11 @@ const HeaderMenu = ({ onSearchClick }) => {
         let isOveflowing = false;
 
         items.forEach((item, index) => {
+          const menuIndex = MENU.findIndex((m) => m.title === item.textContent);
+          if (menuIndex === -1) return;
+
           if (isOveflowing) {
-            hidden.push(MENU[index]);
+            hidden.push(MENU[menuIndex]);
             item.style.display = "none";
           } else {
             item.style.display = "flex";
@@ -60,10 +62,10 @@ const HeaderMenu = ({ onSearchClick }) => {
              * Он полезен, когда нужно точно определить расположение элемента на экране или его геометрические параметры.
              */
             const itemRight = item.getBoundingClientRect().right;
-            const containerRight = container.getBoundingClientRect().right;
+            const containerRight = container.getBoundingClientRect().right - 40;
 
             if (itemRight > containerRight) {
-              hidden.push(MENU[index]);
+              hidden.push(MENU[menuIndex]);
               item.style.display = "none";
               isOveflowing = true;
             }
@@ -75,10 +77,14 @@ const HeaderMenu = ({ onSearchClick }) => {
     checkOverflow();
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
-  }, []);
+  }, [cityChanged]);
+
+  const handleCityChange = () => {
+    setCityChanged([]);
+  };
 
   return (
-    <div className="wrapper ml-auto mr-auto flex h-full w-full min-[1920px]:min-w-[1920px] text-[15px] text-[#696e82] relative bg-[#f4f6fa] z-20">
+    <div className="wrapper ml-auto mr-auto flex h-full w-full min-[1920px]:min-w-[1920px] text-[14px] text-[#696e82] relative bg-[#f4f6fa] z-20">
       <div
         className="flex space-x-5 items-center hoverLink whitespace-nowrap pr-10 flex-1 min-w-0"
         ref={leftBlockRef}
@@ -106,14 +112,14 @@ const HeaderMenu = ({ onSearchClick }) => {
               <ThreeDots />
             </div>
             <div className="relative">
-              <div className={`${modalClassesMenu} left-0 `}>
-                <div className=" bg-white w-72 h-22 max-h-full rounded-[12px] custom-shadow p-2">
+              <div className={`${modalClassesMenu} left-0 mt-[3px]`}>
+                <div className=" bg-white w-66  max-h-full rounded-[12px] custom-shadow p-2">
                   {hiddenItems.map((item) => {
                     if (!item) return null;
                     return (
-                      <Link key={item.id} href={item.href || "#"}>
-                        {item.title}
-                      </Link>
+                      <div key={item.id} className="text-black">
+                        <DefoultLinkGPB href={""} title={item.title} />
+                      </div>
                     );
                   })}
                 </div>
@@ -124,7 +130,7 @@ const HeaderMenu = ({ onSearchClick }) => {
       </div>
       <div className="flex items-center text-black ml-auto ">
         <div className="flex space-x-8 w-full items-center relative">
-          <Cities />
+          <Cities onCityChange={handleCityChange} />
           <div className="whitespace-nowrap">
             <Link
               href=""

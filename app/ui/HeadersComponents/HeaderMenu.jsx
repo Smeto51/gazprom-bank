@@ -6,6 +6,7 @@ import { GazpromBankSvg, Magnifier, ThreeDots } from "../SvgElements";
 import Cities from "../Cities";
 import { useModal } from "@/app/hooks/useModal";
 import ProjectsBankButton from "./ProjectsBankButton";
+import { useEffect, useRef, useState } from "react";
 
 const DefoultLinkGPB = ({ href, title }) => {
   return (
@@ -19,32 +20,107 @@ const DefoultLinkGPB = ({ href, title }) => {
   );
 };
 
+const MENU = [
+  { id: 1, title: "Для всех", href: "1" },
+  { id: 2, title: "Private", href: "2" },
+  { id: 3, title: "Малому и среднему бизнесу", href: "3" },
+  { id: 4, title: "Крупному бизнесу", href: "4" },
+  { id: 5, title: "Финансовым организациям", href: "5" },
+  { id: 6, title: "Инвесторам", href: "6" },
+];
+
 const HeaderMenu = ({ onSearchClick }) => {
   const { toggleModalQR, modalClasses } = useModal();
+  const { toggleModalQR: toggleModalMenu, modalClasses: modalClassesMenu } =
+    useModal();
+  const leftBlockRef = useRef(null);
+
+  const [hiddenItems, setHiddenItems] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (leftBlockRef.current) {
+        const container = leftBlockRef.current;
+        const items = Array.from(container.children).filter(
+          (child) => !child.classList.contains("dropdown-button")
+        );
+
+        const hidden = [];
+        let isOveflowing = false;
+
+        items.forEach((item, index) => {
+          if (isOveflowing) {
+            hidden.push(MENU[index]);
+            item.style.display = "none";
+          } else {
+            item.style.display = "flex";
+            /*
+             * getBoundingClientRect() — это метод DOM-элемента, который возвращает его размеры и позицию относительно видимой области окна браузера (viewport).
+             * Он полезен, когда нужно точно определить расположение элемента на экране или его геометрические параметры.
+             */
+            const itemRight = item.getBoundingClientRect().right;
+            const containerRight = container.getBoundingClientRect().right;
+
+            if (itemRight > containerRight) {
+              hidden.push(MENU[index]);
+              item.style.display = "none";
+              isOveflowing = true;
+            }
+          }
+        });
+        setHiddenItems(hidden);
+      }
+    };
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, []);
+
   return (
-    <div className="wrapper ml-auto mr-auto flex h-full w-full text-[15px] text-[#696e82] gap-10 relative bg-[#f4f6fa] z-20">
-      <div className="flex space-x-5 items-center hoverLink whitespace-nowrap">
+    <div className="wrapper ml-auto mr-auto flex h-full w-full min-[1920px]:min-w-[1920px] text-[15px] text-[#696e82] relative bg-[#f4f6fa] z-20">
+      <div
+        className="flex space-x-5 items-center hoverLink whitespace-nowrap pr-10 flex-1 min-w-0"
+        ref={leftBlockRef}
+      >
         <ProjectsBankButton />
         <Link
           href=""
-          className="group mr-6 hover:scale-105 transition-transform duration-300 text-blue-600"
+          className="group mr-6 hover:scale-105 transition-transform duration-300 text-blue-600 shrink-0"
         >
           <GazpromBankSvg />
         </Link>
-        <Link className="" href="">
-          Для всех
-        </Link>
-        <Link href="" className="">
-          Private
-        </Link>
-        <Link href="">Малому и среднему бизнесу</Link>
-        <Link href="">Крупному бизнесу</Link>
-        <Link href="">Финансовым организациям</Link>
-        <Link href="">Инвесторам</Link>
-        <div className="opacity-0">
-          <ThreeDots />
-        </div>
-        {/*<DropdownMenu />*/}
+        {MENU.map((item) => (
+          <Link key={item.id} href={item.href}>
+            {item.title}
+          </Link>
+        ))}
+        {hiddenItems.length > 0 && (
+          <div className="dropdown-button">
+            <div
+              className="
+            hover:bg-[#96969b29] text-[16px] transition-colors duration-200 
+              rounded-[8px] p-1 pl-2 pr-2 pb-2 cursor-pointer hover:text-blue-600 items-center"
+              onClick={toggleModalMenu}
+            >
+              <ThreeDots />
+            </div>
+            <div className="relative">
+              <div className={`${modalClassesMenu} left-0 `}>
+                <div className=" bg-white w-72 h-22 max-h-full rounded-[12px] custom-shadow p-2">
+                  {hiddenItems.map((item) => {
+                    if (!item) return null;
+                    return (
+                      <Link key={item.id} href={item.href || "#"}>
+                        {item.title}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       <div className="flex items-center text-black ml-auto ">
         <div className="flex space-x-8 w-full items-center relative">

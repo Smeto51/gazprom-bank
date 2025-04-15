@@ -6,7 +6,7 @@ import { GazpromBankSvg, Magnifier, ThreeDots } from "../SvgElements";
 import Cities from "../Cities";
 import { useModal } from "@/app/hooks/useModal";
 import ProjectsBankButton from "./ProjectsBankButton";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const DefoultLinkGPB = ({ href, title }) => {
   return (
@@ -21,7 +21,7 @@ const DefoultLinkGPB = ({ href, title }) => {
 };
 
 const MENU = [
-  { id: 1, title: "Для всех", href: "1" },
+  { id: 1, title: "Для всех", href: "/" },
   { id: 2, title: "Private", href: "2" },
   { id: 3, title: "Малому и среднему бизнесу", href: "3" },
   { id: 4, title: "Крупному бизнесу", href: "4" },
@@ -30,6 +30,7 @@ const MENU = [
 ];
 
 const HeaderMenu = ({ onSearchClick }) => {
+  const [isLoading, setisLoading] = useState(true);
   const { toggleModalQR, modalClasses } = useModal();
   const { toggleModalQR: toggleModalMenu, modalClasses: modalClassesMenu } =
     useModal();
@@ -38,6 +39,14 @@ const HeaderMenu = ({ onSearchClick }) => {
   const [cityChanged, setCityChanged] = useState([]);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setisLoading(false);
+    }, 0.1);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (isLoading) return;
     const checkOverflow = () => {
       if (leftBlockRef.current) {
         const container = leftBlockRef.current;
@@ -48,7 +57,7 @@ const HeaderMenu = ({ onSearchClick }) => {
         const hidden = [];
         let isOveflowing = false;
 
-        items.forEach((item, index) => {
+        items.forEach((item) => {
           const menuIndex = MENU.findIndex((m) => m.title === item.textContent);
           if (menuIndex === -1) return;
 
@@ -77,7 +86,7 @@ const HeaderMenu = ({ onSearchClick }) => {
     checkOverflow();
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
-  }, [cityChanged]);
+  }, [cityChanged, isLoading]);
 
   const handleCityChange = () => {
     setCityChanged([]);
@@ -90,26 +99,37 @@ const HeaderMenu = ({ onSearchClick }) => {
         ref={leftBlockRef}
       >
         <ProjectsBankButton />
+
         <Link
-          href=""
+          href="/ui"
           className="group mr-6 hover:scale-105 transition-transform duration-300 text-blue-600 shrink-0"
         >
           <GazpromBankSvg />
         </Link>
         {MENU.map((item) => (
-          <Link key={item.id} href={item.href}>
+          <Link
+            key={item.id}
+            href={item.href}
+            className={`${
+              isLoading
+                ? "animate-pulse rounded bg-gray-200 text-transparent"
+                : ""
+            }`}
+          >
             {item.title}
           </Link>
         ))}
         {hiddenItems.length > 0 && (
           <div className="dropdown-button">
             <div
-              className="
-            hover:bg-[#96969b29] text-[16px] transition-colors duration-200 
-              rounded-[8px] p-1 pl-2 pr-2 pb-2 cursor-pointer hover:text-blue-600 items-center"
+              className={`
+                hover:bg-[#96969b29] text-[16px] transition-colors duration-200 
+                rounded-[8px] p-1 pl-2 pr-2 pb-2 cursor-pointer hover:text-blue-600 items-center
+                ${isLoading ? "animate-pulse rounded bg-gray-200" : ""}
+              `}
               onClick={toggleModalMenu}
             >
-              <ThreeDots />
+              {isLoading ? "." : <ThreeDots />}
             </div>
             <div className="relative">
               <div className={`${modalClassesMenu} left-0 mt-[3px]`}>
@@ -130,7 +150,16 @@ const HeaderMenu = ({ onSearchClick }) => {
       </div>
       <div className="flex items-center text-black ml-auto ">
         <div className="flex space-x-8 w-full items-center relative">
-          <Cities onCityChange={handleCityChange} />
+          <div
+            className={`${
+              isLoading ? "animate-pulse rounded bg-gray-200 h-5 w-30" : ""
+            }`}
+          >
+            <div className={`${isLoading ? "hidden" : ""}`}>
+              <Cities onCityChange={handleCityChange} />
+            </div>
+          </div>
+
           <div className="whitespace-nowrap">
             <Link
               href=""

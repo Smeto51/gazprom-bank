@@ -5,10 +5,11 @@ import { ThreeDots } from "../SvgElements";
 import QRCodeButton from "./QRCodeButton";
 import BecomeClinetButton from "./BecomeClientButton";
 import { useWindowSize } from "@/app/hooks/useWindowSize";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useElementSize } from "@/app/hooks/useElementSize";
 
-const CLASS_HOVER_BLUE = "hover:text-[#4768BF] transition-colors duration-200";
+const CLASS_HOVER_BLUE =
+  "hover:text-[#4768BF] transition-colors duration-200 cursor-pointer";
 export const BUTTON_BLACK =
   "bg-black text-white rounded-[8px] hover:bg-gray-800  active:bg-gray-900 transition-colors duration-200 cursor-pointer focus:outline-none p-2.5";
 
@@ -35,7 +36,7 @@ const HeaderNavPanel = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    }, 500);
+    }, 0.1);
     return () => clearTimeout(timer);
   }, []);
 
@@ -47,7 +48,7 @@ const HeaderNavPanel = () => {
             {NAV_ITEMS.map((item) => (
               <div
                 key={`loader-${item.id}`}
-                className="h-4 w-16 bg-gray-200 rounded animate-pulse"
+                className="h-6 w-16 bg-gray-200 rounded animate-pulse"
               />
             ))}
           </div>

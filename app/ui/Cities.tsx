@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import CitySearchInput from "./CitiesComponents/CitiesSearchInput";
 import CitiesList from "./CitiesComponents/CitiesDisplayList";
 import CitiesModal from "./CitiesComponents/CitiesModal";
@@ -54,7 +54,11 @@ const fetchCities = async (): Promise<CitiesData | null> => {
   }
 };
 
-const CitiesContent = () => {
+type CitiesContentProps = {
+  onCityChange?: () => void;
+};
+
+const CitiesContent = ({ onCityChange }: CitiesContentProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [searchingCity, setSearchingCity] = useState("");
@@ -64,6 +68,7 @@ const CitiesContent = () => {
     }
     return "Мурманск";
   });
+  const [initialCityLoaded, setInitialCityLoaded] = useState(false);
 
   const {
     data: cities,
@@ -74,6 +79,13 @@ const CitiesContent = () => {
     queryFn: fetchCities,
     staleTime: CACHE_DURATION, //Повторяет запрос через ...
   });
+
+  useEffect(() => {
+    if (!initialCityLoaded && !isLoading) {
+      setInitialCityLoaded(true);
+      onCityChange?.();
+    }
+  }, [onCityChange, initialCityLoaded, isLoading]);
 
   const toggleMenu = useCallback((): void => {
     if (!isOpen) {
@@ -103,12 +115,16 @@ const CitiesContent = () => {
     return result;
   }, [cities, searchingCity]);
 
-  const handleCitySelect = useCallback((city: string) => {
-    setSelectedCity(city);
-    localStorage.setItem("selectedCity", city);
-    setIsVisible(false);
-    setTimeout(() => setIsOpen(false), 200);
-  }, []);
+  const handleCitySelect = useCallback(
+    (city: string) => {
+      setSelectedCity(city);
+      localStorage.setItem("selectedCity", city);
+      setIsVisible(false);
+      setTimeout(() => setIsOpen(false), 200);
+      onCityChange?.();
+    },
+    [onCityChange]
+  );
 
   if (isError)
     return <div className="p-4 text-red-500">Ошибка загрузки данных</div>;
@@ -123,7 +139,7 @@ const CitiesContent = () => {
         onClick={toggleMenu}
         className="cursor-pointer text-[#4768BF] whitespace-nowrap"
       >
-        {selectedCity}
+        <span className="-mr-4">{selectedCity}</span>
       </button>
 
       {isOpen && (
@@ -141,10 +157,14 @@ const CitiesContent = () => {
   );
 };
 
-const Cities = () => {
+type CitiesProps = {
+  onCityChange?: () => void;
+};
+
+const Cities = ({ onCityChange }: CitiesProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <CitiesContent />
+      <CitiesContent onCityChange={onCityChange} />
     </QueryClientProvider>
   );
 };

@@ -1,3 +1,5 @@
+"use client";
+
 const pathClassBlueHover: string =
   "group-hover:fill-blue-700 transition-colors duration-200";
 
@@ -53,7 +55,7 @@ export const ThreeDots = () => {
     >
       <path
         d="M5 17a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm7 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm7 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
-        fill="#696e82"
+        fill="currentColor"
         className="group-hover:fill-blue-500 transition-colors duration-200"
       />
     </svg>

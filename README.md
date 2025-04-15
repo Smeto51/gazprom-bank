@@ -13,6 +13,7 @@ You can check the site on [Vercel Platform](https://gazprom-bank.vercel.app/)
 ## Version 0.1.6
 
     When you click on the Magnifier, a search appears with animation
+    Made an adaptive drop-down list in the Menu block
 
 ## Version 0.1.5
 

@@ -10,6 +10,8 @@ import { useEffect, useRef, useState } from "react";
 const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef();
+  const magnifierRef = useRef();
+  const ignoreClickRef = useRef(false);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -24,6 +26,11 @@ const Header = () => {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
+      if (ignoreClickRef.current) {
+        ignoreClickRef.current = false;
+        return;
+      }
+
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setShowSearch(false);
       }
@@ -35,10 +42,18 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showSearch]);
 
+  const handleSearchClick = () => {
+    ignoreClickRef.current = true;
+    setShowSearch(!showSearch);
+  };
+
   return (
     <header className="w-full">
       <div className="header_full_main_menu">
-        <HeaderMenu onSearchClick={() => setShowSearch(!showSearch)} />
+        <HeaderMenu
+          onSearchClick={handleSearchClick}
+          magnifierRef={magnifierRef}
+        />
         <HeaderNavPanel />
         <div
           ref={searchRef}

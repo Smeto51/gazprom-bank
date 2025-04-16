@@ -71,7 +71,7 @@ const HeaderMenu = ({ onSearchClick }) => {
              * Он полезен, когда нужно точно определить расположение элемента на экране или его геометрические параметры.
              */
             const itemRight = item.getBoundingClientRect().right;
-            const containerRight = container.getBoundingClientRect().right - 40;
+            const containerRight = container.getBoundingClientRect().right - 90;
 
             if (itemRight > containerRight) {
               hidden.push(MENU[menuIndex]);
@@ -113,7 +113,7 @@ const HeaderMenu = ({ onSearchClick }) => {
             className={`${
               isLoading
                 ? "animate-pulse rounded bg-gray-200 text-transparent"
-                : ""
+                : "select-none"
             }`}
           >
             {item.title}
@@ -159,24 +159,26 @@ const HeaderMenu = ({ onSearchClick }) => {
               <Cities onCityChange={handleCityChange} />
             </div>
           </div>
+          {!isLoading && (
+            <div className="whitespace-nowrap">
+              <Link
+                href=""
+                title="Открыть страницу с картой офисов"
+                className="hover:text-[#4768BF]"
+              >
+                Офисы
+              </Link>{" "}
+              и{" "}
+              <Link
+                href=""
+                title="Открыть страницу с картой банкоматов"
+                className="hover:text-[#4768BF] "
+              >
+                банкоматы
+              </Link>
+            </div>
+          )}
 
-          <div className="whitespace-nowrap">
-            <Link
-              href=""
-              title="Открыть страницу с картой офисов"
-              className="hover:text-[#4768BF]"
-            >
-              Офисы
-            </Link>{" "}
-            и{" "}
-            <Link
-              href=""
-              title="Открыть страницу с картой банкоматов"
-              className="hover:text-[#4768BF] "
-            >
-              банкоматы
-            </Link>
-          </div>
           <button
             className="group hover:scale-120 transition-transform duration-300 "
             onClick={onSearchClick}

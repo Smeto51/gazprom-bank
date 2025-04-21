@@ -29,7 +29,6 @@ const Header = () => {
     const handleClickOutside = (e) => {
       if (ignoreClickRef.current) {
         ignoreClickRef.current = false;
-        b;
         return;
       }
 
@@ -54,19 +53,22 @@ const Header = () => {
       <div className="header_full_main_menu">
         <HeaderMenu onSearchClick={handleSearchClick} />
 
-        {<HeaderNavPanel />}
-        {
-          <div
-            ref={searchRef}
-            className={`absolute left-0 right-0 transition duration-300 ease-out ${
-              showSearch
-                ? "translate-y-0 opacity-100 "
-                : "-translate-y-full opacity-0 pointer-events-none"
-            }`}
-          >
-            <HeaderSearching onClose={() => setShowSearch(false)} />
-          </div>
-        }
+        <div className="hidden lg:block h-full">
+          <HeaderNavPanel />
+
+          {
+            <div
+              ref={searchRef}
+              className={`absolute left-0 right-0 transition duration-300 ease-out ${
+                showSearch
+                  ? "translate-y-0 opacity-100 "
+                  : "-translate-y-full opacity-0 pointer-events-none"
+              }`}
+            >
+              <HeaderSearching onClose={() => setShowSearch(false)} />
+            </div>
+          }
+        </div>
       </div>
     </header>
   );

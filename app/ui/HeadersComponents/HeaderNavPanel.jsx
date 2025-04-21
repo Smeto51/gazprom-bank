@@ -32,7 +32,7 @@ const HeaderNavPanel = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setisLoading(true);
-    }, 0.1);
+    }, 50);
     return () => clearTimeout(timer);
   }, []);
 
@@ -81,7 +81,7 @@ const HeaderNavPanel = () => {
 
   return (
     <nav className="h-full border-b border-gray-300 z-10 bg-white select-none">
-      <div className="relative wrapper mx-auto  wrapper ml-auto mr-auto flex h-full w-full text-[16px]">
+      <div className="relative wrapper mx-auto ml-auto mr-auto flex h-full w-full text-[16px]">
         <div
           className={`flex space-x-5 items-center hoverLink whitespace-nowrap pr-10 flex-1 min-w-0`}
           ref={leftBlockRef}
@@ -90,7 +90,7 @@ const HeaderNavPanel = () => {
             <div
               className={`${
                 !isLoading
-                  ? "animate-pulse rounded bg-gray-200 text-transparent w-20"
+                  ? "animate-pulse rounded bg-gray-200 text-transparent min-w-10"
                   : "hover:text-blue-500 "
               }`}
               key={item.id}

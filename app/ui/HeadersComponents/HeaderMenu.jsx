@@ -94,11 +94,10 @@ const HeaderMenu = ({ onSearchClick }) => {
 
   return (
     <div className="wrapper relative ml-auto mr-auto flex h-full w-full text-[14px] text-[#696e82] lg:bg-[#f4f6fa] z-20">
-      <div
-        className="flex space-x-5 items-center hoverLink whitespace-nowrap pr-10 flex-1 min-w-0"
-        ref={leftBlockRef}
-      >
-        {<ProjectsBankButton />}
+      <div className="flex space-x-5 items-center hoverLink whitespace-nowrap pr-10 flex-1 min-w-0">
+        <div className="hidden lg:block">
+          <ProjectsBankButton />
+        </div>
 
         <Link
           href="/ui"
@@ -107,14 +106,17 @@ const HeaderMenu = ({ onSearchClick }) => {
           <GazpromBankSvg />
         </Link>
         {
-          <>
+          <div
+            className="hidden lg:flex space-x-5 items-center hoverLink whitespace-nowrap pr-10 flex-1 min-w-0"
+            ref={leftBlockRef}
+          >
             {MENU.map((item) => (
               <Link
                 key={item.id}
                 href={item.href}
                 className={`${
                   isLoading
-                    ? "animate-pulse rounded bg-gray-200 text-transparent"
+                    ? "animate-pulse rounded bg-gray-200 text-transparent min-w-10"
                     : "select-none"
                 }`}
               >
@@ -149,13 +151,13 @@ const HeaderMenu = ({ onSearchClick }) => {
                 </div>
               </div>
             )}
-          </>
+          </div>
         }
       </div>
       <div className="flex items-center text-black ml-auto ">
         <div className="flex space-x-8 w-full items-center relative select-none">
           {
-            <>
+            <div className="hidden lg:flex space-x-8">
               <div
                 className={`${
                   isLoading ? "animate-pulse rounded bg-gray-200 h-5 w-30" : ""
@@ -193,7 +195,7 @@ const HeaderMenu = ({ onSearchClick }) => {
                   </button>
                 </>
               )}
-            </>
+            </div>
           }
           <div>
             {isLoading ? (

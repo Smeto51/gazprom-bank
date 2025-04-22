@@ -350,3 +350,42 @@ export const PrivateBunkingSVG = () => {
     </svg>
   );
 };
+
+export const DropDownMenu = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M1 2.625C1 2.28 1.28 2 1.625 2h8.75a.625.625 0 1 1 0 1.25h-8.75A.625.625 0 0 1 1 2.625ZM1 6c0-.345.28-.625.625-.625h8.75a.625.625 0 1 1 0 1.25h-8.75A.625.625 0 0 1 1 6Zm0 3.375c0-.345.28-.625.625-.625h8.75a.625.625 0 1 1 0 1.25h-8.75A.625.625 0 0 1 1 9.375Z"
+          fill="#1C1C1E"
+        ></path>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M1.5 3.625c0-.345.28-.625.625-.625h11.75a.625.625 0 1 1 0 1.25H2.125a.625.625 0 0 1-.625-.625ZM1.5 8c0-.345.28-.625.625-.625h11.75a.625.625 0 1 1 0 1.25H2.125A.625.625 0 0 1 1.5 8Zm0 4.375c0-.345.28-.625.625-.625h11.75a.625.625 0 1 1 0 1.25H2.125a.625.625 0 0 1-.625-.625Z"
+          fill="#1C1C1E"
+        ></path>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75Zm0 5A.75.75 0 0 1 2.75 9h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 9.75Zm0 5a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z"
+          fill="#1C1C1E"
+        ></path>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M2 5.75A.75.75 0 0 1 2.75 5h18.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 5.75Zm0 6a.75.75 0 0 1 .75-.75h18.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Zm0 6a.75.75 0 0 1 .75-.75h18.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z"
+          fill="#1C1C1E"
+        ></path>
+      </svg>
+    </svg>
+  );
+};

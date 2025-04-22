@@ -67,6 +67,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05), 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
+.wrapper {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
 @media only screen and (min-width: 1024px) {
   .header_full_main_menu {
     background-color: #f4f6fa;

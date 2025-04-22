@@ -26,12 +26,12 @@ const HeaderSearching = memo(({ onClose }: HeaderSearchingProps) => {
 
   return (
     <div className="relative lg:h-auto ">
-      <div className="relative w-full flex mx-auto lg:p-10 bg-white z-10 rounded-b-2xl">
-        <div className="wrapper flex w-full mx-auto space-x-7 ">
+      <div className="relative w-full flex  bg-white z-10 rounded-b-2xl ">
+        <div className="flex w-full mx-auto space-x-7 wrapper lg:p-10">
           <div
             className={`
             relative border-1 ${BORDER_RADIUS} w-full border-gray-400 duration-300 focus-within:border-blue-500
-            flex items-center p-1 pr-2`}
+            flex items-center p-1 pr-2 `}
           >
             <input
               type="text"

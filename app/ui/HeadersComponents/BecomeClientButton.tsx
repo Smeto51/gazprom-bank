@@ -72,7 +72,7 @@ export const BankServiceLink = ({
 };
 
 const BecomeClinetButton = () => {
-  const { modalIsOpen, modalRef, toggleModalQR, modalClasses } = useModal();
+  const { modalIsOpen, modalRef, toggleModal, modalClasses } = useModal();
   const [isHover, setIsHover] = useState(false);
   const [showTopGradient, setShowTopGradient] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -90,13 +90,13 @@ const BecomeClinetButton = () => {
         className={`flex ${BUTTON_BLACK} px-6 whitespace-nowrap ${
           modalIsOpen ? "bg-gray-800" : ``
         }`}
-        onClick={toggleModalQR}
+        onClick={toggleModal}
       >
         Стать клиентом
       </button>
 
       <div
-        className={`${modalClasses} right-0`}
+        className={`${modalClasses.default} right-0`}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >

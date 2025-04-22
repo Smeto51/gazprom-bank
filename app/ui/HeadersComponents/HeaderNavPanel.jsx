@@ -128,7 +128,7 @@ const HeaderNavPanel = () => {
                 {!isLoading ? "" : <ThreeDots />}
               </div>
               <div className="relative">
-                <div className={`${modalClasses} left-0 mt-[3px]`}>
+                <div className={`${modalClasses.default} left-0 mt-[3px]`}>
                   <div className=" bg-white w-66 max-h-full rounded-[12px] custom-shadow p-2 ">
                     {hiddenItems.map((item) => (
                       <div

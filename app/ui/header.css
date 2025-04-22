@@ -4,6 +4,14 @@
   --spacingHeader: 20px;
 }
 
+@layer utilities {
+  .max-h-dynamic {
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
+    height: 100%
+  }
+}
+
 :active,
 :hover,
 :focus {

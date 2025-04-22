@@ -6,7 +6,7 @@ import { BankServiceLink } from "./BecomeClientButton";
 import { useCallback, useRef, useState } from "react";
 
 const ProjectsBankButton = () => {
-  const { modalIsOpen, modalRef, toggleModalQR, modalClasses } = useModal();
+  const { modalIsOpen, modalRef, toggleModal, modalClasses } = useModal();
   const [isHover, setIsHover] = useState(false);
   const [showTopGradient, setShowTopGradient] = useState(false);
   const scrollContainerRef = useRef(null);
@@ -26,12 +26,12 @@ const ProjectsBankButton = () => {
             ? "text-black scale-120 transition-transform duration-300 group"
             : "hover:text-black text-gray-400"
         }`}
-        onClick={toggleModalQR}
+        onClick={toggleModal}
       >
         <SquareOfDots />
       </div>
       <div
-        className={`${modalClasses} left-0 mt-10`}
+        className={`${modalClasses.default} left-0 mt-10`}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}
       >

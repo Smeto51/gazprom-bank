@@ -1,13 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { GazpromBankSvg, Magnifier, ThreeDots } from "../SvgElements";
+import {
+  DropDownMenuSVG,
+  GazpromBankSvg,
+  Magnifier,
+  ThreeDots,
+} from "../SvgElements";
 
 import Cities from "../Cities";
 import { useModal } from "@/app/hooks/useModal";
 import ProjectsBankButton from "./ProjectsBankButton";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useWindowSize } from "@/app/hooks/useWindowSize";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { BUTTON_BLACK } from "./HeaderNavPanel";
 
 export const DefoultLinkGPB = ({ href, title }) => {
   return (
@@ -32,12 +43,14 @@ const MENU = [
 
 const HeaderMenu = ({ onSearchClick }) => {
   const [isLoading, setisLoading] = useState(true);
-  const { toggleModalQR, modalClasses } = useModal();
-  const { toggleModalQR: toggleModalMenu, modalClasses: modalClassesMenu } =
+  const { toggleModal: toggleModalDropDown, modalClasses: {phone, bg}  } = useModal();
+  const { toggleModal, modalClasses: {default: desktopClasses} } = useModal();
+  const { toggleModal: toggleModalMenu, modalClasses: {default: desktopClassesMenu} } =
     useModal();
   const leftBlockRef = useRef(null);
   const [hiddenItems, setHiddenItems] = useState([]);
   const [cityChanged, setCityChanged] = useState([]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setisLoading(false);
@@ -136,7 +149,7 @@ const HeaderMenu = ({ onSearchClick }) => {
                   {isLoading ? "." : <ThreeDots />}
                 </div>
                 <div className="relative">
-                  <div className={`${modalClassesMenu} left-0 mt-[3px]`}>
+                  <div className={`${desktopClassesMenu} left-0 mt-[3px]`}>
                     <div className=" bg-white w-66  max-h-full rounded-[12px] custom-shadow p-2">
                       {hiddenItems.map((item) => {
                         if (!item) return null;
@@ -197,7 +210,7 @@ const HeaderMenu = ({ onSearchClick }) => {
               )}
             </div>
           }
-          <div>
+          <div className="flex items-center">
             {isLoading ? (
               <div className=" animate-pulse rounded bg-gray-200">
                 <div className="opacity-0 w-10 h-10" />
@@ -207,18 +220,41 @@ const HeaderMenu = ({ onSearchClick }) => {
                 className="
               bg-[#0a0a0b14] hover:bg-[#0a0a0b29] text-black text-[16px] transition-colors duration-200 
                 rounded-[8px] p-1 lg:p-2.5 pl-3 lg:pl-4 pr-3 lg:pr-4 cursor-pointer"
-                onClick={toggleModalQR}
+                onClick={toggleModal}
               >
                 Войти
               </button>
             )}
 
-            <div className={`${modalClasses} right-0`}>
+            <div className={`${desktopClasses} right-0 hidden lg:block`}>
               <div className=" bg-white w-72 h-22 max-h-full rounded-[12px] custom-shadow p-2">
                 <DefoultLinkGPB href={""} title={"Интернет-банк"} />
                 <DefoultLinkGPB href={""} title={"ГПБ Бизнес-онлайн"} />
               </div>
             </div>
+            {isLoading ? (
+              <div className="animate-pulse rounded bg-gray-200 lg:hidden  ml-2">
+                <div className="opacity-0 w-10 h-10" />
+              </div>
+            ) : (
+              <button
+                className={`py-1.5 pl-2 pr-2 bg-black mr-2 ml-2 rounded-md lg:hidden ${BUTTON_BLACK}`}
+                onClick={toggleModalDropDown}
+              >
+                <div className="flex h-5 w-3.5 text-white rounded-md ">
+                  <DropDownMenuSVG />
+                </div>
+              </button>
+            )}
+            <div
+              className={`${phone} bg-white left-0 right-0 bottom-0 fixed max-w-3xl ml-auto mr-auto min-w-[320px] max-h-dynamic rounded-t-lg z-100`}
+            >
+              <p className="text-black">LOX</p>
+            </div>
+            <div
+              className={`${bg} fixed top-0 left-0 bg-black/50 w-[100vw] h-[100vh] z-0 cursor-pointer`}
+              onClick={toggleModalDropDown}
+            />
           </div>
         </div>
       </div>

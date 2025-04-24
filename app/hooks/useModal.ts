@@ -3,14 +3,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useWindowSize } from "./useWindowSize";
 
-const CLASS_MODAL = "transition ease-in-out duration-300 z-20"
-const CLASS_MODAL_OPEN = "opacity-100 translate-y-0"
-const CLASS_MODAL_CLOSE = "opacity-0 translate-y-5 pointer-events-none"
+const MODAL_CLASSES = {
+  base: "transition ease-in-out duration-300 z-20",
+  open: "opacity-100 translate-y-0",
+  close: "opacity-0 translate-y-5 pointer-events-none",
+  closeBg: "opacity-0 translate-y-0 pointer-events-none",
+} as const;
 
-
-function animation() {
-
-}
+const getModalStateClass = (modalIsOpen: boolean, isAnimating: boolean) =>
+  `${MODAL_CLASSES.base} ${
+    modalIsOpen && !isAnimating ? MODAL_CLASSES.open : MODAL_CLASSES.close
+  }  `;
 
 export const useModal = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -20,20 +23,13 @@ export const useModal = () => {
 
   const modalClasses = useMemo(
     () => ({
-      default: `absolute top-full mt-2 ${CLASS_MODAL} ${
-        modalIsOpen && !isAnimating
-          ? CLASS_MODAL_OPEN
-          : CLASS_MODAL_CLOSE
-      }`,
-      phone: `${CLASS_MODAL} ${
-        modalIsOpen && !isAnimating
-          ? CLASS_MODAL_OPEN
-          : CLASS_MODAL_CLOSE
-      }`,
-      bg: `${CLASS_MODAL} ${
-        modalIsOpen && !isAnimating
-          ? CLASS_MODAL_OPEN
-          : "opacity-0 translate-y-0 pointer-events-none"
+      default: `absolute top-full mt-2 ${getModalStateClass(
+        modalIsOpen,
+        isAnimating
+      )}`,
+      phone: `${getModalStateClass(modalIsOpen, isAnimating)}`,
+      bg: `${MODAL_CLASSES.base} ${
+        modalIsOpen && !isAnimating ? MODAL_CLASSES.open : MODAL_CLASSES.closeBg
       }`,
     }),
     [modalIsOpen, isAnimating]
@@ -49,7 +45,11 @@ export const useModal = () => {
   }, []);
 
   const toggleModal = useCallback(() => {
-    modalIsOpen ? closeModal() : setModalIsOpen(true);
+    if (modalIsOpen) {
+      closeModal();
+    } else {
+      setModalIsOpen(true);
+    }
   }, [modalIsOpen, closeModal]);
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export const useModal = () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [modalIsOpen, closeModal]);
+  }, [modalIsOpen, closeModal, width]);
 
   return {
     modalIsOpen,

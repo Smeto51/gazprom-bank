@@ -1,24 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import {
-  DropDownMenuSVG,
-  GazpromBankSvg,
-  Magnifier,
-  ThreeDots,
-} from "../SvgElements";
+import { GazpromBankSvg, Magnifier, ThreeDots } from "../SvgElements";
 
 import Cities from "../Cities";
 import { useModal } from "@/app/hooks/useModal";
 import ProjectsBankButton from "./ProjectsBankButton";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
-import { BUTTON_BLACK } from "./HeaderNavPanel";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { HeaderMenuPhone } from "./HeaderMenuPhone";
 
 export const DefoultLinkGPB = ({ href, title }) => {
   return (
@@ -43,10 +32,15 @@ const MENU = [
 
 const HeaderMenu = ({ onSearchClick }) => {
   const [isLoading, setisLoading] = useState(true);
-  const { toggleModal: toggleModalDropDown, modalClasses: {phone, bg}  } = useModal();
-  const { toggleModal, modalClasses: {default: desktopClasses} } = useModal();
-  const { toggleModal: toggleModalMenu, modalClasses: {default: desktopClassesMenu} } =
-    useModal();
+
+  const {
+    toggleModal,
+    modalClasses: { default: desktopClasses },
+  } = useModal();
+  const {
+    toggleModal: toggleModalMenu,
+    modalClasses: { default: desktopClassesMenu },
+  } = useModal();
   const leftBlockRef = useRef(null);
   const [hiddenItems, setHiddenItems] = useState([]);
   const [cityChanged, setCityChanged] = useState([]);
@@ -232,29 +226,14 @@ const HeaderMenu = ({ onSearchClick }) => {
                 <DefoultLinkGPB href={""} title={"ГПБ Бизнес-онлайн"} />
               </div>
             </div>
+
             {isLoading ? (
-              <div className="animate-pulse rounded bg-gray-200 lg:hidden  ml-2">
+              <div className="animate-pulse rounded bg-gray-200 lg:hidden ml-2">
                 <div className="opacity-0 w-10 h-10" />
               </div>
             ) : (
-              <button
-                className={`py-1.5 pl-2 pr-2 bg-black mr-2 ml-2 rounded-md lg:hidden ${BUTTON_BLACK}`}
-                onClick={toggleModalDropDown}
-              >
-                <div className="flex h-5 w-3.5 text-white rounded-md ">
-                  <DropDownMenuSVG />
-                </div>
-              </button>
+              <HeaderMenuPhone />
             )}
-            <div
-              className={`${phone} bg-white left-0 right-0 bottom-0 fixed max-w-3xl ml-auto mr-auto min-w-[320px] max-h-dynamic rounded-t-lg z-100`}
-            >
-              <p className="text-black">LOX</p>
-            </div>
-            <div
-              className={`${bg} fixed top-0 left-0 bg-black/50 w-[100vw] h-[100vh] z-0 cursor-pointer`}
-              onClick={toggleModalDropDown}
-            />
           </div>
         </div>
       </div>

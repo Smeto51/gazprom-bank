@@ -82,14 +82,6 @@ export const GazpromBankSvg = () => {
 export const CrossSVG = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12">
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M9.536 2.464a.625.625 0 0 1 0 .884L6.884 6l2.652 2.652a.625.625 0 1 1-.884.884L6 6.884 3.348 9.536a.625.625 0 1 1-.884-.884L5.116 6 2.464 3.348a.625.625 0 1 1 .884-.884L6 5.116l2.652-2.652a.625.625 0 0 1 .884 0Z"
-          fill="currentColor"
-        ></path>
-      </svg>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
         <path
           fillRule="evenodd"

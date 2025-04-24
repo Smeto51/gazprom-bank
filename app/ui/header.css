@@ -8,7 +8,19 @@
   .max-h-dynamic {
     max-height: calc(100vh - 32px);
     max-height: calc(100dvh - 32px);
-    height: 100%
+    height: 100%;
+  }
+  .trait::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    background-color: rgb(236, 221, 221);
+    border-radius: 20px;
   }
 }
 

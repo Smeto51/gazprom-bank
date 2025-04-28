@@ -3,6 +3,8 @@ import { CrossSVG, DropDownMenuSVG } from "../SvgElements";
 import { BUTTON_BLACK } from "./HeaderNavPanel";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { MOBILE_MENU, MOBILE_MENU_ITEMS } from "./VariablePhone";
+import Cities from "../Cities";
 
 const resetContainerHeight = (
   containerRef: React.RefObject<HTMLElement | null>
@@ -11,14 +13,6 @@ const resetContainerHeight = (
     containerRef.current.style.height = "";
   }
 };
-
-const MOBILE_MENU = [
-  { id: 1, title: "Для всех", type: "button", href: "/" },
-  { id: 2, title: "Private", type: "link", href: "2" },
-  { id: 3, title: "Бизнесу", type: "button", href: "3" },
-  { id: 4, title: "Финансовым организациям", type: "button", href: "5" },
-  { id: 5, title: "Инвесторам", type: "button", href: "5" },
-];
 
 export const HeaderMenuPhone = () => {
   const {
@@ -160,7 +154,9 @@ export const HeaderMenuPhone = () => {
       </button>
 
       <div
-        className={`${phone} bg-white left-0 right-0 bottom-0 fixed max-w-3xl ml-auto mr-auto min-w-[320px] rounded-t-lg z-100 max-h-dynamic transition-[height,transform] duration-300 ease-out`}
+        aria-modal="true"
+        role="dialog"
+        className={`${phone} bg-white left-0 right-0 bottom-0 fixed max-w-3xl ml-auto mr-auto min-w-[320px] h-[861px] rounded-t-lg z-100 max-h-dynamic transition-[height,transform] duration-300 ease-out`}
         style={{
           transform: isDragging ? `translateY(0px)` : "translateY(0)",
           transition: isDragging ? "none" : "", // Отключаем анимацию при перетаскивании
@@ -174,7 +170,7 @@ export const HeaderMenuPhone = () => {
         >
           <div className="absolute top-0 left-0 right-0 h-2 bg-transparent" />
 
-          <div className="trait" />
+          <div className="trait " />
           <div className="p-4 pt-6">
             <div
               className="flex items-center justify-center rounded-full bg-[rgba(30,34,46,0.08)] w-6 aspect-square ml-auto hover:bg-blue-500 hover:text-white duration-300 cursor-pointer"
@@ -186,62 +182,82 @@ export const HeaderMenuPhone = () => {
             </div>
           </div>
         </div>
-
-        <div className="pl-4 pr-4">
-          <div className="pt-6 pb-8.5 min-h-100">
-            <div
-              className="flex p-1 gap-0.5 border-[1px] border-solid border-[#dbdfec] w-full overflow-x-auto rounded-xl"
-              style={{ scrollbarWidth: "none" }}
-            >
-              {MOBILE_MENU.map((item) => (
+        <div className="shrink grow overflow-auto overscroll-contain max-h-dynamic-scrollbar">
+          <div className="pl-4 pr-4">
+            <div className="pt-6 pb-8.5 min-h-100">
+              <>
                 <div
-                  key={item.id}
-                  className={`flex-shrink-0 text-[16px] leading-5 text-weig font-medium h-12 pl-6 pr-6 flex items-center cursor-pointer ${
-                    activeItem === item.id
-                      ? "bg-black text-white rounded-xl"
-                      : ""
-                  }`}
-                  onClick={() => setActiveItem(item.id)}
+                  className="flex p-1 gap-0.5 border-[1px] border-solid border-[#dbdfec] w-full overflow-x-auto rounded-xl"
+                  style={{ scrollbarWidth: "none" }}
                 >
-                  {item.type === "button" ? (
-                    <button className="cursor-pointer">{item.title}</button>
-                  ) : (
-                    <Link href={"#"}>{item.title}</Link>
-                  )}
+                  {MOBILE_MENU.map((item) => (
+                    <div
+                      key={item.id}
+                      className={`flex-shrink-0 text-[16px] leading-5 text-weig font-medium h-12 pl-6 pr-6 flex items-center cursor-pointer ${
+                        activeItem === item.id
+                          ? "bg-black text-white rounded-xl"
+                          : ""
+                      }`}
+                      onClick={() => setActiveItem(item.id)}
+                    >
+                      {item.type === "button" ? (
+                        <button className="cursor-pointer">{item.title}</button>
+                      ) : (
+                        <Link href={"#"}>{item.title}</Link>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
 
-            <div className="pt-8.5">
-              <Link href={"#"}>
-                <div className="bg-[rgb(244,246,255)] p-4 rounded-2xl h-20 flex relative">
-                  <div className="max-w-[60%] min-w-50 ">
-                    <div className="text-[16px] font-medium pb-1 leading-5">
-                      Офиса и банкоматы
+                <div className="pt-8.5">
+                  <Link href={"#"}>
+                    <div className="bg-[rgb(244,246,255)] p-4 rounded-2xl h-20 flex relative">
+                      <div className="max-w-[60%] min-w-50 ">
+                        <div className="text-[16px] font-medium pb-1 leading-5">
+                          Офиса и банкоматы
+                        </div>
+                        <div className="text-[14px] font-normal leading-4">
+                          Найдите ближайшее отделение
+                        </div>
+                      </div>
+                      <div className="flex items-center ml-auto">
+                        <picture>
+                          <source
+                            type="image/webp"
+                            srcSet="https://cdn.gpb.ru/upload/files/iblock/f3a/qe8p1flth1k7bnfhssg5ys5mwgq1ek59/offices_atms.webp 2x, https://cdn.gpb.ru/upload/files/iblock/f3a/qe8p1flth1k7bnfhssg5ys5mwgq1ek59/x1_offices_atms.webp"
+                          />
+                          <source
+                            type="image/png"
+                            srcSet="https://cdn.gpb.ru/upload/files/iblock/f3a/qe8p1flth1k7bnfhssg5ys5mwgq1ek59/offices_atms.png 2x, https://cdn.gpb.ru/upload/files/iblock/f3a/qe8p1flth1k7bnfhssg5ys5mwgq1ek59/x1_offices_atms.png"
+                          />
+                          <img
+                            className="absolute max-w-37 h-23 bottom-0 right-0"
+                            src="https://cdn.gpb.ru/upload/files/iblock/f3a/qe8p1flth1k7bnfhssg5ys5mwgq1ek59/x1_offices_atms.png"
+                            alt="Офисы и банкоматы"
+                          />
+                        </picture>
+                      </div>
                     </div>
-                    <div className="text-[14px] font-normal leading-4">
-                      Найдите ближайшее отделение
-                    </div>
-                  </div>
-                  <div className="flex items-center ml-auto">
-                    <picture>
-                      <source
-                        type="image/webp"
-                        srcSet="https://cdn.gpb.ru/upload/files/iblock/f3a/qe8p1flth1k7bnfhssg5ys5mwgq1ek59/offices_atms.webp 2x, https://cdn.gpb.ru/upload/files/iblock/f3a/qe8p1flth1k7bnfhssg5ys5mwgq1ek59/x1_offices_atms.webp"
-                      />
-                      <source
-                        type="image/png"
-                        srcSet="https://cdn.gpb.ru/upload/files/iblock/f3a/qe8p1flth1k7bnfhssg5ys5mwgq1ek59/offices_atms.png 2x, https://cdn.gpb.ru/upload/files/iblock/f3a/qe8p1flth1k7bnfhssg5ys5mwgq1ek59/x1_offices_atms.png"
-                      />
-                      <img
-                        className="absolute max-w-37 h-23 bottom-0 right-0"
-                        src="https://cdn.gpb.ru/upload/files/iblock/f3a/qe8p1flth1k7bnfhssg5ys5mwgq1ek59/x1_offices_atms.png"
-                        alt="Офисы и банкоматы"
-                      />
-                    </picture>
-                  </div>
+                  </Link>
                 </div>
-              </Link>
+
+                <div className="pt-8 pb-8 grid gap-4 grid-cols-3">
+                  {MOBILE_MENU_ITEMS.map((item) => (
+                    <span
+                      className="flex flex-col gap-2 items-center "
+                      key={item.id}
+                    >
+                      <picture>
+                        <source type="image/webp" srcSet={item.srcsetWebp} />
+                        <source type="image/png" srcSet={item.srcsetPng} />
+                        <img src={item.srcImg} alt={item.title} />
+                      </picture>
+                      <p>{item.title}</p>
+                    </span>
+                  ))}
+                </div>
+              </>
+              <Cities />
             </div>
           </div>
         </div>

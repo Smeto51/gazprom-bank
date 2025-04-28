@@ -8,8 +8,13 @@
   .max-h-dynamic {
     max-height: calc(100vh - 32px);
     max-height: calc(100dvh - 32px);
+  }
+  .max-h-dynamic-scrollbar {
+    max-height: calc(100vh - 98px);
+    max-height: calc(100dvh - 98px);
     height: 100%;
   }
+
   .trait::before {
     content: "";
     display: block;

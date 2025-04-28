@@ -25,7 +25,10 @@ const NAV_ITEMS = [
 
 const HeaderNavPanel = () => {
   const [isLoading, setisLoading] = useState(false);
-  const { toggleModalQR: toggleModal, modalClasses } = useModal();
+  const {
+    toggleModal,
+    modalClasses: { default: desktopClassesMenu },
+  } = useModal();
   const leftBlockRef = useRef(null);
   const [hiddenItems, setHiddenItems] = useState([]);
 
@@ -128,7 +131,7 @@ const HeaderNavPanel = () => {
                 {!isLoading ? "" : <ThreeDots />}
               </div>
               <div className="relative">
-                <div className={`${modalClasses.default} left-0 mt-[3px]`}>
+                <div className={`${desktopClassesMenu} left-0 mt-[3px]`}>
                   <div className=" bg-white w-66 max-h-full rounded-[12px] custom-shadow p-2 ">
                     {hiddenItems.map((item) => (
                       <div
@@ -163,23 +166,6 @@ const HeaderNavPanel = () => {
             <QRCodeButton />
           )}
         </div>
-
-        {/*process.env.NODE_ENV === "development" && (
-        <div className="fixed bottom-4 left-100 bg-gray-200 p-20 rounded shadow text-[20px] text-black ">
-          <div>Навигационая панель</div>
-          <br />
-          <div>
-            Правый блок: {rightBlockRefSize.width}px ×{" "}
-            {rightBlockRefSize.height}px
-          </div>
-          <div>
-            Левый блок: {leftBlockRefSize.width}px × {leftBlockRefSize.height}px
-          </div>
-          <div>
-            Общая ширина: {leftBlockRefSize.width + rightBlockRefSize.width}px
-          </div>
-        </div>
-      )*/}
       </div>
     </nav>
   );

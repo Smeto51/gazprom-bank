@@ -3,7 +3,7 @@ import { memo, ReactNode, useCallback, useEffect, useRef } from "react";
 import { CrossSVG } from "../SvgElements";
 
 const mediaModalSize = `
-  h-full
+  h-full w-full
   lg:h-[80vh] lg:w-[672px] lg:p-10 lg:rounded-2xl
   `;
 
@@ -23,7 +23,6 @@ const CitiesModal = ({
   isOpen,
 }: CitiesModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
-
   const handleClickOutside = useCallback(
     (event: React.MouseEvent) => {
       /*
@@ -59,21 +58,21 @@ const CitiesModal = ({
   return (
     <div
       className={`
-        fixed inset-0 custom-background-cities w-[100vw] flex justify-center items-center transition-opacity duration-200 ease-in-out z-15
+        fixed inset-0 custom-background-cities w-full flex justify-center items-center transition-opacity duration-200 ease-in-out z-15
         ${isVisible ? "opacity-100" : "opacity-0"}`}
       onClick={handleClickOutside}
     >
       <div
         className="
-        fixed flex items-center justify-center
-        w-10 h-10 top-4 right-4 
-        custom-background-CrossSVG bg-white/[0.08] hover:bg-blue-500 duration-500 group"
+        fixed top-4 right-4 z-50 flex items-center justify-center
+        w-10 h-10 
+        custom-background-CrossSVG bg-white/[0.08] max-[1023px]:bg-gray-300 hover:bg-blue-500 duration-500 group rounded-full"
       >
         <div
           className="
           w-4 h-4 
-          flex text-gray-300
-          cursor-pointer hover:bg-blue-500 group-hover:scale-150 transition-transform duration-500
+          flex lg:text-gray-300
+          cursor-pointer group-hover:scale-150 transition-transform duration-500
           "
         >
           <CrossSVG />
@@ -82,6 +81,8 @@ const CitiesModal = ({
       <div
         ref={modalRef}
         className={`${mediaModalSize}
+            max-[1023px]:p-4 
+            max-[1023px]:pt-16
             bg-white overflow-hidden z-0
             duration-400
             ${isVisible ? "opacity-100 -translate-y-5" : "opacity-0"}`}

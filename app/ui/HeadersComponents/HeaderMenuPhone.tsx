@@ -156,7 +156,7 @@ export const HeaderMenuPhone = () => {
       <div
         aria-modal="true"
         role="dialog"
-        className={`${phone} bg-white left-0 right-0 bottom-0 fixed max-w-3xl ml-auto mr-auto min-w-[320px] h-[861px] rounded-t-lg z-100 max-h-dynamic transition-[height,transform] duration-300 ease-out`}
+        className={`${phone} bg-white left-0 right-0 bottom-0 fixed max-w-3xl ml-auto mr-auto min-w-[320px] rounded-t-lg z-100 max-h-dynamic transition-[height,transform] duration-300 ease-out`}
         style={{
           transform: isDragging ? `translateY(0px)` : "translateY(0)",
           transition: isDragging ? "none" : "", // Отключаем анимацию при перетаскивании
@@ -257,7 +257,9 @@ export const HeaderMenuPhone = () => {
                   ))}
                 </div>
               </>
-              <Cities />
+              <div className="w-full ">
+                <Cities />
+              </div>
             </div>
           </div>
         </div>

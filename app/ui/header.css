@@ -8,8 +8,13 @@
   .max-h-dynamic {
     max-height: calc(100vh - 32px);
     max-height: calc(100dvh - 32px);
+  }
+  .max-h-dynamic-scrollbar {
+    max-height: calc(100vh - 98px);
+    max-height: calc(100dvh - 98px);
     height: 100%;
   }
+
   .trait::before {
     content: "";
     display: block;
@@ -29,10 +34,6 @@
 :focus {
   outline: 0;
   outline-offset: 0;
-}
-.custom-background-cities {
-  background: rgba(30, 34, 46, 0.64);
-  backdrop-filter: blur(5px);
 }
 
 .custom-shadow {
@@ -105,6 +106,10 @@
     top: 32px;
     right: 32px;
     border-radius: 20px;
+  }
+  .custom-background-cities {
+    background: rgba(30, 34, 46, 0.64);
+    backdrop-filter: blur(5px);
   }
 }
 

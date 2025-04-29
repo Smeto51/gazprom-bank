@@ -9,7 +9,7 @@ export async function GET() {
     if (!response.ok) {
       const errorData = await response.json();
       console.error("Данные ошибки:", errorData);
-      console.error("Статус кож:", response.status);
+      console.error("Статус:", response.status);
       console.error(
         "Заголовки",
         Object.fromEntries(response.headers.entries())

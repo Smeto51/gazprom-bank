@@ -7,6 +7,7 @@ import HeaderNavPanel from "./HeadersComponents/HeaderNavPanel";
 import HeaderSearching from "./HeadersComponents/HeaderMagnifierSearching";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useWindowSize } from "../hooks/useWindowSize";
+import { CityProvider } from "./HeadersComponents/ContextApi/CityContext";
 
 const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
@@ -51,7 +52,9 @@ const Header = () => {
   return (
     <header className="w-full">
       <div className="header_full_main_menu">
-        <HeaderMenu onSearchClick={handleSearchClick} />
+        <CityProvider>
+          <HeaderMenu onSearchClick={handleSearchClick} />
+        </CityProvider>
 
         <div className="hidden lg:block h-full">
           <HeaderNavPanel />

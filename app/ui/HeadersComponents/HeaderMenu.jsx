@@ -6,8 +6,15 @@ import { GazpromBankSvg, Magnifier, ThreeDots } from "../SvgElements";
 import Cities from "../Cities";
 import { useModal } from "@/app/hooks/useModal";
 import ProjectsBankButton from "./ProjectsBankButton";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { HeaderMenuPhone } from "./HeaderMenuPhone";
+import { useCity } from "./ContextApi/CityContext";
 
 export const DefoultLinkGPB = ({ href, title }) => {
   return (
@@ -43,7 +50,7 @@ const HeaderMenu = ({ onSearchClick }) => {
   } = useModal();
   const leftBlockRef = useRef(null);
   const [hiddenItems, setHiddenItems] = useState([]);
-  const [cityChanged, setCityChanged] = useState([]);
+  const { setCityChanged } = useCity();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -52,51 +59,55 @@ const HeaderMenu = ({ onSearchClick }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  useLayoutEffect(() => {
-    if (isLoading) return;
-    const checkOverflow = () => {
-      if (leftBlockRef.current) {
-        const container = leftBlockRef.current;
-        const items = Array.from(container.children).filter(
-          (child) => !child.classList.contains("dropdown-button")
-        );
+  const checkOverflow = useCallback(() => {
+    if (leftBlockRef.current) {
+      const container = leftBlockRef.current;
+      const items = Array.from(container.children).filter(
+        (child) => !child.classList.contains("dropdown-button")
+      );
 
-        const hidden = [];
-        let isOveflowing = false;
+      const hidden = [];
+      let isOveflowing = false;
 
-        items.forEach((item) => {
-          const menuIndex = MENU.findIndex((m) => m.title === item.textContent);
-          if (menuIndex === -1) return;
+      items.forEach((item) => {
+        const menuIndex = MENU.findIndex((m) => m.title === item.textContent);
+        if (menuIndex === -1) return;
 
-          if (isOveflowing) {
+        if (isOveflowing) {
+          hidden.push(MENU[menuIndex]);
+          item.style.display = "none";
+        } else {
+          item.style.display = "flex";
+          /*
+           * getBoundingClientRect() — это метод DOM-элемента, который возвращает его размеры и позицию относительно видимой области окна браузера (viewport).
+           * Он полезен, когда нужно точно определить расположение элемента на экране или его геометрические параметры.
+           */
+          const itemRight = item.getBoundingClientRect().right;
+          const containerRight = container.getBoundingClientRect().right - 70;
+
+          if (itemRight > containerRight) {
             hidden.push(MENU[menuIndex]);
             item.style.display = "none";
-          } else {
-            item.style.display = "flex";
-            /*
-             * getBoundingClientRect() — это метод DOM-элемента, который возвращает его размеры и позицию относительно видимой области окна браузера (viewport).
-             * Он полезен, когда нужно точно определить расположение элемента на экране или его геометрические параметры.
-             */
-            const itemRight = item.getBoundingClientRect().right;
-            const containerRight = container.getBoundingClientRect().right - 90;
-
-            if (itemRight > containerRight) {
-              hidden.push(MENU[menuIndex]);
-              item.style.display = "none";
-              isOveflowing = true;
-            }
+            isOveflowing = true;
           }
-        });
-        setHiddenItems(hidden);
-      }
-    };
+        }
+      });
+      setHiddenItems(hidden);
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    if (isLoading) return;
     checkOverflow();
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
-  }, [cityChanged, isLoading]);
+  }, [isLoading]);
 
   const handleCityChange = () => {
     setCityChanged([]);
+    requestAnimationFrame(() => {
+      checkOverflow();
+    });
   };
 
   return (

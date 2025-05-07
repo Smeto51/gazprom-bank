@@ -56,9 +56,10 @@ const fetchCities = async (): Promise<CitiesData | null> => {
 
 type CitiesContentProps = {
   onCityChange?: () => void;
+  onOpenChange?: (isOpenMobile: boolean) => void;
 };
 
-const CitiesContent = ({ onCityChange }: CitiesContentProps) => {
+const CitiesContent = ({ onCityChange, onOpenChange }: CitiesContentProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [searchingCity, setSearchingCity] = useState("");
@@ -90,12 +91,15 @@ const CitiesContent = ({ onCityChange }: CitiesContentProps) => {
   const toggleMenu = useCallback((): void => {
     if (!isOpen) {
       setIsOpen(!isOpen);
+      onOpenChange?.(true);
       setTimeout(() => setIsVisible(true), 10);
     } else {
       setIsVisible(false);
+      onOpenChange?.(false);
+
       setTimeout(() => setIsOpen(false), 200);
     }
-  }, [isOpen]);
+  }, [isOpen, onOpenChange]);
 
   const filteredCities = useMemo(() => {
     if (!cities) return {};
@@ -120,10 +124,11 @@ const CitiesContent = ({ onCityChange }: CitiesContentProps) => {
       setSelectedCity(city);
       localStorage.setItem("selectedCity", city);
       setIsVisible(false);
+      onOpenChange?.(false);
       setTimeout(() => setIsOpen(false), 200);
       onCityChange?.();
     },
-    [onCityChange]
+    [onCityChange, onOpenChange]
   );
 
   if (isError)
@@ -159,12 +164,13 @@ const CitiesContent = ({ onCityChange }: CitiesContentProps) => {
 
 type CitiesProps = {
   onCityChange?: () => void;
+  onOpenChange?: (isOpenMobile: boolean) => void;
 };
 
-const Cities = ({ onCityChange }: CitiesProps) => {
+const Cities = ({ onCityChange, onOpenChange }: CitiesProps) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <CitiesContent onCityChange={onCityChange} />
+      <CitiesContent onCityChange={onCityChange} onOpenChange={onOpenChange} />
     </QueryClientProvider>
   );
 };

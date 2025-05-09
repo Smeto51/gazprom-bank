@@ -59,14 +59,15 @@ const CitiesModal = ({
     <div
       className={`
         fixed inset-0 custom-background-cities w-full flex justify-center items-center transition-opacity duration-200 ease-in-out z-15
-        ${isVisible ? "opacity-100" : "opacity-0"}`}
+        ${isVisible ? "opacity-100" : "opacity-0 pointer-events-none"}`}
       onClick={handleClickOutside}
     >
       <div
-        className="
-        fixed top-4 right-4 z-50 flex items-center justify-center
+        className={`fixed top-4 right-4 z-50 flex items-center justify-center
         w-10 h-10 
-        custom-background-CrossSVG bg-white/[0.08] max-[1023px]:bg-gray-300 hover:bg-blue-500 duration-500 group rounded-full"
+        custom-background-CrossSVG bg-white/[0.08] max-[1023px]:bg-gray-300 hover:bg-blue-500 group rounded-full
+        transition-opacity duration-300
+        ${isVisible ? "opacity-100" : "opacity-0"}`}
       >
         <div
           className="

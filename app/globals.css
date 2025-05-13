@@ -3,3 +3,7 @@
 *:focus {
   outline: 2px solid transparent;
 }
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}

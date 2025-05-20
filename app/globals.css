@@ -7,3 +7,17 @@
 .scrollbar-hide {
   scrollbar-width: none;
 }
+
+.modal-slider {
+  height: 100%;
+  width: 100%;
+}
+
+@media only screen and (min-width: 768px) {
+  .modal-slider {
+    min-height: 640px;
+    min-width: 360px;
+    height: 80vh;
+    width: 44.9438202247vh;
+  }
+}

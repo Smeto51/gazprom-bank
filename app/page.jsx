@@ -2,12 +2,13 @@
 import Link from "next/link";
 import { FINANCIAL_PRODUCTS_ITEMS, USESFUL_TIPS } from "./Variable";
 import { ArrowSVG } from "./ui/SvgElements";
+import { UsefullWindow } from "./Usefull_Window";
 
 export default function Home() {
   console.log("Загруженно Home");
   return (
     <div>
-      <div className="max-[1023]:max-w-3xl max-[1023]:ml-auto max-[1023]:mr-auto min-[1024]:hidden">
+      <div className="max-[1024]:max-w-3xl max-[1024]:ml-auto max-[1024]:mr-auto min-[1024]:hidden">
         <section className="flex h-45 pl-4 pr-4 gap-4 overflow-x-auto overflow-y-hidden scrollbar-hide">
           {FINANCIAL_PRODUCTS_ITEMS.map((item) => (
             <Link
@@ -55,14 +56,13 @@ export default function Home() {
         <div className="pb-8" />
         <section className="ml-auto mr-auto w-full pl-4">
           {" "}
-          {/* Добавляем горизонтальные отступы */}
-          <div className="flex gap-3.5 overflow-x-auto overflow-y-hidden scrollbar-hide w-full">
+          <div className="flex gap-3 overflow-x-auto overflow-y-hidden scrollbar-hide w-full">
             {USESFUL_TIPS.map((item) => (
               <div
                 key={item.id}
-                className="relative flex-shrink-0 flex items-center justify-center min-w-24 w-24 h-27 cursor-pointer" // Добавляем flex-shrink-0
+                className="relative flex-shrink-0 flex items-center justify-center min-w-24 w-24 cursor-pointer"
               >
-                <div className="flex">
+                <div className="flex w-[96px] h-[108px] items-center justify-center border-orange-400 border-1 rounded-2xl">
                   <picture>
                     <source type="image/webp" srcSet={item.srcsetWebp} />
                     <source type="image/png" srcSet={item.srcsetPng} />
@@ -82,6 +82,7 @@ export default function Home() {
           </div>
         </section>
       </div>
+      <UsefullWindow />
     </div>
   );
 }

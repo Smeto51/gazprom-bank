@@ -360,15 +360,13 @@ export const DropDownMenuSVG = () => {
 
 export const ArrowSVG = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M8.452 12.797c.245.245.64.245.884 0l4.356-4.355a.625.625 0 0 0 0-.884L9.336 3.203a.625.625 0 1 0-.884.883l3.29 3.289H2.75a.625.625 0 1 0 0 1.25h8.991l-3.289 3.289a.625.625 0 0 0 0 .883Z"
-          fill="currentColor"
-        ></path>
-      </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8.452 12.797c.245.245.64.245.884 0l4.356-4.355a.625.625 0 0 0 0-.884L9.336 3.203a.625.625 0 1 0-.884.883l3.29 3.289H2.75a.625.625 0 1 0 0 1.25h8.991l-3.289 3.289a.625.625 0 0 0 0 .883Z"
+        fill="currentColor"
+      ></path>
     </svg>
   );
 };

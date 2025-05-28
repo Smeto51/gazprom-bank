@@ -188,3 +188,118 @@ export const USESFUL_TIPS = [
       "https://cdn.gpb.ru/upload/files/iblock/7f6/mac0dq911f6dgsnn0ov4esj3ects66no/x1_Banner-na-sayt-_12_.jpg",
   },
 ];
+
+export const USESFUL_SLIDES = [
+  {
+    id: 1,
+    iconText: "Доход каждый месяц",
+    iconImg:
+      "https://cdn.gpb.ru/upload/files/iblock/ac5/jsfwuz6so0886uob9wvkrrgta28roxak/x1_Banner-na-sayt-_4_-_1_.jpg",
+    slides: [
+      {
+        id: 1,
+        title: "Какие преимущества предлагает накопительный счет Газпромбанка?",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/a20/ax634tdhc8jt9iu790t2yg9ql1icr56r/x1_Banner_1080x1920px_Kakie-preimushchestva-predlagaet-nakopitelnyy-schet-Gazprombanka_12.05.25.jpg",
+      },
+      {
+        id: 2,
+        title: "Выгодная ставка — до 21,5 % годовых",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/8c8/eue670dyzrhpo6ynx822da6ukl03l0fh/x1_Fayl_215.jpg",
+      },
+      {
+        id: 3,
+        title: "Постоянный доход",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/367/wra1wydmqk34efx5g5fa9eviqosts1zg/x1_Banner_1080x1920px_Postoyannyy-dokhod_12.05.25.jpg",
+        description: "Проценты начисляются ежемесячно",
+      },
+      {
+        id: 4,
+        title: "Доступ к деньгам 24/7",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/ab7/f2p9xx9d1y43bp0jfnvzxoq1vz3689ar/x1_Banner_1080x1920px_Dostup-k-dengam-24_7_12.05.25.jpg",
+        description: "Пополняйте и снимайте средства в любой момент",
+      },
+      {
+        id: 5,
+        title: "Дополнительная надбавка",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/60b/w9z2e3kx27956k8n7q38utrkhgo3m6kb/x1_Banner_1080x1920px_Dopolnitelnaya-nadbavka_12.05.25.jpg",
+        description: "за поддержание остатков по картам от 30 000 ₽",
+        linkText: "Открыть счет",
+      },
+    ],
+  },
+  {
+    id: 2,
+    iconText: "Кто такие дропы",
+    iconImg:
+      "https://cdn.gpb.ru/upload/files/iblock/52d/h27e860zo9xuixmy7tgpomzwwb388n7h/x1_Banner-na-sayt-_18_.jpg",
+    slides: [
+      {
+        id: 1,
+        title: "Дропы: мифы и реальность",
+        description:
+          "Пройдите нашу викторину и узнайте не только о признаках дропперства, но и последствиях содействия мошенникам",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/1a7/zt5lfzqj2uyi0ttxjjgf651kxmv960ci/x1_banner_1080x1960px_Dropery_-mify-i-realnost_12.05.25.jpg",
+      },
+      {
+        id: 2,
+        title: "Кто такие дропы (дропперы)?",
+        description:
+          "Люди, через счета которых переводятся или обналичиваются денежные средства в мошеннических или противоправных целях",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/cda/o1y353zsv9bm5dzpfxo57cv6krbvzqco/x1_banner_1080x1960px_Kto-takie-dropy-_droppery_12.05.25.jpg",
+      },
+      {
+        id: 3,
+        title: "Где чаще всего вербуют дропов?",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/52d/h27e860zo9xuixmy7tgpomzwwb388n7h/x1_Banner-na-sayt-_18_.jpg",
+
+        button1: "В соцсетях, мессенджерах",
+        button2: "На улице",
+        button3: "На сайтах знакомств и поиска работы",
+        button4: "Все варианты верны",
+        answer: "Правильный ответ, все ответы верны",
+      },
+      {
+        id: 4,
+        title: "Кто чаще всего становится дроппером «по незнанию»?",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/1e1/iglkbzppbn8iummc2e1n62u6edy50r67/x1_banner_1080x1960px_Kto-chashche-vsego-stanovitsya-dropperom-_po-neznaniyu_12.05.25.jpg",
+
+        button1: "Пенсионеры",
+        button2: "Студенты и учащиеся",
+        button3: "Безработные",
+        button4: "Все варианты верны",
+        answer: "Правильный ответ, все ответы верны",
+      },
+      {
+        id: 5,
+        title:
+          "С какого возраста наступает уголовная ответственность за дропперство?",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/e9b/rni7c7y9yjjgvtwhna68bo5how0ioki8/x1_banner_1080x1960px_S-kakogo-vozrasta-nastupaet-ugolovnaya-otvetstvennost-za-dropperstvo_12.05.25.jpg",
+        button1: "С 14 лет",
+        button2: "С 16 лет",
+        button3: "Только с 18 лет",
+        answer: "Правильный ответ, С 16 лет",
+      },
+      {
+        id: 6,
+        title: "Какой срок грозит дропперу по УК РФ?",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/ba7/2efjwqkbw1ynalm2foaf3w95n94rbu0n/x1_banner_1080x1960px_Kakoy-srok-grozit-dropperu-po-UK-RF_12.05.25.jpg",
+        button1: "До 7 лет лишения свободы",
+        button2: "Штраф до 1 млн ₽",
+        button3: "Все варианты верны",
+        answer: "Правильный ответ, все ответы верны",
+        linkText: "",
+      },
+    ],
+  },
+];

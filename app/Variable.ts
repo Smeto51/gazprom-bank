@@ -258,7 +258,7 @@ export const USESFUL_SLIDES = [
         id: 3,
         title: "Где чаще всего вербуют дропов?",
         iconBg:
-          "https://cdn.gpb.ru/upload/files/iblock/52d/h27e860zo9xuixmy7tgpomzwwb388n7h/x1_Banner-na-sayt-_18_.jpg",
+          "https://cdn.gpb.ru/upload/files/iblock/b61/6t1wgxrau4m8c79my8y47yhvjvyo3wu0/x1_banner_1080x1960px_Gde-chashche-vsego-verbuyut-dropov_12.05.25.jpg",
 
         button1: "В соцсетях, мессенджерах",
         button2: "На улице",

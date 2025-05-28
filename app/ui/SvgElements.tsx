@@ -370,3 +370,18 @@ export const ArrowSVG = () => {
     </svg>
   );
 };
+
+export const MiniCrossSVG = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+      className="text-white p-1"
+    >
+      <path
+        d="M12.596 3.404a.625.625 0 0 1 0 .884L8.884 8l3.712 3.712a.625.625 0 1 1-.884.884L8 8.884l-3.712 3.712a.625.625 0 1 1-.884-.884L7.116 8 3.404 4.288a.625.625 0 0 1 .884-.884L8 7.116l3.712-3.712a.625.625 0 0 1 .884 0Z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  );
+};

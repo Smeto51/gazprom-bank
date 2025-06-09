@@ -17,7 +17,7 @@ export const UsefullWindow = () => {
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
     setProgressBars(new Array(slides.length).fill(0));
-  }, []);
+  }, [slides.length]);
 
   const backSlide = useCallback(() => {
     if (currentSlide == 0) return;
@@ -32,7 +32,7 @@ export const UsefullWindow = () => {
       setProgressBars((prev) => {
         const newProgress = [...prev];
         newProgress[currentSlide] = Math.min(
-          newProgress[currentSlide] + 100 / (7000 / 100),
+          newProgress[currentSlide] + 100 / (70000 / 100),
           100
         );
 
@@ -60,8 +60,8 @@ export const UsefullWindow = () => {
                 block min-[768]:rounded-2xl overflow-hidden flex-shrink-0"
               >
                 <div className="flex h-full absolute w-full">
-                  <div className="w-[50%] z-2.5" onClick={backSlide}></div>
-                  <div className="w-[50%] z-2.5" onClick={nextSlide}></div>
+                  <div className="w-[50%] z-10" onClick={backSlide}></div>
+                  <div className="w-[50%] z-10" onClick={nextSlide}></div>
                 </div>
                 <div className="absolute rounded-2xl w-full pt-4 pr-5 pb-4 pl-5 flex ">
                   {slides.map((_, index) => (
@@ -125,6 +125,19 @@ export const UsefullWindow = () => {
                       </Link>
                     </div>
                   )}
+                  {currentData.button?.map((button) => (
+                    <button
+                      key={button.id}
+                      className="flex items-center justify-center relative z-10 w-full mt-2"
+                      //                     onClick={}
+                    >
+                      {" "}
+                      <div className="h-12 w-full flex items-center justify-center relative">
+                        <div className="absolute bg-[#ffffff0f] top-0 left-0 w-full h-full -z-1 rounded-md "></div>
+                        <span className="text-[18px]">{button.text}</span>
+                      </div>
+                    </button>
+                  ))}
                 </div>
                 <div className="absolute flex top-10 right-4 gap-8">
                   <button className="w-6 h-6 min-w-6 bg-[#2b61ec] rounded-[50%]">

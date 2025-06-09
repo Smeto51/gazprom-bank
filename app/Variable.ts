@@ -229,6 +229,7 @@ export const USESFUL_SLIDES = [
           "https://cdn.gpb.ru/upload/files/iblock/60b/w9z2e3kx27956k8n7q38utrkhgo3m6kb/x1_Banner_1080x1920px_Dopolnitelnaya-nadbavka_12.05.25.jpg",
         description: "за поддержание остатков по картам от 30 000 ₽",
         linkText: "Открыть счет",
+        button: undefined,
       },
     ],
   },
@@ -259,11 +260,12 @@ export const USESFUL_SLIDES = [
         title: "Где чаще всего вербуют дропов?",
         iconBg:
           "https://cdn.gpb.ru/upload/files/iblock/b61/6t1wgxrau4m8c79my8y47yhvjvyo3wu0/x1_banner_1080x1960px_Gde-chashche-vsego-verbuyut-dropov_12.05.25.jpg",
-
-        button1: "В соцсетях, мессенджерах",
-        button2: "На улице",
-        button3: "На сайтах знакомств и поиска работы",
-        button4: "Все варианты верны",
+        button: [
+          { id: 1, text: "В соцсетях, мессенджерах" },
+          { id: 2, text: "На улице" },
+          { id: 3, text: "На сайтах знакомств и поиска работы" },
+          { id: 4, text: "Все варианты верны" },
+        ],
         answer: "Правильный ответ, все ответы верны",
       },
       {

@@ -229,6 +229,7 @@ export const USESFUL_SLIDES = [
           "https://cdn.gpb.ru/upload/files/iblock/60b/w9z2e3kx27956k8n7q38utrkhgo3m6kb/x1_Banner_1080x1920px_Dopolnitelnaya-nadbavka_12.05.25.jpg",
         description: "за поддержание остатков по картам от 30 000 ₽",
         linkText: "Открыть счет",
+        button: undefined,
       },
     ],
   },
@@ -256,15 +257,18 @@ export const USESFUL_SLIDES = [
       },
       {
         id: 3,
-        title: "Где чаще всего вербуют дропов?",
+        title: "Как устроена схема",
+        description:
+          "Пирамида маскируется под инвестиционный проект с высокой доходностью. Прибыль формируется за счет взносов новых вкладчиков, а не реальных инвестиций.",
         iconBg:
           "https://cdn.gpb.ru/upload/files/iblock/b61/6t1wgxrau4m8c79my8y47yhvjvyo3wu0/x1_banner_1080x1960px_Gde-chashche-vsego-verbuyut-dropov_12.05.25.jpg",
-
-        button1: "В соцсетях, мессенджерах",
-        button2: "На улице",
-        button3: "На сайтах знакомств и поиска работы",
-        button4: "Все варианты верны",
-        answer: "Правильный ответ, все ответы верны",
+        /*button: [
+          { id: 1, text: "В соцсетях, мессенджерах" },
+          { id: 2, text: "На улице" },
+          { id: 3, text: "На сайтах знакомств и поиска работы" },
+          { id: 4, text: "Все варианты верны" },
+        ],
+        answer: "Правильный ответ, все ответы верны",*/
       },
       {
         id: 4,
@@ -299,6 +303,49 @@ export const USESFUL_SLIDES = [
         button3: "Все варианты верны",
         answer: "Правильный ответ, все ответы верны",
         linkText: "",
+      },
+    ],
+  },
+  {
+    id: 3,
+    iconText: "Финансовая пирамида",
+    iconImg:
+      "https://cdn.gpb.ru/upload/files/iblock/242/772h70vero4vb22mqwtmgptsrlq5hnrw/x1_-Ikonka.png",
+    slides: [
+      {
+        id: 1,
+        title: "Финансовая пирамида: главные признаки",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/3f9/829niuhfmjceglst4jgefl808tx28fdy/x1_-Stories-kadr-1.png",
+        button: undefined,
+      },
+      {
+        id: 2,
+        title: "Что такое финансовая пирамида",
+        description:
+          "Это схема по привлечению средств граждан, при которой «прибыль» от вложенных денег выплачивается за счет привлечения средств новых участников.",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/d58/visqh1clhjl69is8wpmjo3e3cym9sl23/x1_-Stories-kadr-2.png",
+        button: undefined,
+      },
+
+      {
+        id: 3,
+        title: "Как устроена схема",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/2e2/jnf434w5s838drzh2vt84relnmz0occr/x1_-Stories-kadr-3.png",
+        description:
+          "Пирамида маскируется под инвестиционный проект с высокой доходностью. Прибыль формируется за счет взносов новых вкладчиков, а не реальных инвестиций. ",
+        button: undefined,
+      },
+      {
+        id: 4,
+        title: "Какие признаки должны насторожить",
+        iconBg:
+          "https://cdn.gpb.ru/upload/files/iblock/e04/5ykpwkijqo8tazzwi1crfzk9nev5igdy/x1_-Stories-kadr-4.png",
+        description:
+          "Используют в рекламе слово «вклад», просят сделать вступительный взнос, не подписывают договорную документацию, не публикуют контактные данные.",
+        button: undefined,
       },
     ],
   },

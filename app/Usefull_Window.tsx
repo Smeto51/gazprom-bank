@@ -1,29 +1,118 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { USESFUL_SLIDES } from "./Variable";
 import { MiniCrossSVG } from "./ui/SvgElements";
 
-export const UsefullWindow = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = USESFUL_SLIDES[0].slides;
+interface Slide {
+  iconBg: string;
+  title: string;
+  description?: string;
+  linkText?: string;
+}
 
-  const [progressBars, setProgressBars] = useState<number[]>(
-    new Array(slides.length).fill(0)
+interface UseFulIItem {
+  id: number;
+  iconImg: string;
+  iconText: string;
+  slides: Slide[];
+}
+
+interface UsefullWindowProps {
+  onClose?: () => void;
+}
+
+export const UsefullWindow = ({ onClose = () => {} }: UsefullWindowProps) => {
+  const [activeSliderIndex, setActiveSliderIndex] = useState(0);
+  const [currentSlides, setCurrentSlides] = useState<number[]>(
+    USESFUL_SLIDES.map(() => 0) // Инициализируем все нулями
+  );
+  const [progressBars, setProgressBars] = useState<number[][]>(
+    USESFUL_SLIDES.map(() => new Array(USESFUL_SLIDES[0].slides.length).fill(0))
   );
   const [isPaused, setIsPaused] = useState(false);
+  const [shouldClose, setShouldClose] = useState(false);
 
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-    setProgressBars(new Array(slides.length).fill(0));
-  }, [slides.length]);
+  const sliderContainerRef = useRef<HTMLDivElement>(null);
+  const sliderRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const backSlide = useCallback(() => {
-    if (currentSlide == 0) return;
-    setCurrentSlide((prev) => (prev - 1) % slides.length);
-    setProgressBars(new Array(slides.length).fill(0));
-  }, [currentSlide, slides.length]);
+  const scrollToActiveSlider = useCallback((index: number) => {
+    if (sliderRefs.current[index] && sliderContainerRef.current) {
+      const slider = sliderRefs.current[index];
+      const container = sliderContainerRef.current;
+      if (slider) {
+        const sliderLeft = slider.offsetLeft;
+        const sliderWidth = slider.offsetWidth;
+        const containerWidth = container.offsetWidth;
+        container.scrollTo({
+          left: sliderLeft - (containerWidth - sliderWidth) / 2,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, []);
+
+  const nextSlide = useCallback((sliderIndex: number) => {
+    setCurrentSlides((prev) => {
+      const newSlides = [...prev];
+      const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
+      const currentSlide = newSlides[sliderIndex];
+
+      if (currentSlide === slidesCount - 1) {
+        if (sliderIndex === USESFUL_SLIDES.length - 1) {
+          setShouldClose(true);
+          return prev;
+        }
+
+        setActiveSliderIndex(sliderIndex + 1);
+        newSlides[sliderIndex + 1] = 0;
+      } else {
+        newSlides[sliderIndex] = (newSlides[sliderIndex] + 1) % slidesCount;
+      }
+
+      return newSlides;
+    });
+
+    setProgressBars((prev) => {
+      const newProgress = [...prev];
+      newProgress[sliderIndex] = new Array(
+        USESFUL_SLIDES[sliderIndex].slides.length
+      ).fill(0);
+      return newProgress;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (shouldClose) {
+      onClose();
+      setShouldClose(false);
+    }
+  }, [shouldClose, onClose]);
+
+  const backSlide = useCallback((sliderIndex: number) => {
+    setCurrentSlides((prev) => {
+      const newSlides = [...prev];
+      const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
+      if (newSlides[sliderIndex] === 0) {
+        if (sliderIndex === 0) return prev;
+        setActiveSliderIndex(sliderIndex - 1);
+        newSlides[sliderIndex - 1] =
+          USESFUL_SLIDES[sliderIndex - 1].slides.length - 1;
+      } else {
+        newSlides[sliderIndex] = (newSlides[sliderIndex] - 1) % slidesCount;
+      }
+      return newSlides;
+    });
+
+    setProgressBars((prev) => {
+      const newProgress = [...prev];
+      newProgress[sliderIndex] = new Array(
+        USESFUL_SLIDES[sliderIndex].slides.length
+      ).fill(0);
+      return newProgress;
+    });
+  }, []);
 
   useEffect(() => {
     if (isPaused) return;
@@ -31,13 +120,16 @@ export const UsefullWindow = () => {
     const interval = setInterval(() => {
       setProgressBars((prev) => {
         const newProgress = [...prev];
-        newProgress[currentSlide] = Math.min(
-          newProgress[currentSlide] + 100 / (70000 / 100),
+        const activeSlider = activeSliderIndex;
+        const currentSlideIndex = currentSlides[activeSlider];
+        newProgress[activeSlider] = [...newProgress[activeSlider]];
+        newProgress[activeSlider][currentSlideIndex] = Math.min(
+          newProgress[activeSlider][currentSlideIndex] + 100 / (7000 / 100),
           100
         );
 
-        if (newProgress[currentSlide] >= 100) {
-          setTimeout(nextSlide, 0);
+        if (newProgress[activeSlider][currentSlideIndex] >= 100) {
+          setTimeout(() => nextSlide(activeSlider), 0);
         }
 
         return newProgress;
@@ -45,26 +137,56 @@ export const UsefullWindow = () => {
     }, 100);
 
     return () => clearInterval(interval);
-  }, [currentSlide, isPaused, nextSlide]);
+  }, [activeSliderIndex, currentSlides, isPaused, nextSlide]);
 
+  useEffect(() => {
+    scrollToActiveSlider(activeSliderIndex);
+  }, [activeSliderIndex, scrollToActiveSlider]);
+
+  const handleSliderClick = (index: number) => {
+    setActiveSliderIndex(index);
+  };
   return (
     <div className="bg-[#1e222e] fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center min-w-[320px] z-100 p-0 ">
-      <div className="w-full flex items-center ustify-center h-full min-[768]:rounded-2xl">
-        <div className="flex gap-4 overflow-x-auto w-full px-4 py-8">
-          {USESFUL_SLIDES.map((item) => {
-            const currentData = item.slides[currentSlide];
+      <div className="w-full h-full flex items-center justify-center min-[768]:rounded-2xl">
+        <div
+          ref={sliderContainerRef}
+          className="flex gap-4 overflow-x-auto w-full h-full min-[768]:px-4 min-[768]:py-8 scrollbar-hide "
+        >
+          {USESFUL_SLIDES.map((item: UseFulIItem, sliderIndex: number) => {
+            const currentData = item.slides[currentSlides[sliderIndex]];
             return (
               <div
                 key={item.id}
-                className="relative min-[768]:min-w-[360px] min-[768]:min-h-[640px] h-[80vh] w-[44.9438202247vh] 
-                block min-[768]:rounded-2xl overflow-hidden flex-shrink-0"
+                ref={(e) => {
+                  sliderRefs.current[sliderIndex] = e;
+                }}
+                className={`relative w-screen h-full flex-shrink-0 
+                  min-[768px]:min-w-[360px] 
+                  min-[768px]:min-h-[640px] 
+                  min-[768px]:w-[44.9438202247vh] 
+                  min-[768px]:rounded-2xl overflow-hidden`}
+                onClick={() => handleSliderClick(sliderIndex)}
               >
                 <div className="flex h-full absolute w-full">
-                  <div className="w-[50%] z-10" onClick={backSlide}></div>
-                  <div className="w-[50%] z-10" onClick={nextSlide}></div>
+                  <div
+                    className="w-[50%] z-10"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      backSlide(sliderIndex);
+                    }}
+                  ></div>
+                  <div
+                    className="w-[50%] z-10"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      nextSlide(sliderIndex);
+                    }}
+                  ></div>
                 </div>
+
                 <div className="absolute rounded-2xl w-full pt-4 pr-5 pb-4 pl-5 flex ">
-                  {slides.map((_, index) => (
+                  {item.slides.map((_, index) => (
                     <div
                       key={index}
                       className="w-[20%] rounded-[1px] h-1 m-1 bg-[hsla(0,0%,100%,0.08)] "
@@ -73,17 +195,17 @@ export const UsefullWindow = () => {
                     >
                       <div
                         className={`h-full rounded-[2px] transition-all duration-100 ${
-                          index === currentSlide
+                          index === currentSlides[sliderIndex]
                             ? "bg-white"
-                            : index < currentSlide
+                            : index < currentSlides[sliderIndex]
                             ? "bg-white"
                             : ""
                         }`}
                         style={{
                           width: `${
-                            index === currentSlide
-                              ? progressBars[index]
-                              : index < currentSlide
+                            index === currentSlides[sliderIndex]
+                              ? progressBars[sliderIndex][index]
+                              : index < currentSlides[sliderIndex]
                               ? 100
                               : 0
                           }%`,
@@ -93,7 +215,11 @@ export const UsefullWindow = () => {
                   ))}
                 </div>
                 <picture className="">
-                  <img className="w-full" src={currentData.iconBg} alt="" />
+                  <img
+                    className="w-full max-[767px]:h-full max-[767px]:object-cover"
+                    src={currentData.iconBg}
+                    alt=""
+                  />
                 </picture>
                 <div className="flex absolute items-center top-11 pl-6 gap-3 text-white font-medium">
                   <div className="w-10 h-10 rounded-[50%]">
@@ -108,10 +234,13 @@ export const UsefullWindow = () => {
                   <p>{item.iconText}</p>
                 </div>
                 <div className="absolute pt-11 pr-6 pb-8 pl-6 bottom-0 left-0 right-0 text-white">
-                  <h4 className="font-semibold text-[20px] leading-10">
+                  <h4 className="font-semibold text-[20px] leading-6 ">
                     {currentData.title}
                   </h4>
-                  <p className="text-[18px]">{currentData.description}</p>
+
+                  <p className="text-[16px] leading-5 mt-2">
+                    {currentData.description}
+                  </p>
                   {currentData.linkText && (
                     <div className="flex mt-6 items-center justify-center relative z-1">
                       <Link
@@ -125,22 +254,12 @@ export const UsefullWindow = () => {
                       </Link>
                     </div>
                   )}
-                  {currentData.button?.map((button) => (
-                    <button
-                      key={button.id}
-                      className="flex items-center justify-center relative z-10 w-full mt-2"
-                      //                     onClick={}
-                    >
-                      {" "}
-                      <div className="h-12 w-full flex items-center justify-center relative">
-                        <div className="absolute bg-[#ffffff0f] top-0 left-0 w-full h-full -z-1 rounded-md "></div>
-                        <span className="text-[18px]">{button.text}</span>
-                      </div>
-                    </button>
-                  ))}
                 </div>
                 <div className="absolute flex top-10 right-4 gap-8">
-                  <button className="w-6 h-6 min-w-6 bg-[#2b61ec] rounded-[50%]">
+                  <button
+                    className="w-6 h-6 min-w-6 bg-[#2b61ec] rounded-[50%] z-100"
+                    onClick={onClose}
+                  >
                     <MiniCrossSVG />
                   </button>
                 </div>

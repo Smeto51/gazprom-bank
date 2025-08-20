@@ -37,6 +37,7 @@ export const UsefullWindow = ({ onClose = () => {} }: UsefullWindowProps) => {
   const sliderContainerRef = useRef<HTMLDivElement>(null);
   const sliderRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  console.log(currentSlides);
   const scrollToActiveSlider = useCallback((index: number) => {
     if (sliderRefs.current[index] && sliderContainerRef.current) {
       const slider = sliderRefs.current[index];
@@ -124,7 +125,7 @@ export const UsefullWindow = ({ onClose = () => {} }: UsefullWindowProps) => {
         const currentSlideIndex = currentSlides[activeSlider];
         newProgress[activeSlider] = [...newProgress[activeSlider]];
         newProgress[activeSlider][currentSlideIndex] = Math.min(
-          newProgress[activeSlider][currentSlideIndex] + 100 / (7000 / 100),
+          newProgress[activeSlider][currentSlideIndex] + 100 / (70000 / 100),
           100
         );
 
@@ -185,11 +186,11 @@ export const UsefullWindow = ({ onClose = () => {} }: UsefullWindowProps) => {
                   ></div>
                 </div>
 
-                <div className="absolute rounded-2xl w-full pt-4 pr-5 pb-4 pl-5 flex ">
+                <div className="absolute rounded-2xl w-full pt-4 pr-5 pb-4 pl-5 flex  justify-between gap-1">
                   {item.slides.map((_, index) => (
                     <div
                       key={index}
-                      className="w-[20%] rounded-[1px] h-1 m-1 bg-[hsla(0,0%,100%,0.08)] "
+                      className="flex-1 rounded-[1px] h-1 m-1 bg-[hsla(0,0%,100%,0.08)] "
                       onMouseEnter={() => setIsPaused(true)}
                       onMouseLeave={() => setIsPaused(false)}
                     >
@@ -257,7 +258,7 @@ export const UsefullWindow = ({ onClose = () => {} }: UsefullWindowProps) => {
                 </div>
                 <div className="absolute flex top-10 right-4 gap-8">
                   <button
-                    className="w-6 h-6 min-w-6 bg-[#2b61ec] rounded-[50%] z-100"
+                    className="w-6 h-6 min-w-6 bg-white/10 rounded-[50%] z-100"
                     onClick={onClose}
                   >
                     <MiniCrossSVG />

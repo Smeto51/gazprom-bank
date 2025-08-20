@@ -19,9 +19,9 @@ export const SectionUsefull = () => {
 
   return (
     <>
-      <section className="ml-auto mr-auto w-full pl-4">
+      <section className="ml-auto mr-auto w-full">
         {" "}
-        <div className="flex gap-3 overflow-x-auto overflow-y-hidden scrollbar-hide w-full">
+        <div className="flex gap-3 overflow-x-auto overflow-y-hidden scrollbar-hide w-full pl-4 pr-4">
           {USESFUL_TIPS.map((item) => (
             <div
               key={item.id}

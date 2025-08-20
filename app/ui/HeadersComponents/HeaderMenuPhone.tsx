@@ -137,7 +137,7 @@ export const HeaderMenuPhone = () => {
       document.removeEventListener("touchend", handleEnd);
     };
   }, [isDragging, handleMouseMove, handleEnd, handleTouchMove]);
-  console.log("isCitiesOpen", isCitiesOpen);
+
   return (
     <>
       <button

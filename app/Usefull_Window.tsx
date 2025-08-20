@@ -21,10 +21,18 @@ interface UseFulIItem {
 
 interface UsefullWindowProps {
   onClose?: () => void;
+  startAtiveSliderIndex?: number;
+  onSliderCompleted?: (sliderIndex: number) => void;
 }
 
-export const UsefullWindow = ({ onClose = () => {} }: UsefullWindowProps) => {
-  const [activeSliderIndex, setActiveSliderIndex] = useState(0);
+export const UsefullWindow = ({
+  onClose = () => {},
+  startAtiveSliderIndex = 0,
+  onSliderCompleted = () => {},
+}: UsefullWindowProps) => {
+  const [activeSliderIndex, setActiveSliderIndex] = useState(
+    startAtiveSliderIndex
+  );
   const [currentSlides, setCurrentSlides] = useState<number[]>(
     USESFUL_SLIDES.map(() => 0) // Инициализируем все нулями
   );
@@ -37,7 +45,6 @@ export const UsefullWindow = ({ onClose = () => {} }: UsefullWindowProps) => {
   const sliderContainerRef = useRef<HTMLDivElement>(null);
   const sliderRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  console.log(currentSlides);
   const scrollToActiveSlider = useCallback((index: number) => {
     if (sliderRefs.current[index] && sliderContainerRef.current) {
       const slider = sliderRefs.current[index];
@@ -54,35 +61,40 @@ export const UsefullWindow = ({ onClose = () => {} }: UsefullWindowProps) => {
     }
   }, []);
 
-  const nextSlide = useCallback((sliderIndex: number) => {
-    setCurrentSlides((prev) => {
-      const newSlides = [...prev];
-      const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
-      const currentSlide = newSlides[sliderIndex];
+  const nextSlide = useCallback(
+    (sliderIndex: number) => {
+      setCurrentSlides((prev) => {
+        const newSlides = [...prev];
+        const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
+        const currentSlide = newSlides[sliderIndex];
 
-      if (currentSlide === slidesCount - 1) {
-        if (sliderIndex === USESFUL_SLIDES.length - 1) {
-          setShouldClose(true);
-          return prev;
+        const isLastSlide = currentSlide === slidesCount - 1;
+        if (isLastSlide) {
+          onSliderCompleted(sliderIndex);
+
+          if (sliderIndex === USESFUL_SLIDES.length - 1) {
+            setShouldClose(true);
+            return prev;
+          }
+
+          setActiveSliderIndex(sliderIndex + 1);
+          newSlides[sliderIndex + 1] = 0;
+        } else {
+          newSlides[sliderIndex] = (newSlides[sliderIndex] + 1) % slidesCount;
         }
+        return newSlides;
+      });
 
-        setActiveSliderIndex(sliderIndex + 1);
-        newSlides[sliderIndex + 1] = 0;
-      } else {
-        newSlides[sliderIndex] = (newSlides[sliderIndex] + 1) % slidesCount;
-      }
-
-      return newSlides;
-    });
-
-    setProgressBars((prev) => {
-      const newProgress = [...prev];
-      newProgress[sliderIndex] = new Array(
-        USESFUL_SLIDES[sliderIndex].slides.length
-      ).fill(0);
-      return newProgress;
-    });
-  }, []);
+      setProgressBars((prev) => {
+        const newProgress = [...prev];
+        newProgress[sliderIndex] = new Array(
+          USESFUL_SLIDES[sliderIndex].slides.length
+        ).fill(0);
+        return newProgress;
+      });
+    },
+    [onSliderCompleted]
+  );
 
   useEffect(() => {
     if (shouldClose) {
@@ -140,6 +152,11 @@ export const UsefullWindow = ({ onClose = () => {} }: UsefullWindowProps) => {
     return () => clearInterval(interval);
   }, [activeSliderIndex, currentSlides, isPaused, nextSlide]);
 
+  // === Только на случай изменения родителя ===
+  useEffect(() => {
+    setActiveSliderIndex(startAtiveSliderIndex);
+  }, [startAtiveSliderIndex]);
+
   useEffect(() => {
     scrollToActiveSlider(activeSliderIndex);
   }, [activeSliderIndex, scrollToActiveSlider]);
@@ -152,7 +169,7 @@ export const UsefullWindow = ({ onClose = () => {} }: UsefullWindowProps) => {
       <div className="w-full h-full flex items-center justify-center min-[768]:rounded-2xl">
         <div
           ref={sliderContainerRef}
-          className="flex gap-4 overflow-x-auto w-full h-full min-[768]:px-4 min-[768]:py-8 scrollbar-hide "
+          className="flex overflow-x-auto w-full h-full min-[768]:px-4 min-[768]:py-8 scrollbar-hide "
         >
           {USESFUL_SLIDES.map((item: UseFulIItem, sliderIndex: number) => {
             const currentData = item.slides[currentSlides[sliderIndex]];

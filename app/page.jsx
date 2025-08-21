@@ -6,7 +6,7 @@ import { ArrowSVG } from "./ui/SvgElements";
 import { SectionUsefull } from "./sectionUsefullWindow";
 
 export default function Home() {
-  console.log("Загруженно Home");
+  //console.log("Загруженно Home");
   return (
     <div>
       <div className="max-[1024]:max-w-3xl max-[1024]:ml-auto max-[1024]:mr-auto min-[1024]:hidden">

@@ -2,7 +2,7 @@
 
 import { USESFUL_TIPS } from "./constants";
 import { UsefullWindow } from "./UsefullWindow";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export const SectionUsefull = () => {
   const [isUsefullWindowOpen, setIsUsefullWindowOpen] = useState(false);
@@ -11,6 +11,21 @@ export const SectionUsefull = () => {
   const [completed, setCompleted] = useState<boolean[]>(() =>
     new Array(USESFUL_TIPS.length).fill(false)
   );
+
+  const tipsWithIndex = useMemo(
+    () => USESFUL_TIPS.map((item, index) => ({ ...item, _index: index })),
+    []
+  );
+
+  const sortedTips = useMemo(() => {
+    const arr = tipsWithIndex.slice();
+    arr.sort((a, b) => {
+      const done = Number(completed[a._index]) - Number(completed[b._index]);
+      return done !== 0 ? done : a._index - b._index;
+    });
+
+    return arr;
+  }, [tipsWithIndex, completed]);
 
   const handleTipClick = (index: number) => {
     setSelectedTipIndex(index);
@@ -59,15 +74,19 @@ export const SectionUsefull = () => {
       <section className="ml-auto mr-auto w-full">
         {" "}
         <div className="flex gap-3 overflow-x-auto overflow-y-hidden scrollbar-hide w-full pl-4 pr-4">
-          {USESFUL_TIPS.map((item, index) => (
+          {sortedTips.map((item) => (
             <div
               key={item.id}
               className="relative flex-shrink-0 flex items-center justify-center min-w-24 w-24 cursor-pointer"
-              onClick={() => handleTipClick(index)}
+              onClick={() => handleTipClick(item._index)}
             >
               <div
                 className={`flex w-[96px] h-[108px] items-center justify-center border-1 rounded-2xl
-               ${completed[index] ? "border-gray-500" : "border-orange-400"}`}
+               ${
+                 completed[item._index]
+                   ? "border-gray-500"
+                   : "border-orange-400"
+               }`}
               >
                 <picture>
                   <source type="image/webp" srcSet={item.srcsetWebp} />

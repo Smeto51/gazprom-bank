@@ -63,31 +63,19 @@ export const UsefullWindow = ({
     (sliderIndex: number) => {
       const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
       const wasLast = currentSlides[sliderIndex] === slidesCount - 1;
-      console.log("------");
-      console.log("slidesCount = " + slidesCount);
-      console.log(
-        "currentSlides[" + sliderIndex + "] = " + currentSlides[sliderIndex]
-      );
-
-      console.log("wasLast = " + wasLast);
 
       setCurrentSlides((prev) => {
         const newSlides = [...prev];
-        console.log("newSlides = " + newSlides);
 
         if (wasLast) {
           if (sliderIndex === USESFUL_SLIDES.length - 1) {
             setShouldClose(true);
-            console.log("false prev = " + prev);
             return prev;
           }
           setActiveSliderIndex(sliderIndex + 1);
           newSlides[sliderIndex + 1] = 0;
         } else {
           newSlides[sliderIndex] = (newSlides[sliderIndex] + 1) % slidesCount;
-          console.log(
-            "newSlides[" + sliderIndex + "] = " + newSlides[sliderIndex]
-          );
         }
 
         return newSlides;

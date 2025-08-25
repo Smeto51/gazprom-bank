@@ -3,7 +3,7 @@ import Link from "next/link";
 import { FINANCIAL_PRODUCTS_ITEMS } from "./Variable";
 import { ArrowSVG } from "./ui/SvgElements";
 
-import { SectionUsefull } from "./sectionUsefullWindow";
+import { SectionUsefull } from "./components/UsefullWindow/UsefullWindowSection";
 
 export default function Home() {
   //console.log("Загруженно Home");

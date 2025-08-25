@@ -2,22 +2,10 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { USESFUL_SLIDES } from "./Variable";
-import { MiniCrossSVG } from "./ui/SvgElements";
 
-interface Slide {
-  iconBg: string;
-  title: string;
-  description?: string;
-  linkText?: string;
-}
-
-interface UseFulIItem {
-  id: number;
-  iconImg: string;
-  iconText: string;
-  slides: Slide[];
-}
+import { MiniCrossSVG } from "../../ui/SvgElements";
+import { UseFulIItem } from "./type";
+import { USESFUL_SLIDES } from "./constants";
 
 interface UsefullWindowProps {
   onClose?: () => void;
@@ -45,19 +33,20 @@ export const UsefullWindow = ({
   const sliderContainerRef = useRef<HTMLDivElement>(null);
   const sliderRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const scrollToActiveSlider = useCallback((index: number) => {
+  const firstPosition = useRef(false);
+
+  const scrollToActiveSlider = useCallback((index: number, smooth = true) => {
     if (sliderRefs.current[index] && sliderContainerRef.current) {
       const slider = sliderRefs.current[index];
       const container = sliderContainerRef.current;
-      if (slider) {
-        const sliderLeft = slider.offsetLeft;
-        const sliderWidth = slider.offsetWidth;
-        const containerWidth = container.offsetWidth;
-        container.scrollTo({
-          left: sliderLeft - (containerWidth - sliderWidth) / 2,
-          behavior: "smooth",
-        });
-      }
+      const sliderLeft = slider.offsetLeft;
+      const sliderWidth = slider.offsetWidth;
+      const containerWidth = container.offsetWidth;
+
+      container.scrollTo({
+        left: sliderLeft - (containerWidth - sliderWidth) / 2,
+        behavior: smooth ? "smooth" : "auto",
+      });
     }
   }, []);
 
@@ -159,11 +148,18 @@ export const UsefullWindow = ({
 
   useEffect(() => {
     scrollToActiveSlider(activeSliderIndex);
+    if (!firstPosition.current) {
+      scrollToActiveSlider(activeSliderIndex, false);
+      firstPosition.current = true;
+    } else {
+      scrollToActiveSlider(activeSliderIndex, true);
+    }
   }, [activeSliderIndex, scrollToActiveSlider]);
 
   const handleSliderClick = (index: number) => {
     setActiveSliderIndex(index);
   };
+
   return (
     <div className="bg-[#1e222e] fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center min-w-[320px] z-100 p-0 ">
       <div className="w-full h-full flex items-center justify-center min-[768]:rounded-2xl">

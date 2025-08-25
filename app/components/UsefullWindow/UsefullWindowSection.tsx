@@ -1,6 +1,7 @@
 "use client";
-import { USESFUL_TIPS } from "./Variable";
-import { UsefullWindow } from "./Usefull_Window";
+
+import { USESFUL_TIPS } from "./constants";
+import { UsefullWindow } from "./UsefullWindow";
 import { useEffect, useState } from "react";
 
 export const SectionUsefull = () => {
@@ -32,12 +33,8 @@ export const SectionUsefull = () => {
   useEffect(() => {
     try {
       const raw = localStorage.getItem("useful_completed");
-      console.log("raw = " + raw);
       if (raw) {
         const parsed = JSON.parse(raw);
-        console.log("parsed = " + parsed);
-        console.table(parsed);
-        console.log("parsed.length = " + parsed.length);
         if (Array.isArray(parsed) && parsed.length === USESFUL_TIPS.length) {
           setCompleted(parsed);
         } else {

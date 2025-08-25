@@ -7,7 +7,7 @@ export function useImagePreload(urls = []) {
 
   useEffect(() => {
     if (!Array.isArray(urls) || urls.length === 0) return;
-    const unique = Array.from(new Set()).filter(Boolean);
+    const unique = Array.from(new Set(urls)).filter(Boolean);
 
     unique.forEach((url) => {
       //has была ли уже ранее загрузка

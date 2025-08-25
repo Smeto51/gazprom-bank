@@ -50,27 +50,46 @@ export const UsefullWindow = ({
     }
   }, []);
 
+  const [completedIndex, setCompletedIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (completedIndex != null) {
+      onSliderCompleted(completedIndex);
+      setCompletedIndex(null);
+    }
+  }, [onSliderCompleted, completedIndex]);
+
   const nextSlide = useCallback(
     (sliderIndex: number) => {
+      const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
+      const wasLast = currentSlides[sliderIndex] === slidesCount - 1;
+      console.log("------");
+      console.log("slidesCount = " + slidesCount);
+      console.log(
+        "currentSlides[" + sliderIndex + "] = " + currentSlides[sliderIndex]
+      );
+
+      console.log("wasLast = " + wasLast);
+
       setCurrentSlides((prev) => {
         const newSlides = [...prev];
-        const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
-        const currentSlide = newSlides[sliderIndex];
+        console.log("newSlides = " + newSlides);
 
-        const isLastSlide = currentSlide === slidesCount - 1;
-        if (isLastSlide) {
-          onSliderCompleted(sliderIndex);
-
+        if (wasLast) {
           if (sliderIndex === USESFUL_SLIDES.length - 1) {
             setShouldClose(true);
+            console.log("false prev = " + prev);
             return prev;
           }
-
           setActiveSliderIndex(sliderIndex + 1);
           newSlides[sliderIndex + 1] = 0;
         } else {
           newSlides[sliderIndex] = (newSlides[sliderIndex] + 1) % slidesCount;
+          console.log(
+            "newSlides[" + sliderIndex + "] = " + newSlides[sliderIndex]
+          );
         }
+
         return newSlides;
       });
 
@@ -81,8 +100,12 @@ export const UsefullWindow = ({
         ).fill(0);
         return newProgress;
       });
+
+      if (wasLast) {
+        setCompletedIndex(sliderIndex);
+      }
     },
-    [onSliderCompleted]
+    [currentSlides]
   );
 
   useEffect(() => {

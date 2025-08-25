@@ -1,12 +1,12 @@
 "use client";
 
-import { USESFUL_TIPS } from "./constants";
+import { USESFUL_SLIDER, USESFUL_TIPS } from "./constants";
 import { UsefullWindow } from "./UsefullWindow";
 import { useEffect, useMemo, useState } from "react";
 
 export const SectionUsefull = () => {
   const [isUsefullWindowOpen, setIsUsefullWindowOpen] = useState(false);
-  const [selectedTipIndex, setSelectedTipIndex] = useState<number | null>(null);
+  const [selectedPos, setSelectedPos] = useState<number | null>(null);
 
   const [completed, setCompleted] = useState<boolean[]>(() =>
     new Array(USESFUL_TIPS.length).fill(false)
@@ -27,8 +27,18 @@ export const SectionUsefull = () => {
     return arr;
   }, [tipsWithIndex, completed]);
 
+  const sortedSliders = useMemo(() => {
+    const arr = USESFUL_SLIDER.map((_, index) => ({ _index: index }));
+    arr.sort((a, b) => {
+      const done = Number(completed[a._index]) - Number(completed[b._index]);
+      return done !== 0 ? done : a._index - b._index;
+    });
+    return arr.map((x) => x._index);
+  }, [completed]);
+
   const handleTipClick = (index: number) => {
-    setSelectedTipIndex(index);
+    const pos = sortedSliders.indexOf(index);
+    setSelectedPos(pos >= 0 ? pos : 0);
     setIsUsefullWindowOpen(true);
   };
 
@@ -109,8 +119,10 @@ export const SectionUsefull = () => {
       {isUsefullWindowOpen && (
         <UsefullWindow
           onClose={handleCloseUsefullWindow}
-          startAtiveSliderIndex={selectedTipIndex ?? undefined}
+          startAtiveSliderIndex={selectedPos ?? 0}
+          sliders={sortedSliders}
           onSliderCompleted={handleSliderCompleted}
+          completed={completed}
         />
       )}
     </>

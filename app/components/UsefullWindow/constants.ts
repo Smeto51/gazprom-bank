@@ -60,7 +60,7 @@ export const USESFUL_TIPS = [
   },
 ];
 
-export const USESFUL_SLIDES = [
+export const USESFUL_SLIDER = [
   {
     id: 3,
     iconText: "Финансовая пирамида",

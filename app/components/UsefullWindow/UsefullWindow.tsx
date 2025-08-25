@@ -1,31 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { MiniCrossSVG } from "../../ui/SvgElements";
 import { UseFulIItem } from "./type";
-import { USESFUL_SLIDES } from "./constants";
+import { USESFUL_SLIDER } from "./constants";
 
 interface UsefullWindowProps {
   onClose?: () => void;
   startAtiveSliderIndex?: number;
   onSliderCompleted?: (sliderIndex: number) => void;
+  completed?: boolean[];
+  sliders?: number[];
 }
 
 export const UsefullWindow = ({
   onClose = () => {},
   startAtiveSliderIndex = 0,
   onSliderCompleted = () => {},
+  completed = [],
+  sliders,
 }: UsefullWindowProps) => {
+  const origSliders = useMemo(
+    () => USESFUL_SLIDER.map((_, index) => index),
+    []
+  );
+
+  const viewSliders = sliders && sliders.length ? sliders : origSliders;
+
   const [activeSliderIndex, setActiveSliderIndex] = useState(
     startAtiveSliderIndex
   );
   const [currentSlides, setCurrentSlides] = useState<number[]>(
-    USESFUL_SLIDES.map(() => 0) // Инициализируем все нулями
+    USESFUL_SLIDER.map(() => 0) // Инициализируем все нулями
   );
   const [progressBars, setProgressBars] = useState<number[][]>(
-    USESFUL_SLIDES.map(() => new Array(USESFUL_SLIDES[0].slides.length).fill(0))
+    USESFUL_SLIDER.map(() => new Array(USESFUL_SLIDER[0].slides.length).fill(0))
   );
   const [isPaused, setIsPaused] = useState(false);
   const [shouldClose, setShouldClose] = useState(false);
@@ -34,23 +45,39 @@ export const UsefullWindow = ({
   const sliderRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const firstPosition = useRef(false);
-
-  const scrollToActiveSlider = useCallback((index: number, smooth = true) => {
-    if (sliderRefs.current[index] && sliderContainerRef.current) {
-      const slider = sliderRefs.current[index];
-      const container = sliderContainerRef.current;
-      const sliderLeft = slider.offsetLeft;
-      const sliderWidth = slider.offsetWidth;
-      const containerWidth = container.offsetWidth;
-
-      container.scrollTo({
-        left: sliderLeft - (containerWidth - sliderWidth) / 2,
-        behavior: smooth ? "smooth" : "auto",
-      });
-    }
-  }, []);
-
   const [completedIndex, setCompletedIndex] = useState<number | null>(null);
+
+  const findNextSlider = useCallback(
+    (fromOrigIndex: number) => {
+      const startPos = viewSliders.indexOf(fromOrigIndex);
+      for (let pos = startPos + 1; pos < viewSliders.length; pos++) {
+        const origIdx = viewSliders[pos];
+        if (!completed[origIdx]) return origIdx; // возвращаем ОРИГИНАЛЬНЫЙ индекс
+      }
+      return -1;
+    },
+    [completed, viewSliders]
+  );
+
+  const scrollToActiveSlider = useCallback(
+    (index: number, smooth = true) => {
+      const pos = viewSliders.indexOf(index);
+      if (pos === -1) return;
+      if (sliderRefs.current[index] && sliderContainerRef.current) {
+        const slider = sliderRefs.current[index];
+        const container = sliderContainerRef.current;
+        const sliderLeft = slider.offsetLeft;
+        const sliderWidth = slider.offsetWidth;
+        const containerWidth = container.offsetWidth;
+
+        container.scrollTo({
+          left: sliderLeft - (containerWidth - sliderWidth) / 2,
+          behavior: smooth ? "smooth" : "auto",
+        });
+      }
+    },
+    [viewSliders]
+  );
 
   useEffect(() => {
     if (completedIndex != null) {
@@ -61,19 +88,21 @@ export const UsefullWindow = ({
 
   const nextSlide = useCallback(
     (sliderIndex: number) => {
-      const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
+      const slidesCount = USESFUL_SLIDER[sliderIndex].slides.length;
       const wasLast = currentSlides[sliderIndex] === slidesCount - 1;
 
       setCurrentSlides((prev) => {
         const newSlides = [...prev];
 
         if (wasLast) {
-          if (sliderIndex === USESFUL_SLIDES.length - 1) {
+          const nextIndex = findNextSlider(sliderIndex);
+          if (nextIndex === -1) {
             setShouldClose(true);
             return prev;
           }
-          setActiveSliderIndex(sliderIndex + 1);
-          newSlides[sliderIndex + 1] = 0;
+
+          setActiveSliderIndex(nextIndex);
+          newSlides[nextIndex] = 0;
         } else {
           newSlides[sliderIndex] = (newSlides[sliderIndex] + 1) % slidesCount;
         }
@@ -83,9 +112,7 @@ export const UsefullWindow = ({
 
       setProgressBars((prev) => {
         const newProgress = [...prev];
-        newProgress[sliderIndex] = new Array(
-          USESFUL_SLIDES[sliderIndex].slides.length
-        ).fill(0);
+        newProgress[sliderIndex] = new Array(slidesCount).fill(0);
         return newProgress;
       });
 
@@ -93,7 +120,7 @@ export const UsefullWindow = ({
         setCompletedIndex(sliderIndex);
       }
     },
-    [currentSlides]
+    [currentSlides, findNextSlider]
   );
 
   useEffect(() => {
@@ -103,29 +130,37 @@ export const UsefullWindow = ({
     }
   }, [shouldClose, onClose]);
 
-  const backSlide = useCallback((sliderIndex: number) => {
-    setCurrentSlides((prev) => {
-      const newSlides = [...prev];
-      const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
-      if (newSlides[sliderIndex] === 0) {
-        if (sliderIndex === 0) return prev;
-        setActiveSliderIndex(sliderIndex - 1);
-        newSlides[sliderIndex - 1] =
-          USESFUL_SLIDES[sliderIndex - 1].slides.length - 1;
-      } else {
-        newSlides[sliderIndex] = (newSlides[sliderIndex] - 1) % slidesCount;
-      }
-      return newSlides;
-    });
+  const backSlide = useCallback(
+    (sliderIndex: number) => {
+      // sliderIndex — ОРИГИНАЛЬНЫЙ индекс
+      const pos = viewSliders.indexOf(sliderIndex);
 
-    setProgressBars((prev) => {
-      const newProgress = [...prev];
-      newProgress[sliderIndex] = new Array(
-        USESFUL_SLIDES[sliderIndex].slides.length
-      ).fill(0);
-      return newProgress;
-    });
-  }, []);
+      setCurrentSlides((prev) => {
+        const newSlides = [...prev];
+        const slidesCount = USESFUL_SLIDER[sliderIndex].slides.length;
+
+        if (newSlides[sliderIndex] === 0) {
+          if (pos === 0) return prev;
+          const prevOrig = viewSliders[pos - 1];
+          setActiveSliderIndex(prevOrig);
+          newSlides[prevOrig] = USESFUL_SLIDER[prevOrig].slides.length - 1;
+        } else {
+          newSlides[sliderIndex] =
+            (newSlides[sliderIndex] - 1 + slidesCount) % slidesCount;
+        }
+        return newSlides;
+      });
+
+      setProgressBars((prev) => {
+        const newProgress = [...prev];
+        newProgress[sliderIndex] = new Array(
+          USESFUL_SLIDER[sliderIndex].slides.length
+        ).fill(0);
+        return newProgress;
+      });
+    },
+    [viewSliders]
+  );
 
   useEffect(() => {
     if (isPaused) return;
@@ -178,13 +213,14 @@ export const UsefullWindow = ({
           ref={sliderContainerRef}
           className="flex overflow-x-auto w-full h-full min-[768]:px-4 min-[768]:py-8 scrollbar-hide "
         >
-          {USESFUL_SLIDES.map((item: UseFulIItem, sliderIndex: number) => {
+          {viewSliders.map((sliderIndex, origIndex) => {
+            const item: UseFulIItem = USESFUL_SLIDER[sliderIndex];
             const currentData = item.slides[currentSlides[sliderIndex]];
             return (
               <div
                 key={item.id}
                 ref={(e) => {
-                  sliderRefs.current[sliderIndex] = e;
+                  sliderRefs.current[origIndex] = e;
                 }}
                 className={`relative w-screen h-full flex-shrink-0 
                   min-[768px]:min-w-[360px] 

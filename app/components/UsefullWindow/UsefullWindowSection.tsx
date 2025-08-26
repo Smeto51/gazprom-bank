@@ -3,10 +3,28 @@
 import { USESFUL_SLIDER, USESFUL_TIPS } from "./constants";
 import { UsefullWindow } from "./UsefullWindow";
 import { useEffect, useMemo, useState } from "react";
+import { useImagePreload } from "../../hooks/usePreloadImage";
 
 export const SectionUsefull = () => {
   const [isUsefullWindowOpen, setIsUsefullWindowOpen] = useState(false);
   const [selectedPos, setSelectedPos] = useState<number | null>(null);
+
+  const preloadUrls = useMemo(() => {
+    const tipImgs = USESFUL_TIPS.flatMap((t) => [
+      t.srcImg,
+      t.srcsetWebp,
+      t.srcsetPng,
+    ]);
+
+    const sliderImgs = USESFUL_SLIDER.flatMap((s) => [
+      s.iconImg,
+      ...s.slides.map((sl) => sl.iconBg),
+    ]);
+
+    return [...tipImgs, ...sliderImgs].filter(Boolean);
+  }, []);
+
+  useImagePreload(preloadUrls);
 
   const [completed, setCompleted] = useState<boolean[]>(() =>
     new Array(USESFUL_TIPS.length).fill(false)

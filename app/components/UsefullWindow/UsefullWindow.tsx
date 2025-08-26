@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MiniCrossSVG } from "../../ui/SvgElements";
 import { UseFulIItem } from "./type";
 import { USESFUL_SLIDER } from "./constants";
-
+import { useImagePreload } from "../../hooks/usePreloadImage";
 interface UsefullWindowProps {
   onClose?: () => void;
   startAtiveSliderIndex?: number;
@@ -19,7 +19,6 @@ export const UsefullWindow = ({
   onClose = () => {},
   startAtiveSliderIndex = 0,
   onSliderCompleted = () => {},
-  completed = [],
   sliders,
 }: UsefullWindowProps) => {
   const origSliders = useMemo(
@@ -27,7 +26,10 @@ export const UsefullWindow = ({
     []
   );
 
-  const viewSliders = sliders && sliders.length ? sliders : origSliders;
+  const frozenOrderRef = useRef<number[]>(
+    (sliders && sliders.length ? sliders : origSliders).slice()
+  );
+  const viewSliders = frozenOrderRef.current;
 
   const [activeSliderIndex, setActiveSliderIndex] = useState(
     startAtiveSliderIndex
@@ -47,7 +49,25 @@ export const UsefullWindow = ({
   const firstPosition = useRef(false);
   const [completedIndex, setCompletedIndex] = useState<number | null>(null);
 
-  const findNextSlider = useCallback(
+  const neighborUrls = useMemo(() => {
+    const idx = activeSliderIndex; // ОРИГИНАЛЬНЫЙ индекс слайдера
+    if (idx == null) return [];
+    const slides = USESFUL_SLIDER[idx].slides;
+    const cur = currentSlides[idx] ?? 0;
+    const prev = (cur - 1 + slides.length) % slides.length;
+    const next = (cur + 1) % slides.length;
+
+    return [
+      slides[cur]?.iconBg,
+      slides[prev]?.iconBg,
+      slides[next]?.iconBg,
+      USESFUL_SLIDER[idx]?.iconImg, // иконка автора/канала
+    ].filter(Boolean);
+  }, [activeSliderIndex, currentSlides]);
+
+  useImagePreload(neighborUrls);
+
+  /*const findNextSlider = useCallback(
     (fromOrigIndex: number) => {
       const startPos = viewSliders.indexOf(fromOrigIndex);
       for (let pos = startPos + 1; pos < viewSliders.length; pos++) {
@@ -57,7 +77,7 @@ export const UsefullWindow = ({
       return -1;
     },
     [completed, viewSliders]
-  );
+  );*/
 
   const scrollToActiveSlider = useCallback(
     (origIndex: number, smooth = true) => {
@@ -96,13 +116,19 @@ export const UsefullWindow = ({
         const next = [...prev];
 
         if (wasLast) {
-          const nextOrig = findNextSlider(sliderOrigIndex); // возвращает ОРИГИНАЛЬНЫЙ индекс
-          if (nextOrig === -1) {
-            setShouldClose(true);
+          // двигаемся по позиции в зафиксированном порядке
+          const pos = viewSliders.indexOf(sliderOrigIndex);
+          if (pos === -1) return prev;
+
+          const isLastInOrder = pos === viewSliders.length - 1;
+          if (isLastInOrder) {
+            setShouldClose(true); // закрываем ТОЛЬКО на самом последнем
             return prev;
           }
+
+          const nextOrig = viewSliders[pos + 1]; // следующий ОРИГИНАЛЬНЫЙ индекс
           setActiveSliderIndex(nextOrig);
-          next[nextOrig] = 0;
+          next[nextOrig] = 0; // начинаем с 0-го слайда
         } else {
           next[sliderOrigIndex] = (next[sliderOrigIndex] + 1) % slidesCount;
         }
@@ -115,9 +141,9 @@ export const UsefullWindow = ({
         return copy;
       });
 
-      if (wasLast) setCompletedIndex(sliderOrigIndex);
+      if (wasLast) setCompletedIndex(sliderOrigIndex); // отметка «завершён»
     },
-    [currentSlides, findNextSlider]
+    [currentSlides, viewSliders]
   );
 
   useEffect(() => {

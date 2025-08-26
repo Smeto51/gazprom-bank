@@ -35,8 +35,8 @@ export const UsefullWindow = ({
   const [currentSlides, setCurrentSlides] = useState<number[]>(
     USESFUL_SLIDER.map(() => 0) // Инициализируем все нулями
   );
-  const [progressBars, setProgressBars] = useState<number[][]>(
-    USESFUL_SLIDER.map(() => new Array(USESFUL_SLIDER[0].slides.length).fill(0))
+  const [progressBars, setProgressBars] = useState<number[][]>(() =>
+    USESFUL_SLIDER.map((slider) => new Array(slider.slides.length).fill(0))
   );
   const [isPaused, setIsPaused] = useState(false);
   const [shouldClose, setShouldClose] = useState(false);
@@ -60,21 +60,22 @@ export const UsefullWindow = ({
   );
 
   const scrollToActiveSlider = useCallback(
-    (index: number, smooth = true) => {
-      const pos = viewSliders.indexOf(index);
+    (origIndex: number, smooth = true) => {
+      const pos = viewSliders.indexOf(origIndex);
       if (pos === -1) return;
-      if (sliderRefs.current[index] && sliderContainerRef.current) {
-        const slider = sliderRefs.current[index];
-        const container = sliderContainerRef.current;
-        const sliderLeft = slider.offsetLeft;
-        const sliderWidth = slider.offsetWidth;
-        const containerWidth = container.offsetWidth;
 
-        container.scrollTo({
-          left: sliderLeft - (containerWidth - sliderWidth) / 2,
-          behavior: smooth ? "smooth" : "auto",
-        });
-      }
+      const slider = sliderRefs.current[pos]; // <-- берём по POS
+      const container = sliderContainerRef.current;
+      if (!slider || !container) return;
+
+      const sliderLeft = slider.offsetLeft;
+      const sliderWidth = slider.offsetWidth;
+      const containerWidth = container.offsetWidth;
+
+      container.scrollTo({
+        left: sliderLeft - (containerWidth - sliderWidth) / 2,
+        behavior: smooth ? "smooth" : "auto",
+      });
     },
     [viewSliders]
   );
@@ -87,38 +88,34 @@ export const UsefullWindow = ({
   }, [onSliderCompleted, completedIndex]);
 
   const nextSlide = useCallback(
-    (sliderIndex: number) => {
-      const slidesCount = USESFUL_SLIDER[sliderIndex].slides.length;
-      const wasLast = currentSlides[sliderIndex] === slidesCount - 1;
+    (sliderOrigIndex: number) => {
+      const slidesCount = USESFUL_SLIDER[sliderOrigIndex].slides.length;
+      const wasLast = currentSlides[sliderOrigIndex] === slidesCount - 1;
 
       setCurrentSlides((prev) => {
-        const newSlides = [...prev];
+        const next = [...prev];
 
         if (wasLast) {
-          const nextIndex = findNextSlider(sliderIndex);
-          if (nextIndex === -1) {
+          const nextOrig = findNextSlider(sliderOrigIndex); // возвращает ОРИГИНАЛЬНЫЙ индекс
+          if (nextOrig === -1) {
             setShouldClose(true);
             return prev;
           }
-
-          setActiveSliderIndex(nextIndex);
-          newSlides[nextIndex] = 0;
+          setActiveSliderIndex(nextOrig);
+          next[nextOrig] = 0;
         } else {
-          newSlides[sliderIndex] = (newSlides[sliderIndex] + 1) % slidesCount;
+          next[sliderOrigIndex] = (next[sliderOrigIndex] + 1) % slidesCount;
         }
-
-        return newSlides;
+        return next;
       });
 
       setProgressBars((prev) => {
-        const newProgress = [...prev];
-        newProgress[sliderIndex] = new Array(slidesCount).fill(0);
-        return newProgress;
+        const copy = [...prev];
+        copy[sliderOrigIndex] = new Array(slidesCount).fill(0);
+        return copy;
       });
 
-      if (wasLast) {
-        setCompletedIndex(sliderIndex);
-      }
+      if (wasLast) setCompletedIndex(sliderOrigIndex);
     },
     [currentSlides, findNextSlider]
   );
@@ -131,32 +128,30 @@ export const UsefullWindow = ({
   }, [shouldClose, onClose]);
 
   const backSlide = useCallback(
-    (sliderIndex: number) => {
-      // sliderIndex — ОРИГИНАЛЬНЫЙ индекс
-      const pos = viewSliders.indexOf(sliderIndex);
-
+    (sliderOrigIndex: number) => {
+      const pos = viewSliders.indexOf(sliderOrigIndex);
       setCurrentSlides((prev) => {
-        const newSlides = [...prev];
-        const slidesCount = USESFUL_SLIDER[sliderIndex].slides.length;
+        const next = [...prev];
+        const slidesCount = USESFUL_SLIDER[sliderOrigIndex].slides.length;
 
-        if (newSlides[sliderIndex] === 0) {
-          if (pos === 0) return prev;
+        if (next[sliderOrigIndex] === 0) {
+          if (pos === 0) return prev; // уже самый первый в порядке
           const prevOrig = viewSliders[pos - 1];
           setActiveSliderIndex(prevOrig);
-          newSlides[prevOrig] = USESFUL_SLIDER[prevOrig].slides.length - 1;
+          next[prevOrig] = USESFUL_SLIDER[prevOrig].slides.length - 1;
         } else {
-          newSlides[sliderIndex] =
-            (newSlides[sliderIndex] - 1 + slidesCount) % slidesCount;
+          next[sliderOrigIndex] =
+            (next[sliderOrigIndex] - 1 + slidesCount) % slidesCount;
         }
-        return newSlides;
+        return next;
       });
 
       setProgressBars((prev) => {
-        const newProgress = [...prev];
-        newProgress[sliderIndex] = new Array(
-          USESFUL_SLIDER[sliderIndex].slides.length
+        const copy = [...prev];
+        copy[sliderOrigIndex] = new Array(
+          USESFUL_SLIDER[sliderOrigIndex].slides.length
         ).fill(0);
-        return newProgress;
+        return copy;
       });
     },
     [viewSliders]

@@ -37,8 +37,7 @@ export const SectionUsefull = () => {
   }, [completed]);
 
   const handleTipClick = (index: number) => {
-    const pos = sortedSliders.indexOf(index);
-    setSelectedPos(pos >= 0 ? pos : 0);
+    setSelectedPos(index);
     setIsUsefullWindowOpen(true);
   };
 

@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { MiniCrossSVG } from "../../ui/SvgElements";
-import { UseFulIItem } from "./type";
-import { USESFUL_SLIDER } from "./constants";
+import { UseFulIItem } from "./data/type";
+import { USESFUL_SLIDER } from "./data/constants";
 import { useImagePreload } from "../../hooks/usePreloadImage";
 interface UsefullWindowProps {
   onClose?: () => void;
@@ -66,18 +66,6 @@ export const UsefullWindow = ({
   }, [activeSliderIndex, currentSlides]);
 
   useImagePreload(neighborUrls);
-
-  /*const findNextSlider = useCallback(
-    (fromOrigIndex: number) => {
-      const startPos = viewSliders.indexOf(fromOrigIndex);
-      for (let pos = startPos + 1; pos < viewSliders.length; pos++) {
-        const origIdx = viewSliders[pos];
-        if (!completed[origIdx]) return origIdx; // возвращаем ОРИГИНАЛЬНЫЙ индекс
-      }
-      return -1;
-    },
-    [completed, viewSliders]
-  );*/
 
   const scrollToActiveSlider = useCallback(
     (origIndex: number, smooth = true) => {

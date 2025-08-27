@@ -1,18 +1,61 @@
 "use client";
-import { USESFUL_TIPS } from "./Variable";
-import { UsefullWindow } from "./Usefull_Window";
-import { useEffect, useState } from "react";
+
+import { USESFUL_SLIDER, USESFUL_TIPS } from "./constants";
+import { UsefullWindow } from "./UsefullWindow";
+import { useEffect, useMemo, useState } from "react";
+import { useImagePreload } from "../../hooks/usePreloadImage";
 
 export const SectionUsefull = () => {
   const [isUsefullWindowOpen, setIsUsefullWindowOpen] = useState(false);
-  const [selectedTipIndex, setSelectedTipIndex] = useState<number | null>(null);
+  const [selectedPos, setSelectedPos] = useState<number | null>(null);
+
+  const preloadUrls = useMemo(() => {
+    const tipImgs = USESFUL_TIPS.flatMap((t) => [
+      t.srcImg,
+      t.srcsetWebp,
+      t.srcsetPng,
+    ]);
+
+    const sliderImgs = USESFUL_SLIDER.flatMap((s) => [
+      s.iconImg,
+      ...s.slides.map((sl) => sl.iconBg),
+    ]);
+
+    return [...tipImgs, ...sliderImgs].filter(Boolean);
+  }, []);
+
+  useImagePreload(preloadUrls);
 
   const [completed, setCompleted] = useState<boolean[]>(() =>
     new Array(USESFUL_TIPS.length).fill(false)
   );
 
+  const tipsWithIndex = useMemo(
+    () => USESFUL_TIPS.map((item, index) => ({ ...item, _index: index })),
+    []
+  );
+
+  const sortedTips = useMemo(() => {
+    const arr = tipsWithIndex.slice();
+    arr.sort((a, b) => {
+      const done = Number(completed[a._index]) - Number(completed[b._index]);
+      return done !== 0 ? done : a._index - b._index;
+    });
+
+    return arr;
+  }, [tipsWithIndex, completed]);
+
+  const sortedSliders = useMemo(() => {
+    const arr = USESFUL_SLIDER.map((_, index) => ({ _index: index }));
+    arr.sort((a, b) => {
+      const done = Number(completed[a._index]) - Number(completed[b._index]);
+      return done !== 0 ? done : a._index - b._index;
+    });
+    return arr.map((x) => x._index);
+  }, [completed]);
+
   const handleTipClick = (index: number) => {
-    setSelectedTipIndex(index);
+    setSelectedPos(index);
     setIsUsefullWindowOpen(true);
   };
 
@@ -32,12 +75,8 @@ export const SectionUsefull = () => {
   useEffect(() => {
     try {
       const raw = localStorage.getItem("useful_completed");
-      console.log("raw = " + raw);
       if (raw) {
         const parsed = JSON.parse(raw);
-        console.log("parsed = " + parsed);
-        console.table(parsed);
-        console.log("parsed.length = " + parsed.length);
         if (Array.isArray(parsed) && parsed.length === USESFUL_TIPS.length) {
           setCompleted(parsed);
         } else {
@@ -62,15 +101,19 @@ export const SectionUsefull = () => {
       <section className="ml-auto mr-auto w-full">
         {" "}
         <div className="flex gap-3 overflow-x-auto overflow-y-hidden scrollbar-hide w-full pl-4 pr-4">
-          {USESFUL_TIPS.map((item, index) => (
+          {sortedTips.map((item) => (
             <div
               key={item.id}
               className="relative flex-shrink-0 flex items-center justify-center min-w-24 w-24 cursor-pointer"
-              onClick={() => handleTipClick(index)}
+              onClick={() => handleTipClick(item._index)}
             >
               <div
                 className={`flex w-[96px] h-[108px] items-center justify-center border-1 rounded-2xl
-               ${completed[index] ? "border-gray-500" : "border-orange-400"}`}
+               ${
+                 completed[item._index]
+                   ? "border-gray-500"
+                   : "border-orange-400"
+               }`}
               >
                 <picture>
                   <source type="image/webp" srcSet={item.srcsetWebp} />
@@ -93,8 +136,10 @@ export const SectionUsefull = () => {
       {isUsefullWindowOpen && (
         <UsefullWindow
           onClose={handleCloseUsefullWindow}
-          startAtiveSliderIndex={selectedTipIndex ?? undefined}
+          startAtiveSliderIndex={selectedPos ?? 0}
+          sliders={sortedSliders}
           onSliderCompleted={handleSliderCompleted}
+          completed={completed}
         />
       )}
     </>

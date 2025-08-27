@@ -1,43 +1,44 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { USESFUL_SLIDES } from "./Variable";
-import { MiniCrossSVG } from "./ui/SvgElements";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-interface Slide {
-  iconBg: string;
-  title: string;
-  description?: string;
-  linkText?: string;
-}
-
-interface UseFulIItem {
-  id: number;
-  iconImg: string;
-  iconText: string;
-  slides: Slide[];
-}
-
+import { MiniCrossSVG } from "../../ui/SvgElements";
+import { UseFulIItem } from "./type";
+import { USESFUL_SLIDER } from "./constants";
+import { useImagePreload } from "../../hooks/usePreloadImage";
 interface UsefullWindowProps {
   onClose?: () => void;
   startAtiveSliderIndex?: number;
   onSliderCompleted?: (sliderIndex: number) => void;
+  completed?: boolean[];
+  sliders?: number[];
 }
 
 export const UsefullWindow = ({
   onClose = () => {},
   startAtiveSliderIndex = 0,
   onSliderCompleted = () => {},
+  sliders,
 }: UsefullWindowProps) => {
+  const origSliders = useMemo(
+    () => USESFUL_SLIDER.map((_, index) => index),
+    []
+  );
+
+  const frozenOrderRef = useRef<number[]>(
+    (sliders && sliders.length ? sliders : origSliders).slice()
+  );
+  const viewSliders = frozenOrderRef.current;
+
   const [activeSliderIndex, setActiveSliderIndex] = useState(
     startAtiveSliderIndex
   );
   const [currentSlides, setCurrentSlides] = useState<number[]>(
-    USESFUL_SLIDES.map(() => 0) // Инициализируем все нулями
+    USESFUL_SLIDER.map(() => 0) // Инициализируем все нулями
   );
-  const [progressBars, setProgressBars] = useState<number[][]>(
-    USESFUL_SLIDES.map(() => new Array(USESFUL_SLIDES[0].slides.length).fill(0))
+  const [progressBars, setProgressBars] = useState<number[][]>(() =>
+    USESFUL_SLIDER.map((slider) => new Array(slider.slides.length).fill(0))
   );
   const [isPaused, setIsPaused] = useState(false);
   const [shouldClose, setShouldClose] = useState(false);
@@ -45,55 +46,104 @@ export const UsefullWindow = ({
   const sliderContainerRef = useRef<HTMLDivElement>(null);
   const sliderRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const scrollToActiveSlider = useCallback((index: number) => {
-    if (sliderRefs.current[index] && sliderContainerRef.current) {
-      const slider = sliderRefs.current[index];
-      const container = sliderContainerRef.current;
-      if (slider) {
-        const sliderLeft = slider.offsetLeft;
-        const sliderWidth = slider.offsetWidth;
-        const containerWidth = container.offsetWidth;
-        container.scrollTo({
-          left: sliderLeft - (containerWidth - sliderWidth) / 2,
-          behavior: "smooth",
-        });
+  const firstPosition = useRef(false);
+  const [completedIndex, setCompletedIndex] = useState<number | null>(null);
+
+  const neighborUrls = useMemo(() => {
+    const idx = activeSliderIndex; // ОРИГИНАЛЬНЫЙ индекс слайдера
+    if (idx == null) return [];
+    const slides = USESFUL_SLIDER[idx].slides;
+    const cur = currentSlides[idx] ?? 0;
+    const prev = (cur - 1 + slides.length) % slides.length;
+    const next = (cur + 1) % slides.length;
+
+    return [
+      slides[cur]?.iconBg,
+      slides[prev]?.iconBg,
+      slides[next]?.iconBg,
+      USESFUL_SLIDER[idx]?.iconImg, // иконка автора/канала
+    ].filter(Boolean);
+  }, [activeSliderIndex, currentSlides]);
+
+  useImagePreload(neighborUrls);
+
+  /*const findNextSlider = useCallback(
+    (fromOrigIndex: number) => {
+      const startPos = viewSliders.indexOf(fromOrigIndex);
+      for (let pos = startPos + 1; pos < viewSliders.length; pos++) {
+        const origIdx = viewSliders[pos];
+        if (!completed[origIdx]) return origIdx; // возвращаем ОРИГИНАЛЬНЫЙ индекс
       }
+      return -1;
+    },
+    [completed, viewSliders]
+  );*/
+
+  const scrollToActiveSlider = useCallback(
+    (origIndex: number, smooth = true) => {
+      const pos = viewSliders.indexOf(origIndex);
+      if (pos === -1) return;
+
+      const slider = sliderRefs.current[pos]; // <-- берём по POS
+      const container = sliderContainerRef.current;
+      if (!slider || !container) return;
+
+      const sliderLeft = slider.offsetLeft;
+      const sliderWidth = slider.offsetWidth;
+      const containerWidth = container.offsetWidth;
+
+      container.scrollTo({
+        left: sliderLeft - (containerWidth - sliderWidth) / 2,
+        behavior: smooth ? "smooth" : "auto",
+      });
+    },
+    [viewSliders]
+  );
+
+  useEffect(() => {
+    if (completedIndex != null) {
+      onSliderCompleted(completedIndex);
+      setCompletedIndex(null);
     }
-  }, []);
+  }, [onSliderCompleted, completedIndex]);
 
   const nextSlide = useCallback(
-    (sliderIndex: number) => {
+    (sliderOrigIndex: number) => {
+      const slidesCount = USESFUL_SLIDER[sliderOrigIndex].slides.length;
+      const wasLast = currentSlides[sliderOrigIndex] === slidesCount - 1;
+
       setCurrentSlides((prev) => {
-        const newSlides = [...prev];
-        const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
-        const currentSlide = newSlides[sliderIndex];
+        const next = [...prev];
 
-        const isLastSlide = currentSlide === slidesCount - 1;
-        if (isLastSlide) {
-          onSliderCompleted(sliderIndex);
+        if (wasLast) {
+          // двигаемся по позиции в зафиксированном порядке
+          const pos = viewSliders.indexOf(sliderOrigIndex);
+          if (pos === -1) return prev;
 
-          if (sliderIndex === USESFUL_SLIDES.length - 1) {
-            setShouldClose(true);
+          const isLastInOrder = pos === viewSliders.length - 1;
+          if (isLastInOrder) {
+            setShouldClose(true); // закрываем ТОЛЬКО на самом последнем
             return prev;
           }
 
-          setActiveSliderIndex(sliderIndex + 1);
-          newSlides[sliderIndex + 1] = 0;
+          const nextOrig = viewSliders[pos + 1]; // следующий ОРИГИНАЛЬНЫЙ индекс
+          setActiveSliderIndex(nextOrig);
+          next[nextOrig] = 0; // начинаем с 0-го слайда
         } else {
-          newSlides[sliderIndex] = (newSlides[sliderIndex] + 1) % slidesCount;
+          next[sliderOrigIndex] = (next[sliderOrigIndex] + 1) % slidesCount;
         }
-        return newSlides;
+        return next;
       });
 
       setProgressBars((prev) => {
-        const newProgress = [...prev];
-        newProgress[sliderIndex] = new Array(
-          USESFUL_SLIDES[sliderIndex].slides.length
-        ).fill(0);
-        return newProgress;
+        const copy = [...prev];
+        copy[sliderOrigIndex] = new Array(slidesCount).fill(0);
+        return copy;
       });
+
+      if (wasLast) setCompletedIndex(sliderOrigIndex); // отметка «завершён»
     },
-    [onSliderCompleted]
+    [currentSlides, viewSliders]
   );
 
   useEffect(() => {
@@ -103,29 +153,35 @@ export const UsefullWindow = ({
     }
   }, [shouldClose, onClose]);
 
-  const backSlide = useCallback((sliderIndex: number) => {
-    setCurrentSlides((prev) => {
-      const newSlides = [...prev];
-      const slidesCount = USESFUL_SLIDES[sliderIndex].slides.length;
-      if (newSlides[sliderIndex] === 0) {
-        if (sliderIndex === 0) return prev;
-        setActiveSliderIndex(sliderIndex - 1);
-        newSlides[sliderIndex - 1] =
-          USESFUL_SLIDES[sliderIndex - 1].slides.length - 1;
-      } else {
-        newSlides[sliderIndex] = (newSlides[sliderIndex] - 1) % slidesCount;
-      }
-      return newSlides;
-    });
+  const backSlide = useCallback(
+    (sliderOrigIndex: number) => {
+      const pos = viewSliders.indexOf(sliderOrigIndex);
+      setCurrentSlides((prev) => {
+        const next = [...prev];
+        const slidesCount = USESFUL_SLIDER[sliderOrigIndex].slides.length;
 
-    setProgressBars((prev) => {
-      const newProgress = [...prev];
-      newProgress[sliderIndex] = new Array(
-        USESFUL_SLIDES[sliderIndex].slides.length
-      ).fill(0);
-      return newProgress;
-    });
-  }, []);
+        if (next[sliderOrigIndex] === 0) {
+          if (pos === 0) return prev; // уже самый первый в порядке
+          const prevOrig = viewSliders[pos - 1];
+          setActiveSliderIndex(prevOrig);
+          next[prevOrig] = USESFUL_SLIDER[prevOrig].slides.length - 1;
+        } else {
+          next[sliderOrigIndex] =
+            (next[sliderOrigIndex] - 1 + slidesCount) % slidesCount;
+        }
+        return next;
+      });
+
+      setProgressBars((prev) => {
+        const copy = [...prev];
+        copy[sliderOrigIndex] = new Array(
+          USESFUL_SLIDER[sliderOrigIndex].slides.length
+        ).fill(0);
+        return copy;
+      });
+    },
+    [viewSliders]
+  );
 
   useEffect(() => {
     if (isPaused) return;
@@ -159,11 +215,18 @@ export const UsefullWindow = ({
 
   useEffect(() => {
     scrollToActiveSlider(activeSliderIndex);
+    if (!firstPosition.current) {
+      scrollToActiveSlider(activeSliderIndex, false);
+      firstPosition.current = true;
+    } else {
+      scrollToActiveSlider(activeSliderIndex, true);
+    }
   }, [activeSliderIndex, scrollToActiveSlider]);
 
   const handleSliderClick = (index: number) => {
     setActiveSliderIndex(index);
   };
+
   return (
     <div className="bg-[#1e222e] fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center min-w-[320px] z-100 p-0 ">
       <div className="w-full h-full flex items-center justify-center min-[768]:rounded-2xl">
@@ -171,13 +234,14 @@ export const UsefullWindow = ({
           ref={sliderContainerRef}
           className="flex overflow-x-auto w-full h-full min-[768]:px-4 min-[768]:py-8 scrollbar-hide "
         >
-          {USESFUL_SLIDES.map((item: UseFulIItem, sliderIndex: number) => {
+          {viewSliders.map((sliderIndex, origIndex) => {
+            const item: UseFulIItem = USESFUL_SLIDER[sliderIndex];
             const currentData = item.slides[currentSlides[sliderIndex]];
             return (
               <div
                 key={item.id}
                 ref={(e) => {
-                  sliderRefs.current[sliderIndex] = e;
+                  sliderRefs.current[origIndex] = e;
                 }}
                 className={`relative w-screen h-full flex-shrink-0 
                   min-[768px]:min-w-[360px] 

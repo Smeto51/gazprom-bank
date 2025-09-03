@@ -125,7 +125,7 @@ export const SectionUsefull = () => {
       {isUsefullWindowOpen && (
         <UsefullWindow
           onClose={handleCloseUsefullWindow}
-          startAtiveSliderIndex={selectedPos ?? 0}
+          startActiveSliderIndex={selectedPos ?? 0}
           sliders={sortedSliders}
           onSliderCompleted={handleSliderCompleted}
           completed={completed}

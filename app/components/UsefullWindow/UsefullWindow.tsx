@@ -4,20 +4,18 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { MiniCrossSVG } from "../../ui/SvgElements";
-import { UseFulIItem } from "./data/type";
+import { UseFulIItem, UsefullWindowProps } from "./data/type";
 import { USESFUL_SLIDER } from "./data/constants";
 import { useImagePreload } from "../../hooks/usePreloadImage";
-interface UsefullWindowProps {
-  onClose?: () => void;
-  startAtiveSliderIndex?: number;
-  onSliderCompleted?: (sliderIndex: number) => void;
-  completed?: boolean[];
-  sliders?: number[];
-}
+import { useSliderNavigation } from "./hook/useSliderNavigation";
+import { useProgressSlide } from "./hook/useProgressSlide";
+import { useAutoCenterScroll } from "./hook/useAutoCenterScroll";
+import { StoryCard } from "./StoryCard";
+import { ProgressBars } from "./ProgressBars";
 
 export const UsefullWindow = ({
   onClose = () => {},
-  startAtiveSliderIndex = 0,
+  startActiveSliderIndex = 0,
   onSliderCompleted = () => {},
   sliders,
 }: UsefullWindowProps) => {
@@ -26,31 +24,36 @@ export const UsefullWindow = ({
     []
   );
 
-  const frozenOrderRef = useRef<number[]>(
-    (sliders && sliders.length ? sliders : origSliders).slice()
+  // === Порядок показа ===
+  const newIndexRef = useRef<number[]>(
+    sliders && sliders.length ? sliders : origSliders
   );
-  const viewSliders = frozenOrderRef.current;
+
+  const viewSliders = newIndexRef.current;
 
   const [activeSliderIndex, setActiveSliderIndex] = useState(
-    startAtiveSliderIndex
+    startActiveSliderIndex
   );
+
+  // === Текущий индекс слайда для каждого слайдера ===
   const [currentSlides, setCurrentSlides] = useState<number[]>(
     USESFUL_SLIDER.map(() => 0) // Инициализируем все нулями
   );
+
   const [progressBars, setProgressBars] = useState<number[][]>(() =>
-    USESFUL_SLIDER.map((slider) => new Array(slider.slides.length).fill(0))
+    USESFUL_SLIDER.map((slider) => Array(slider.slides.length).fill(0))
   );
+
   const [isPaused, setIsPaused] = useState(false);
   const [shouldClose, setShouldClose] = useState(false);
+  const [completedIndex, setCompletedIndex] = useState<number | null>(null);
 
   const sliderContainerRef = useRef<HTMLDivElement>(null);
   const sliderRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const firstPosition = useRef(false);
-  const [completedIndex, setCompletedIndex] = useState<number | null>(null);
-
-  const neighborUrls = useMemo(() => {
-    const idx = activeSliderIndex; // ОРИГИНАЛЬНЫЙ индекс слайдера
+  // === Прелоад соседних слайдеров картинок ===
+  const preloadUrls = useMemo(() => {
+    const idx = activeSliderIndex;
     if (idx == null) return [];
     const slides = USESFUL_SLIDER[idx].slides;
     const cur = currentSlides[idx] ?? 0;
@@ -61,32 +64,36 @@ export const UsefullWindow = ({
       slides[cur]?.iconBg,
       slides[prev]?.iconBg,
       slides[next]?.iconBg,
-      USESFUL_SLIDER[idx]?.iconImg, // иконка автора/канала
-    ].filter(Boolean);
+      USESFUL_SLIDER[idx]?.iconImg,
+    ].filter(Boolean) as string[];
   }, [activeSliderIndex, currentSlides]);
 
-  useImagePreload(neighborUrls);
+  useImagePreload(preloadUrls);
 
-  const scrollToActiveSlider = useCallback(
-    (origIndex: number, smooth = true) => {
-      const pos = viewSliders.indexOf(origIndex);
-      if (pos === -1) return;
+  const { nextSlide, backSlide } = useSliderNavigation({
+    currentSlides,
+    setCurrentSlides,
+    viewSliders,
+    setShouldClose,
+    setActiveSliderIndex,
+    setProgressBars,
+    setCompletedIndex,
+  });
 
-      const slider = sliderRefs.current[pos]; // <-- берём по POS
-      const container = sliderContainerRef.current;
-      if (!slider || !container) return;
+  useProgressSlide({
+    isPaused,
+    activeSliderIndex,
+    currentSlides,
+    setProgressBars,
+    onSlideEnd: () => nextSlide(activeSliderIndex),
+  });
 
-      const sliderLeft = slider.offsetLeft;
-      const sliderWidth = slider.offsetWidth;
-      const containerWidth = container.offsetWidth;
-
-      container.scrollTo({
-        left: sliderLeft - (containerWidth - sliderWidth) / 2,
-        behavior: smooth ? "smooth" : "auto",
-      });
-    },
-    [viewSliders]
-  );
+  useAutoCenterScroll({
+    viewSliders,
+    activeSliderIndex,
+    sliderRefs,
+    sliderContainerRef,
+  });
 
   useEffect(() => {
     if (completedIndex != null) {
@@ -95,45 +102,6 @@ export const UsefullWindow = ({
     }
   }, [onSliderCompleted, completedIndex]);
 
-  const nextSlide = useCallback(
-    (sliderOrigIndex: number) => {
-      const slidesCount = USESFUL_SLIDER[sliderOrigIndex].slides.length;
-      const wasLast = currentSlides[sliderOrigIndex] === slidesCount - 1;
-
-      setCurrentSlides((prev) => {
-        const next = [...prev];
-
-        if (wasLast) {
-          // двигаемся по позиции в зафиксированном порядке
-          const pos = viewSliders.indexOf(sliderOrigIndex);
-          if (pos === -1) return prev;
-
-          const isLastInOrder = pos === viewSliders.length - 1;
-          if (isLastInOrder) {
-            setShouldClose(true); // закрываем ТОЛЬКО на самом последнем
-            return prev;
-          }
-
-          const nextOrig = viewSliders[pos + 1]; // следующий ОРИГИНАЛЬНЫЙ индекс
-          setActiveSliderIndex(nextOrig);
-          next[nextOrig] = 0; // начинаем с 0-го слайда
-        } else {
-          next[sliderOrigIndex] = (next[sliderOrigIndex] + 1) % slidesCount;
-        }
-        return next;
-      });
-
-      setProgressBars((prev) => {
-        const copy = [...prev];
-        copy[sliderOrigIndex] = new Array(slidesCount).fill(0);
-        return copy;
-      });
-
-      if (wasLast) setCompletedIndex(sliderOrigIndex); // отметка «завершён»
-    },
-    [currentSlides, viewSliders]
-  );
-
   useEffect(() => {
     if (shouldClose) {
       onClose();
@@ -141,75 +109,10 @@ export const UsefullWindow = ({
     }
   }, [shouldClose, onClose]);
 
-  const backSlide = useCallback(
-    (sliderOrigIndex: number) => {
-      const pos = viewSliders.indexOf(sliderOrigIndex);
-      setCurrentSlides((prev) => {
-        const next = [...prev];
-        const slidesCount = USESFUL_SLIDER[sliderOrigIndex].slides.length;
-
-        if (next[sliderOrigIndex] === 0) {
-          if (pos === 0) return prev; // уже самый первый в порядке
-          const prevOrig = viewSliders[pos - 1];
-          setActiveSliderIndex(prevOrig);
-          next[prevOrig] = USESFUL_SLIDER[prevOrig].slides.length - 1;
-        } else {
-          next[sliderOrigIndex] =
-            (next[sliderOrigIndex] - 1 + slidesCount) % slidesCount;
-        }
-        return next;
-      });
-
-      setProgressBars((prev) => {
-        const copy = [...prev];
-        copy[sliderOrigIndex] = new Array(
-          USESFUL_SLIDER[sliderOrigIndex].slides.length
-        ).fill(0);
-        return copy;
-      });
-    },
-    [viewSliders]
-  );
-
-  useEffect(() => {
-    if (isPaused) return;
-
-    const interval = setInterval(() => {
-      setProgressBars((prev) => {
-        const newProgress = [...prev];
-        const activeSlider = activeSliderIndex;
-        const currentSlideIndex = currentSlides[activeSlider];
-        newProgress[activeSlider] = [...newProgress[activeSlider]];
-        newProgress[activeSlider][currentSlideIndex] = Math.min(
-          newProgress[activeSlider][currentSlideIndex] + 100 / (70000 / 100),
-          100
-        );
-
-        if (newProgress[activeSlider][currentSlideIndex] >= 100) {
-          setTimeout(() => nextSlide(activeSlider), 0);
-        }
-
-        return newProgress;
-      });
-    }, 100);
-
-    return () => clearInterval(interval);
-  }, [activeSliderIndex, currentSlides, isPaused, nextSlide]);
-
   // === Только на случай изменения родителя ===
   useEffect(() => {
-    setActiveSliderIndex(startAtiveSliderIndex);
-  }, [startAtiveSliderIndex]);
-
-  useEffect(() => {
-    scrollToActiveSlider(activeSliderIndex);
-    if (!firstPosition.current) {
-      scrollToActiveSlider(activeSliderIndex, false);
-      firstPosition.current = true;
-    } else {
-      scrollToActiveSlider(activeSliderIndex, true);
-    }
-  }, [activeSliderIndex, scrollToActiveSlider]);
+    setActiveSliderIndex(startActiveSliderIndex);
+  }, [startActiveSliderIndex]);
 
   const handleSliderClick = (index: number) => {
     setActiveSliderIndex(index);
@@ -255,35 +158,12 @@ export const UsefullWindow = ({
                   ></div>
                 </div>
 
-                <div className="absolute rounded-2xl w-full pt-4 pr-5 pb-4 pl-5 flex  justify-between gap-1">
-                  {item.slides.map((_, index) => (
-                    <div
-                      key={index}
-                      className="flex-1 rounded-[1px] h-1 m-1 bg-[hsla(0,0%,100%,0.08)] "
-                      onMouseEnter={() => setIsPaused(true)}
-                      onMouseLeave={() => setIsPaused(false)}
-                    >
-                      <div
-                        className={`h-full rounded-[2px] transition-all duration-100 ${
-                          index === currentSlides[sliderIndex]
-                            ? "bg-white"
-                            : index < currentSlides[sliderIndex]
-                            ? "bg-white"
-                            : ""
-                        }`}
-                        style={{
-                          width: `${
-                            index === currentSlides[sliderIndex]
-                              ? progressBars[sliderIndex][index]
-                              : index < currentSlides[sliderIndex]
-                              ? 100
-                              : 0
-                          }%`,
-                        }}
-                      ></div>
-                    </div>
-                  ))}
-                </div>
+                <ProgressBars
+                  item={item}
+                  currentSlidesIndex={currentSlides[sliderIndex]}
+                  progressBars={progressBars[sliderIndex]}
+                  setIsPaused={setIsPaused}
+                />
                 <picture className="">
                   <img
                     className="w-full max-[767px]:h-full max-[767px]:object-cover"
@@ -303,28 +183,8 @@ export const UsefullWindow = ({
                   </div>
                   <p>{item.iconText}</p>
                 </div>
-                <div className="absolute pt-11 pr-6 pb-8 pl-6 bottom-0 left-0 right-0 text-white">
-                  <h4 className="font-semibold text-[20px] leading-6 ">
-                    {currentData.title}
-                  </h4>
+                <StoryCard currentData={currentData} />
 
-                  <p className="text-[16px] leading-5 mt-2">
-                    {currentData.description}
-                  </p>
-                  {currentData.linkText && (
-                    <div className="flex mt-6 items-center justify-center relative z-1">
-                      <Link
-                        href="#"
-                        className="h-12 w-full flex items-center justify-center relative"
-                      >
-                        <div className="absolute bg-[#2b61ec] top-0 left-0 w-full h-full -z-1 rounded-md "></div>
-                        <span className="text-[18px]">
-                          {currentData.linkText}
-                        </span>
-                      </Link>
-                    </div>
-                  )}
-                </div>
                 <div className="absolute flex top-10 right-4 gap-8">
                   <button
                     className="w-6 h-6 min-w-6 bg-white/10 rounded-[50%] z-100"

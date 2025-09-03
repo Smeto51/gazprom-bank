@@ -1,4 +1,4 @@
-interface Slide {
+export interface Slide {
   iconBg: string;
   title: string;
   description?: string;
@@ -10,4 +10,12 @@ export interface UseFulIItem {
   iconImg: string;
   iconText: string;
   slides: Slide[];
+}
+
+export interface UsefullWindowProps {
+  onClose?: () => void;
+  startActiveSliderIndex?: number;
+  onSliderCompleted?: (sliderIndex: number) => void;
+  completed?: boolean[];
+  sliders?: number[];
 }

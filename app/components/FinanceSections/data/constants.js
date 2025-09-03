@@ -15,7 +15,7 @@ export const FINANCE_SECTION = [
     id: 2,
     link: "#",
     name: "Накопительные счета",
-    icon: "ps://cdn.gpb.ru/upload/files/bve/bc8/bn6n6tga9iwnn19y6921vu5tm4mm440y/x1_Nakopitelnye_scheta.png",
+    icon: "https://cdn.gpb.ru/upload/files/bve/bc8/bn6n6tga9iwnn19y6921vu5tm4mm440y/x1_Nakopitelnye_scheta.png",
     offIcon: DOMEN + "Nakopitelnye_scheta.png",
   },
   {

@@ -1,7 +1,5 @@
 "use client";
 
-import { link } from "fs";
-
 const DOMEN = "/BestOffersIcon/";
 
 export const BEST_OFFERS = [

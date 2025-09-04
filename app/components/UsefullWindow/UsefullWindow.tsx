@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import { MiniCrossSVG } from "../../ui/SvgElements";
 import { UseFulIItem, UsefullWindowProps } from "./data/type";

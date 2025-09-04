@@ -58,7 +58,6 @@ export const useSliderNavigation = ({
       if (wasLast) setCompletedIndex(sliderOrigIndex);
     },
     [
-      USESFUL_SLIDER,
       currentSlides,
       setActiveSliderIndex,
       setCompletedIndex,
@@ -96,13 +95,7 @@ export const useSliderNavigation = ({
         return copy;
       });
     },
-    [
-      USESFUL_SLIDER,
-      setActiveSliderIndex,
-      setCurrentSlides,
-      setProgressBars,
-      viewSliders,
-    ]
+    [setActiveSliderIndex, setCurrentSlides, setProgressBars, viewSliders]
   );
 
   return { nextSlide, backSlide } as const;

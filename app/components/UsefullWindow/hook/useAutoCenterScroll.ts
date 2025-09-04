@@ -35,7 +35,7 @@ export const useAutoCenterScroll = ({
         behavior: smooth ? "smooth" : "auto",
       });
     },
-    [viewSliders]
+    [viewSliders, sliderContainerRef, sliderRefs]
   );
 
   useEffect(() => {

@@ -1,9 +1,14 @@
 "use client";
 
-import { USESFUL_SLIDER, USESFUL_TIPS } from "./constants";
+import { USESFUL_SLIDER, USESFUL_TIPS } from "./data/constants";
 import { UsefullWindow } from "./UsefullWindow";
 import { useEffect, useMemo, useState } from "react";
 import { useImagePreload } from "../../hooks/usePreloadImage";
+import {
+  loadUsefulLocalCompleted,
+  saveUsefulLocalCompleted,
+} from "./utils/saveLoadUsefullLocal";
+import { sortTips } from "./utils/sortedUseFull";
 
 export const SectionUsefull = () => {
   const [isUsefullWindowOpen, setIsUsefullWindowOpen] = useState(false);
@@ -26,43 +31,53 @@ export const SectionUsefull = () => {
 
   useImagePreload(preloadUrls);
 
+  // === Иниализация слайдеров ===
   const [completed, setCompleted] = useState<boolean[]>(() =>
-    new Array(USESFUL_TIPS.length).fill(false)
+    Array(USESFUL_TIPS.length).fill(false)
   );
 
+  // === Загружаем просмотренные Слайдеры ===
+  useEffect(() => {
+    setCompleted(loadUsefulLocalCompleted(USESFUL_TIPS.length));
+  }, []);
+
+  // === Сохраняем просмотренные Слайдеры ===
+  useEffect(() => {
+    saveUsefulLocalCompleted(completed);
+  }, [completed]);
+
+  // === Преобразуем Слайдеры ===
   const tipsWithIndex = useMemo(
-    () => USESFUL_TIPS.map((item, index) => ({ ...item, _index: index })),
+    () => USESFUL_TIPS.map((item, index) => ({ ...item, index })),
     []
   );
 
-  const sortedTips = useMemo(() => {
-    const arr = tipsWithIndex.slice();
-    arr.sort((a, b) => {
-      const done = Number(completed[a._index]) - Number(completed[b._index]);
-      return done !== 0 ? done : a._index - b._index;
-    });
+  // === Сортируем Блоки Слайдеров ===
+  const sortedTips = useMemo(
+    () => sortTips(tipsWithIndex, completed),
+    [tipsWithIndex, completed]
+  );
 
-    return arr;
-  }, [tipsWithIndex, completed]);
+  // === Сортируем Сами Слайдеры ===
+  const sortedSliders = useMemo(
+    () =>
+      sortTips(
+        USESFUL_SLIDER.map((_, index) => ({ index })),
+        completed
+      ).map((x) => x.index),
+    [completed]
+  );
 
-  const sortedSliders = useMemo(() => {
-    const arr = USESFUL_SLIDER.map((_, index) => ({ _index: index }));
-    arr.sort((a, b) => {
-      const done = Number(completed[a._index]) - Number(completed[b._index]);
-      return done !== 0 ? done : a._index - b._index;
-    });
-    return arr.map((x) => x._index);
-  }, [completed]);
-
+  // === Запоминаем клик по подсказке ===
   const handleTipClick = (index: number) => {
     setSelectedPos(index);
     setIsUsefullWindowOpen(true);
   };
 
-  const handleCloseUsefullWindow = () => {
-    setIsUsefullWindowOpen(false);
-  };
+  // === Закрываем Слайдеры ===
+  const handleCloseUsefullWindow = () => setIsUsefullWindowOpen(false);
 
+  // === Фиксируем прочитанные слайдеры ===
   const handleSliderCompleted = (sliderIndex: number) => {
     setCompleted((prev) => {
       if (prev[sliderIndex]) return prev;
@@ -71,30 +86,6 @@ export const SectionUsefull = () => {
       return copy;
     });
   };
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem("useful_completed");
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length === USESFUL_TIPS.length) {
-          setCompleted(parsed);
-        } else {
-          console.warn("Формат сохранённых данных не совпадает с ожидаемым");
-        }
-      }
-    } catch (err) {
-      console.warn("Ошибка при чтении данных из localStorage:", err);
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem("useful_completed", JSON.stringify(completed));
-    } catch (err) {
-      console.warn("Не удалось сохранить в localStorage:", err);
-    }
-  }, [completed]);
 
   return (
     <>
@@ -105,14 +96,12 @@ export const SectionUsefull = () => {
             <div
               key={item.id}
               className="relative flex-shrink-0 flex items-center justify-center min-w-24 w-24 cursor-pointer"
-              onClick={() => handleTipClick(item._index)}
+              onClick={() => handleTipClick(item.index)}
             >
               <div
                 className={`flex w-[96px] h-[108px] items-center justify-center border-1 rounded-2xl
                ${
-                 completed[item._index]
-                   ? "border-gray-500"
-                   : "border-orange-400"
+                 completed[item.index] ? "border-gray-500" : "border-orange-400"
                }`}
               >
                 <picture>
@@ -136,7 +125,7 @@ export const SectionUsefull = () => {
       {isUsefullWindowOpen && (
         <UsefullWindow
           onClose={handleCloseUsefullWindow}
-          startAtiveSliderIndex={selectedPos ?? 0}
+          startActiveSliderIndex={selectedPos ?? 0}
           sliders={sortedSliders}
           onSliderCompleted={handleSliderCompleted}
           completed={completed}

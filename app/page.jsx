@@ -3,10 +3,10 @@ import Link from "next/link";
 import { FINANCIAL_PRODUCTS_ITEMS } from "./Variable";
 import { ArrowSVG } from "./ui/SvgElements";
 
-import { SectionUsefull } from "./components/UsefullWindow/UsefullWindowSection";
-
+import { SectionUsefull } from "./components/UsefullWindow/UsefullSection";
+import { FinanceSection } from "./components/FinanceSections/FinanceSections";
+import { BestOffers } from "./components/BestOffers/BestOffers";
 export default function Home() {
-  //console.log("Загруженно Home");
   return (
     <div>
       <div className="max-[1024]:max-w-3xl max-[1024]:ml-auto max-[1024]:mr-auto min-[1024]:hidden">
@@ -57,6 +57,8 @@ export default function Home() {
 
         <div className="pb-8" />
         <SectionUsefull />
+        <FinanceSection />
+        <BestOffers />
       </div>
     </div>
   );

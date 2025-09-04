@@ -22,12 +22,12 @@ export function useImagePreload(urls = []) {
       };
 
       img.onload = () => {
-        console.log("img loaded:", url);
+        //console.log("img loaded:", url);
         markDone();
       };
 
       img.onerror = () => {
-        console.warn("img failed:", url);
+        //console.warn("img failed:", url);
         markDone();
       };
 

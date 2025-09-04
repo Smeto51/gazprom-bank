@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { FINANCE_SECTION } from "./data/constants";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { FallBackImg } from "../../utils/FallBackImg.js";
 
 const FinanceItem = ({ item }) => (
   <div>
@@ -20,7 +21,7 @@ const ShowMoreItem = () => {
   return (
     <>
       {!showMore ? (
-        <div>
+        <div className="gap-2 flex flex-col items-center">
           <button onClick={() => setShowMore(true)}>
             <div className="w-[72px] h-72px p-[6px] rounded-2xl bg-[#f5f5f5] flex items-center flex-wrap ">
               {moreItems.map((item) => (
@@ -42,29 +43,6 @@ const ShowMoreItem = () => {
       )}
     </>
   );
-};
-
-const FallBackImg = ({ src, offIcon, alt }) => {
-  const [realSrc, setRealSrc] = useState(offIcon);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const img = new window.Image();
-    img.onload = () => {
-      if (!cancelled) setRealSrc(src);
-    };
-    img.onerror = () => {
-      if (!cancelled) setRealSrc(offIcon);
-    };
-    img.src = src;
-
-    return () => {
-      cancelled = true;
-    };
-  }, [src, offIcon]);
-
-  return <img src={realSrc} alt={alt} />;
 };
 
 export const FinanceSection = () => {

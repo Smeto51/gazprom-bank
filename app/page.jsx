@@ -5,6 +5,7 @@ import { ArrowSVG } from "./ui/SvgElements";
 
 import { SectionUsefull } from "./components/UsefullWindow/UsefullSection";
 import { FinanceSection } from "./components/FinanceSections/FinanceSections";
+import { BestOffers } from "./components/BestOffers/BestOffers";
 export default function Home() {
   return (
     <div>
@@ -57,6 +58,7 @@ export default function Home() {
         <div className="pb-8" />
         <SectionUsefull />
         <FinanceSection />
+        <BestOffers />
       </div>
     </div>
   );

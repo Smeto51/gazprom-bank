@@ -2,7 +2,7 @@
 
 const DOMEN = "/Banners/";
 
-export const BANNERS = [
+export const BANNERS_1 = [
   {
     id: 1,
     title: "Премиальная карта с выгодой",
@@ -21,6 +21,28 @@ export const BANNERS = [
     bg: "rgb(219,223,236)",
     icon: "https://cdn.gpb.ru/upload/files/bve/6ac/0xjj2ps3p60d7k2p83z9ssx4t70m0tqp/x1_cta_2.png",
     localIcon: DOMEN + "Private.png",
+    link: "#",
+  },
+];
+
+export const BANNERS_2 = [
+  {
+    id: 1,
+    title: "Установите мобильное приложение",
+    desc: "Для iOS и Android",
+    textColor: "black",
+    bg: "#FFF0F5",
+    icon: "https://cdn.gpb.ru/upload/files/bve/061/zzml1v72p8ddsjx9q4cfinsamnlsehff/x1_Image_2x.png",
+    localIcon: DOMEN + "application.png",
+    link: "#",
+  },
+  {
+    id: 2,
+    title: "Единый день голосования",
+    textColor: "black",
+    bg: "#F4F6FA",
+    icon: "https://cdn.gpb.ru/upload/files/bve/e2e/znik40dc3d6yf4hunkm8lkf31gxuxicp/x1_Information-block-_-vybory2025EDG-_-704x360px.png",
+    localIcon: DOMEN + "golos.png",
     link: "#",
   },
 ];

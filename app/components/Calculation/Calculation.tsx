@@ -17,10 +17,11 @@ export const Calculation = () => {
           {CALCULATION_ITEMS.map((item) => (
             <div
               key={item.id}
-              className="relative bg-white rounded-2xl min-w-[140px] pt-4 pl-3 pr-3 pb-25 overflow-hidden"
+              className="relative bg-white rounded-2xl min-w-[140px] pt-4 pl-3 pr-3 pb-30 overflow-hidden"
             >
               <p className="font-medium">{item.title}</p>
-              <span className="absolute left-7 top-20 ">
+
+              <span className="absolute left-5 top-20 min-w-[140px]">
                 <FallBackImg
                   src={item.icon}
                   offIcon={item.localIcon}

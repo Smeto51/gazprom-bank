@@ -7,6 +7,7 @@ import { SectionUsefull } from "./components/UsefullWindow/UsefullSection";
 import { FinanceSection } from "./components/FinanceSections/FinanceSections";
 import { BestOffers } from "./components/BestOffers/BestOffers";
 import { Banners } from "./components/Banners/Banners";
+import { Calculation } from "./components/Calculation/Calculation";
 export default function Home() {
   return (
     <div>
@@ -61,6 +62,7 @@ export default function Home() {
         <FinanceSection />
         <BestOffers />
         <Banners />
+        <Calculation />
       </div>
     </div>
   );

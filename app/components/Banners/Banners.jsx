@@ -10,10 +10,7 @@ export const Banners = () => {
     <div className="max-[1023px]:max-w-3xl">
       {BANNERS.map((banners) => (
         <div key={banners.id} className="p-4 mt-4 ">
-          <div
-            key={banners.id}
-            className={`bg-[${banners.bg}] rounded-2xl p-4`}
-          >
+          <div className={`rounded-2xl p-4`} style={{ background: banners.bg }}>
             <Link href={banners.link} className={`text-${banners.textColor}`}>
               <div className={`flex flex-shrink-0`}>
                 <div className={`max-w-[60%] min-w-[200px]`}>

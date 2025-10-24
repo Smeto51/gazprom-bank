@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export const FallBackImg = ({ src, offIcon, alt }) => {
+export const FallBackImg = ({ src, offIcon, alt, className = "" }) => {
   const [realSrc, setRealSrc] = useState(offIcon);
 
   useEffect(() => {
@@ -22,5 +22,6 @@ export const FallBackImg = ({ src, offIcon, alt }) => {
     };
   }, [src, offIcon]);
 
-  return <img src={realSrc} alt={alt} />;
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={realSrc} alt={alt} className={className} />;
 };

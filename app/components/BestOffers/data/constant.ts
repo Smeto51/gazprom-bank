@@ -41,7 +41,7 @@ export const BEST_OFFERS = [
     title: "Накопительный счет",
     desc: "повышенная ставка новым клиентам",
     icon: "https://cdn.gpb.ru/upload/files/bve/722/tbxvumt5ch3nm2sjc50alknes1bgkh8q/x1_Link-block-_-560x544_nakopitelnyy-schet-bez-stavki_17.05.25.png",
-    offIcon: DOMEN + "%.png",
+    offIcon: DOMEN + "1.png",
     link: "#",
   },
 ];

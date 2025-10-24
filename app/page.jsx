@@ -6,6 +6,10 @@ import { ArrowSVG } from "./ui/SvgElements";
 import { SectionUsefull } from "./components/UsefullWindow/UsefullSection";
 import { FinanceSection } from "./components/FinanceSections/FinanceSections";
 import { BestOffers } from "./components/BestOffers/BestOffers";
+import { Banners } from "./components/Banners/Banners";
+import { Calculation } from "./components/Calculation/Calculation";
+import { BANNERS_1, BANNERS_2 } from "./components/Banners/data/constant";
+import { ServicesForYou } from "./components/ServicesForYou/ServicesForYou";
 export default function Home() {
   return (
     <div>
@@ -59,6 +63,10 @@ export default function Home() {
         <SectionUsefull />
         <FinanceSection />
         <BestOffers />
+        <Banners b={BANNERS_1} />
+        <Calculation />
+        <ServicesForYou />
+        <Banners b={BANNERS_2} />
       </div>
     </div>
   );

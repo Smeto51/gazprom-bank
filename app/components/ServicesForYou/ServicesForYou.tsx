@@ -4,14 +4,36 @@ import Link from "next/link";
 import { SERVICES_ITEMS } from "./data/constant";
 import { ArrowSVG } from "@/app/ui/SvgElements";
 import { FallBackImg } from "@/app/utils/FallBackImg";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const ServicesForYou = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [tempSERVICES_ITEMS, setTempSERVICES_ITEMS] = useState([
-    ...SERVICES_ITEMS,
-  ]);
+  const scrollingRef = useRef(false);
+  const idTimerRef = useRef<number | null>(null);
+
+  const [snapOff, setSnapOff] = useState(true);
+
+  const initialCopies = 3;
+
+  const [tempSERVICES_ITEMS, setTempSERVICES_ITEMS] = useState(() => {
+    const tempArray = [];
+    for (let i = 0; i < initialCopies * 2 + 1; i++) {
+      tempArray.push(...SERVICES_ITEMS);
+    }
+    return tempArray;
+  });
+
+  const [currentIndex, setCurrentIndex] = useState(
+    initialCopies * SERVICES_ITEMS.length
+  );
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      const cardWidth = window.innerWidth;
+      const initialPosition = initialCopies * SERVICES_ITEMS.length * cardWidth;
+      scrollRef.current.scrollLeft = initialPosition;
+    }
+  }, []);
 
   const handleClick = useCallback(
     (index: number) => {
@@ -43,18 +65,53 @@ export const ServicesForYou = () => {
     [tempSERVICES_ITEMS]
   );
 
-  const handleScroll = useCallback(() => {
+  // --- безопасные добавления только в idle ---
+  const prependBlock = useCallback(() => {
     if (scrollRef.current) {
+      const cardWidth = getCardWidth();
+      const idx = Math.round(scrollRef.current.scrollLeft / cardWidth);
       const scrollLeft = scrollRef.current.scrollLeft;
-      const cardWidth = window.innerWidth;
-      const newIndex = Math.round(scrollLeft / cardWidth);
-      setCurrentIndex(newIndex);
-
-      if (scrollLeft > (tempSERVICES_ITEMS.length - 1) * 400 + 20) {
+      if (idx < SERVICES_ITEMS.length + 2) {
         setTempSERVICES_ITEMS([...tempSERVICES_ITEMS, ...SERVICES_ITEMS]);
+
+        const cardWidth = window.innerWidth;
+        const initialPosition = scrollLeft + SERVICES_ITEMS.length * cardWidth;
+
+        scrollRef.current.scrollLeft = initialPosition;
       }
+
+      setCurrentIndex(idx);
     }
   }, [tempSERVICES_ITEMS]);
+
+  const markScrolling = useCallback(() => {
+    scrollingRef.current = true;
+    if (idTimerRef.current) window.clearTimeout(idTimerRef.current);
+    idTimerRef.current = window.setTimeout(() => {
+      scrollingRef.current = false;
+      prependBlock();
+    }, 80);
+  }, [prependBlock]);
+
+  const getCardWidth = () =>
+    scrollRef.current?.clientWidth ?? window.innerWidth;
+
+  const handleScroll = useCallback(() => {
+    if (scrollRef.current) {
+      setSnapOff(true);
+      const cardWidth = getCardWidth();
+      const idx = Math.round(scrollRef.current.scrollLeft / cardWidth);
+      //===> RIGHT
+      const scrollLeft = scrollRef.current.scrollLeft;
+      setCurrentIndex(idx);
+      //BJDebugMsg("newIndex = " + idx);
+      if (scrollLeft > (tempSERVICES_ITEMS.length - 1) * 400 + 20) {
+        setTempSERVICES_ITEMS([...tempSERVICES_ITEMS, ...SERVICES_ITEMS]);
+      } else {
+        markScrolling();
+      }
+    }
+  }, [tempSERVICES_ITEMS, markScrolling]);
 
   const normalizedIndex = currentIndex % SERVICES_ITEMS.length;
 
@@ -65,12 +122,14 @@ export const ServicesForYou = () => {
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex overflow-x-auto scrollbar-hide overflow-y-hidden snap-x snap-mandatory scroll-smooth"
+          className={`flex overflow-x-auto scrollbar-hide overflow-y-hidden 
+          ${snapOff ? "snap-x snap-mandatory" : ""}`}
         >
           {tempSERVICES_ITEMS.map((items, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-screen rounded-2xl min-h-auto snap-start relative"
+              className={`flex-shrink-0 w-screen rounded-2xl min-h-auto relative
+                ${snapOff ? "snap-start" : ""}`}
             >
               <div
                 className="absolute inset-0 mx-[16px] rounded-2xl"

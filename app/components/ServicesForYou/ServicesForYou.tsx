@@ -65,7 +65,7 @@ export const ServicesForYou = () => {
     [tempSERVICES_ITEMS]
   );
 
-  // --- безопасные добавления только в idle ---
+
   const prependBlock = useCallback(() => {
     if (scrollRef.current) {
       const cardWidth = getCardWidth();

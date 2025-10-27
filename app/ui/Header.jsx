@@ -52,9 +52,7 @@ const Header = () => {
   return (
     <header className="w-full">
       <div className="header_full_main_menu">
-        <CityProvider>
-          <HeaderMenu onSearchClick={handleSearchClick} />
-        </CityProvider>
+        <HeaderMenu onSearchClick={handleSearchClick} />
 
         <div className="hidden lg:block h-full">
           <HeaderNavPanel />

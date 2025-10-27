@@ -8,6 +8,7 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import { useCity } from "./HeadersComponents/ContextApi/CityContext";
 
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 часа
 
@@ -63,12 +64,8 @@ const CitiesContent = ({ onCityChange, onOpenChange }: CitiesContentProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [searchingCity, setSearchingCity] = useState("");
-  const [selectedCity, setSelectedCity] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("selectedCity") || "Мурманск";
-    }
-    return "Мурманск";
-  });
+  const { selectedCity, setSelectedCity } = useCity();
+
   const [initialCityLoaded, setInitialCityLoaded] = useState(false);
 
   const {
@@ -128,7 +125,7 @@ const CitiesContent = ({ onCityChange, onOpenChange }: CitiesContentProps) => {
       setTimeout(() => setIsOpen(false), 200);
       onCityChange?.();
     },
-    [onCityChange, onOpenChange]
+    [onCityChange, onOpenChange, setSelectedCity]
   );
 
   if (isError)

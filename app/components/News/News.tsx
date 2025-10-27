@@ -27,7 +27,12 @@ export const LastNews = () => {
             </Link>
           </div>
         ))}
-        <Link href="#">Все новости</Link>
+        <Link
+          href="#"
+          className="bg-black p-6 text-white rounded-2xl w-full flex items-center justify-center"
+        >
+          Все новости
+        </Link>
       </div>
     </>
   );

@@ -385,3 +385,25 @@ export const MiniCrossSVG = () => {
     </svg>
   );
 };
+
+export const SVGComponet = {
+  Geo: () => (
+    <>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          className="progressive_icon progressive_icon16"
+        >
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M1.43 7.1a1 1 0 0 1-.037-.75c.15-.431.915-.738 2.447-1.35l7.618-3.048c1.26-.504 1.89-.756 2.277-.58a1 1 0 0 1 .5.5c.176.387-.076 1.017-.58 2.277l-3.047 7.618c-.613 1.532-.92 2.298-1.351 2.447a1 1 0 0 1-.75-.038c-.414-.193-.64-.986-1.094-2.572l-.732-2.562c-.026-.094-.022-.09-.116-.117l-2.562-.732c-1.586-.453-2.38-.68-2.572-1.093Zm5.479.624-3.77-1.087 9.723-3.892L8.97 12.47l-1.087-3.77a1.35 1.35 0 0 0-.975-.975Z"
+            fill="currentColor"
+          ></path>
+        </svg>
+      </svg>
+    </>
+  ),
+  Info: () => <></>,
+};

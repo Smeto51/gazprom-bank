@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type City = {
   id: string;
@@ -8,6 +8,9 @@ type City = {
 };
 
 type CityContextType = {
+  selectedCity: string;
+  setSelectedCity: (city: string) => void;
+
   cityChanged: City[];
   setCityChanged: (cities: City[]) => void;
 };
@@ -15,10 +18,40 @@ type CityContextType = {
 const CityContext = createContext<CityContextType | undefined>(undefined);
 
 export const CityProvider = ({ children }: { children: React.ReactNode }) => {
+  const [selectedCityState, setSelectedCityState] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("selectedCity") || "Мурманск";
+    }
+    return "Мурманск";
+  });
+
   const [cityChanged, setCityChanged] = useState<City[]>([]);
 
+  const setSelectedCity = (city: string) => {
+    setSelectedCityState(city);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("selectedCity", city);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("selectedCity");
+      if (saved && saved !== selectedCityState) {
+        setSelectedCityState(saved);
+      }
+    }
+  }, [selectedCityState]);
+
   return (
-    <CityContext.Provider value={{ cityChanged, setCityChanged }}>
+    <CityContext.Provider
+      value={{
+        selectedCity: selectedCityState,
+        setSelectedCity,
+        cityChanged,
+        setCityChanged,
+      }}
+    >
       {children}
     </CityContext.Provider>
   );

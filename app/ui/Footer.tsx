@@ -4,8 +4,12 @@ import Image from "next/image";
 import { GazpromBankSvg, SVGComponet } from "./SvgElements";
 import Link from "next/link";
 import Cities from "./Cities";
+import { FOOTER_INFO, FOOTER_ITEMS } from "./data/constant";
+import { useState } from "react";
 
 export const Footer = () => {
+  const [showAll, setShowAll] = useState(false);
+  const visibleItems = showAll ? FOOTER_ITEMS : FOOTER_ITEMS.slice(0, 5);
   return (
     <footer className="p-4 bg-gray-200/60 rounded-2xl space-y-8 mt-6">
       <div className="text-blue-500">
@@ -67,8 +71,67 @@ export const Footer = () => {
           117420, г. Москва, ул. Наметкина, дом 16, корпус 1
         </p>
       </div>
-      <div></div>
-      <div className="mt-100"></div>
+      <div className="flex flex-col">
+        {visibleItems.map((items) => (
+          <div key={items.id} className="mb-4">
+            <Link href={items.link}>
+              <span className="text-[16px] leading-5 ">{items.title}</span>
+            </Link>
+          </div>
+        ))}
+        {FOOTER_ITEMS.length > 5 && !showAll && (
+          <button
+            className="text-blue-500 text-left mt-2"
+            onClick={() => setShowAll(true)}
+          >
+            Показать все
+          </button>
+        )}
+      </div>
+      <div className="leading-5 text-[14px] text-black/50 space-y-2 flex flex-wrap">
+        {FOOTER_INFO.map((i) => (
+          <Link href={i.link} key={i.id}>
+            {i.title}
+          </Link>
+        ))}
+      </div>
+      <div className="">
+        <p className="leading-5 text-[14px] text-black/50">
+          Сайт Газпромбанка (Акционерное общество) использует{" "}
+          <a
+            className="leading-5 text-[14px] text-black"
+            href="javascript:void(0)"
+          >
+            cookie-файлы
+          </a>
+          . Что это значит? Сookie — это небольшие файлы, которые содержат
+          информацию о предыдущих посещениях сайта. Они используются для
+          персонализации сервисов и для повышения удобства работы с сайтом. Если
+          вы не хотите, чтобы сookie хранились на вашем устройстве, вы можете
+          запретить их в настройках браузера или с помощью специальных программ.
+          Обратите внимание, что после их отключения сайт может работать хуже
+        </p>
+      </div>
+      <div className="flex gap-3">
+        {[
+          <SVGComponet.Vk key="vk" />,
+          <SVGComponet.Ok key="ok" />,
+          <SVGComponet.Telegram key="tg" />,
+        ].map((Icon, i) => (
+          <Link
+            key={i}
+            href="javascript:void(0)"
+            className="relative flex items-center justify-center w-10 h-10 rounded-full overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gray-400/30 hover:bg-gray-400 transition-colors" />
+            <div className="relative flex w-6 z-10">{Icon}</div>
+          </Link>
+        ))}
+      </div>
+      <p className="leading-5 text-[14px] text-black/50">
+        © 1990-2025, Банк ГПБ (АО) Генеральная лицензия Банка России № 354
+      </p>
+      <div className="mt-5 "></div>
     </footer>
   );
 };

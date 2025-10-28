@@ -11,8 +11,6 @@ export const Footer = () => {
   const [showAll, setShowAll] = useState(false);
   const headItems = FOOTER_ITEMS.slice(0, 5);
   const tailItems = FOOTER_ITEMS.slice(5);
-  console.log(headItems.length);
-  console.log(tailItems.length);
   return (
     <footer className="p-4 bg-gray-200/60 rounded-2xl space-y-8 mt-6">
       <div className="text-blue-500">
@@ -83,25 +81,27 @@ export const Footer = () => {
           </div>
         ))}
         <div
-          className={`overflow-hidden transition-[max-height] duration-500 ease-out
-          ${showAll ? "" : "max-h-0"}`}
+          className={`grid transition-all duration-500 ease-out
+          ${showAll ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
         >
-          {tailItems.map((item, i) => (
-            <div
-              key={i}
-              className={`mb-4 transition-all duration-500
+          <div className="overflow-hidden">
+            {tailItems.map((item, i) => (
+              <div
+                key={i}
+                className={`mb-4 transition-opacity duration-500
               ${
                 showAll
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-2"
               }`}
-              style={{ transitionDelay: showAll ? `${i * 40}ms` : "0ms" }}
-            >
-              <Link href={item.link}>
-                <span className="text-[16px] leading-5">{item.title}</span>
-              </Link>
-            </div>
-          ))}
+                style={{ transitionDelay: showAll ? `${i * 40}ms` : "0ms" }}
+              >
+                <Link href={item.link}>
+                  <span className="text-[16px] leading-5">{item.title}</span>
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
         {tailItems.length > 0 && !showAll && (
           <button

@@ -9,7 +9,10 @@ import { useState } from "react";
 
 export const Footer = () => {
   const [showAll, setShowAll] = useState(false);
-  const visibleItems = showAll ? FOOTER_ITEMS : FOOTER_ITEMS.slice(0, 5);
+  const headItems = FOOTER_ITEMS.slice(0, 5);
+  const tailItems = FOOTER_ITEMS.slice(5);
+  console.log(headItems.length);
+  console.log(tailItems.length);
   return (
     <footer className="p-4 bg-gray-200/60 rounded-2xl space-y-8 mt-6">
       <div className="text-blue-500">
@@ -72,14 +75,35 @@ export const Footer = () => {
         </p>
       </div>
       <div className="flex flex-col">
-        {visibleItems.map((items) => (
+        {headItems.map((items) => (
           <div key={items.id} className="mb-4">
             <Link href={items.link}>
               <span className="text-[16px] leading-5 ">{items.title}</span>
             </Link>
           </div>
         ))}
-        {FOOTER_ITEMS.length > 5 && !showAll && (
+        <div
+          className={`overflow-hidden transition-[max-height] duration-500 ease-out
+          ${showAll ? "" : "max-h-0"}`}
+        >
+          {tailItems.map((item, i) => (
+            <div
+              key={i}
+              className={`mb-4 transition-all duration-500
+              ${
+                showAll
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-2"
+              }`}
+              style={{ transitionDelay: showAll ? `${i * 40}ms` : "0ms" }}
+            >
+              <Link href={item.link}>
+                <span className="text-[16px] leading-5">{item.title}</span>
+              </Link>
+            </div>
+          ))}
+        </div>
+        {tailItems.length > 0 && !showAll && (
           <button
             className="text-blue-500 text-left mt-2"
             onClick={() => setShowAll(true)}

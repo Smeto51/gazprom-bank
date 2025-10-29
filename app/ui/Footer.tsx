@@ -12,7 +12,7 @@ export const Footer = () => {
   const headItems = FOOTER_ITEMS.slice(0, 5);
   const tailItems = FOOTER_ITEMS.slice(5);
   return (
-    <footer className="p-4 bg-gray-200/60 rounded-2xl space-y-8 mt-6">
+    <footer className="p-4 bg-gray-200/60 rounded-t-2xl space-y-8 mt-6">
       <div className="text-blue-500">
         <GazpromBankSvg />
       </div>

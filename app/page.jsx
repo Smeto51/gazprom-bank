@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { FINANCIAL_PRODUCTS_ITEMS } from "./Variable";
 import { ArrowSVG } from "./ui/SvgElements";
-
 import { SectionUsefull } from "./components/UsefullWindow/UsefullSection";
 import { FinanceSection } from "./components/FinanceSections/FinanceSections";
 import { BestOffers } from "./components/BestOffers/BestOffers";
@@ -11,7 +10,10 @@ import { Calculation } from "./components/Calculation/Calculation";
 import { BANNERS_1, BANNERS_2 } from "./components/Banners/data/constant";
 import { ServicesForYou } from "./components/ServicesForYou/ServicesForYou";
 import { LastNews } from "./components/News/News";
+import { SearchHome } from "./components/SearchBlock/SearchBlock";
+
 export default function Home() {
+  const searchIndex = 0;
   return (
     <div>
       <div className="max-[1024]:max-w-3xl max-[1024]:ml-auto max-[1024]:mr-auto min-[1024]:hidden">
@@ -70,6 +72,7 @@ export default function Home() {
         <Banners b={BANNERS_2} />
         <LastNews />
       </div>
+      <SearchHome searchIndex={searchIndex} />
     </div>
   );
 }

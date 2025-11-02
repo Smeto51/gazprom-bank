@@ -15,8 +15,8 @@ import { SearchHome } from "./components/SearchBlock/SearchBlock";
 export default function Home() {
   const searchIndex = 0;
   return (
-    <div>
-      <div className="max-[1024]:max-w-3xl max-[1024]:ml-auto max-[1024]:mr-auto min-[1024]:hidden">
+    <div className="">
+      <div className="max-[1024px]:max-w-3xl max-[1024]:ml-auto max-[1024px]:mr-auto min-[1024px]:hidden">
         <section className="flex h-45 pl-4 pr-4 gap-4 overflow-x-auto overflow-y-hidden scrollbar-hide">
           {FINANCIAL_PRODUCTS_ITEMS.map((item) => (
             <Link

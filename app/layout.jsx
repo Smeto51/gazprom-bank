@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
           <Header />
           {children}
           <Footer />
-          <div className={isHome ? "mt-20" : ""} />
+          <div className={isHome ? "mt-30" : ""} />
         </CityProvider>
       </body>
     </html>

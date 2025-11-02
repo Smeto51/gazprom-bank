@@ -8,27 +8,10 @@ import {
   SVGComponet,
 } from "@/app/ui/SvgElements";
 import Link from "next/link";
+import { SerachDefoult } from "./SearchDefoult";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const links = [
-  {
-    href: "javascript:void(0)",
-    text: "Для всех",
-    icon: <SVGComponet.ForEveryone />,
-  },
-  { href: "javascript:void(0)", text: "МСБ", icon: <SVGComponet.MSB /> },
-  {
-    href: "javascript:void(0)",
-    text: "Крупному бизнесу",
-    icon: <SVGComponet.Ecosystem />,
-  },
-  {
-    href: "javascript:void(0)",
-    text: "Экосистема",
-    icon: <SVGComponet.Ecosystem />,
-  },
-];
-
-const links2 = [
   {
     href: "javascript:void(0)",
     text: "Скачать мобильное приложение",
@@ -50,49 +33,108 @@ const links2 = [
     icon: <SVGComponet.Money />,
   },
 ];
+
+const SearchInput = () => (
+  <div className="flex gap-5 pb-4 px-5">
+    <div className=" flex gap-3 text-black/50 bg-[#0a0a0b14] p-2 rounded-[8px] w-full">
+      <Magnifier />
+      <input className="w-full" placeholder="Поиск" />
+      <button>
+        <SVGComponet.ButtonArrow />{" "}
+      </button>
+    </div>
+    <div className="items-center flex w-10">
+      <div className="p-2 bg-[#0a0a0b14] rounded-[12px]">
+        <SVGComponet.Microphone />
+      </div>
+    </div>
+  </div>
+);
+
+const SearchMenu = () => (
+  <div className="p-2 flex flex-col gap-4 min-w-[calc(100vw-32px)]">
+    {links.map((item, index) => (
+      <Link
+        key={index}
+        href={item.href}
+        className="flex items-center justify-between relative px-3 py-2 rounded-lg transition"
+      >
+        <div className="flex items-center gap-3 text-black/80">
+          <div className="w-10 h-10 flex items-center justify-center text-black/60 bg-[#f5f5f5] rounded-[8px]">
+            <div></div>
+            {item.icon}
+          </div>
+          {item.text}
+        </div>
+
+        <div className="w-5 h-5 flex items-center justify-center text-black/60">
+          <ArrowSVG />
+        </div>
+      </Link>
+    ))}
+  </div>
+);
+
 export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
   const { modalIsOpen, toggleModal } = useModal();
 
+  const [dragY, setDragY] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const startYRef = useRef(0);
+
+  useEffect(() => {
+    if (modalIsOpen) setDragY(0);
+  }, [modalIsOpen]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (isDragging) {
+      const prev = document.body.style.userSelect;
+      document.body.style.userSelect = "none";
+      return () => {
+        document.body.style.userSelect = prev;
+      };
+    }
+  }, [isDragging]);
+
+  const onPointerDown = useCallback(
+    (e: React.PointerEvent) => {
+      if (!modalIsOpen) return;
+      setIsDragging(true);
+      startYRef.current = e.clientY;
+      const target = e.target as HTMLElement;
+      target.setPointerCapture?.(e.pointerId);
+    },
+    [modalIsOpen]
+  );
+
+  const onPointerMove = useCallback(
+    (e: React.PointerEvent) => {
+      if (!isDragging) return;
+      const delta = e.clientY - startYRef.current;
+      setDragY(delta > 0 ? delta : 0);
+    },
+    [isDragging]
+  );
+
+  const onPointerEndDrag = useCallback(
+    (e: React.PointerEvent) => {
+      if (!isDragging) return;
+      setIsDragging(false);
+      setDragY(0);
+      const target = e.target as HTMLElement;
+      target.releasePointerCapture?.(e.pointerId);
+    },
+    [isDragging]
+  );
+
   return (
     <>
-      <div
-        className={`fixed bottom-0 max-w-3xl z-1000 flex flex-col gap-3  left-0 right-0 bg-white border-t 
-       border-gray-300 rounded-t-[12px] 
-       duration-500 cursor-pointer focus:outline-none
-       ${modalIsOpen ? "opacity-0 pointer-events-none" : "opacity-100"}`}
-      >
-        <div
-          className={`flex gap-3 items-center pt-4 px-4 
-       `}
-          onClick={toggleModal}
-        >
-          <div className=" flex gap-3 text-black/50 bg-[#0a0a0b14] p-2 rounded-[8px] w-full">
-            <Magnifier />
-            <p>Поиск</p>
-          </div>
-          <button></button>
-          <div className="items-center flex w-10">
-            <div className="p-2 bg-[#0a0a0b14] rounded-[12px]">
-              <SVGComponet.Microphone />
-            </div>
-          </div>
-        </div>
-
-        <div className="flex gap-1 overflow-x-auto scrollbar-hide whitespace-nowrap mb-4 mt-1">
-          {links.map((link, index) => (
-            <Link
-              key={index}
-              href={link}
-              className={`bg-[#0a0a0b14] px-3 py-1 rounded-[8px] flex ml-3 mr-3
-                ${searchIndex == index ? "text-white bg-black" : "text-black"}`}
-            >
-              <div className="flex w-5 h-5 my-0.5">{link.icon}</div>
-
-              {link.text}
-            </Link>
-          ))}
-        </div>
-      </div>
+      <SerachDefoult
+        searchIndex={searchIndex}
+        modalIsOpen={modalIsOpen}
+        toggleModal={toggleModal}
+      />
 
       {/**transform-gpu alt translateZ(0)
        * Плавность	На iOS и Android анимации translate, scale, rotate без GPU иногда «фризят». GPU-слой делает движение идеально плавным.
@@ -101,9 +143,27 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
       <div
         className={`z-1000 fixed inset-0 transition-transform duration-200 ease-out transform-gpu
           ${modalIsOpen ? "translate-y-0" : "translate-y-full"}`}
+        style={{
+          transform: isDragging ? `translate3d(0, ${dragY}px, 0)` : undefined,
+          transition: isDragging ? "none" : undefined,
+        }}
       >
-        <div className="fixed bottom-0 bg-[#fff] w-full rounded-t-2xl px-4 border-gray-200 border">
-          <div className="relative min-h-14  pt-4 ">
+        <div
+          className="fixed bottom-0 bg-[#fff] w-full rounded-t-2xl px-4 border-gray-200 border
+        left-1/2 -translate-x-1/2 max-w-3xl"
+        >
+          <div
+            className="bg-[#0a0a0b14] w-10 h-1 rounded-[20px] mx-auto mt-2 touch-none"
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerEndDrag}
+          />
+          <div
+            className="relative min-h-14  pt-4 touch-none"
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerEndDrag}
+          >
             <div
               className="absolute flex items-center justify-center w-6 h-6 top-2 right-0 
             bg-[#0a0a0b14] rounded-[50%] cursor-pointer z-1000"
@@ -114,43 +174,14 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
               </div>
             </div>
           </div>
-          <div className="flex gap-5 pb-4">
-            <div className=" flex gap-3 text-black/50 bg-[#0a0a0b14] p-2 rounded-[8px] w-full">
-              <Magnifier />
-              <input className="" placeholder="Поиск" />
-              <button>
-                <SVGComponet.ButtonArrow />{" "}
-              </button>
-            </div>
-            <div className="items-center flex w-10">
-              <div className="p-2 bg-[#0a0a0b14] rounded-[12px]">
-                <SVGComponet.Microphone />
-              </div>
-            </div>
-          </div>
-          <div className="p-2 flex flex-col gap-4 min-w-[calc(100vw-32px)]">
-            {links2.map((item, index) => (
-              <Link
-                key={index}
-                href={item.href}
-                className="flex items-center justify-between relative px-3 py-2 rounded-lg transition"
-              >
-                <div className="flex items-center gap-3 text-black/80">
-                  <div className="w-10 h-10 flex items-center justify-center text-black/60 bg-[#f5f5f5] rounded-[8px]">
-                    <div></div>
-                    {item.icon}
-                  </div>
-                  {item.text}
-                </div>
-
-                <div className="w-5 h-5 flex items-center justify-center text-black/60">
-                  <ArrowSVG />
-                </div>
-              </Link>
-            ))}
-          </div>
+          <SearchInput />
+          <SearchMenu />
         </div>
       </div>
+      <div
+        className={`fixed bg-black/60 w-screen inset-0 transition-opacity duration-500 ease-out
+        ${modalIsOpen ? "opacity-100 pointer-events-none" : "opacity-0"}`}
+      />
     </>
   );
 };

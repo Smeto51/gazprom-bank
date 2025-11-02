@@ -75,15 +75,21 @@ const SearchMenu = () => (
   </div>
 );
 
+const CLOSE_THRESHOLD = 200;
+
 export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
   const { modalIsOpen, toggleModal } = useModal();
 
   const [dragY, setDragY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const startYRef = useRef(0);
 
   useEffect(() => {
-    if (modalIsOpen) setDragY(0);
+    if (modalIsOpen) {
+      setDragY(0);
+      setIsClosing(false);
+    }
   }, [modalIsOpen]);
 
   useEffect(() => {
@@ -99,35 +105,57 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
 
   const onPointerDown = useCallback(
     (e: React.PointerEvent) => {
-      if (!modalIsOpen) return;
+      if (!modalIsOpen || isClosing) return;
       setIsDragging(true);
       startYRef.current = e.clientY;
       const target = e.target as HTMLElement;
       target.setPointerCapture?.(e.pointerId);
     },
-    [modalIsOpen]
+    [modalIsOpen, isClosing]
   );
 
   const onPointerMove = useCallback(
     (e: React.PointerEvent) => {
-      if (!isDragging) return;
+      if (!isDragging || isClosing) return;
       const delta = e.clientY - startYRef.current;
       setDragY(delta > 0 ? delta : 0);
     },
-    [isDragging]
+    [isDragging, isClosing]
   );
 
   const onPointerEndDrag = useCallback(
     (e: React.PointerEvent) => {
       if (!isDragging) return;
       setIsDragging(false);
-      setDragY(0);
+      if (dragY >= CLOSE_THRESHOLD) {
+        setIsClosing(true);
+        setTimeout(() => {
+          toggleModal();
+        }, 250);
+      } else {
+        // Возвращаемся на место
+        setDragY(0);
+      }
+
       const target = e.target as HTMLElement;
       target.releasePointerCapture?.(e.pointerId);
     },
-    [isDragging]
+    [isDragging, dragY, toggleModal]
   );
 
+  const handleClose = useCallback(() => {
+    setIsClosing(true);
+    setTimeout(() => {
+      toggleModal();
+    }, 300);
+  }, [toggleModal]);
+
+  const getTranslateY = () => {
+    if (!modalIsOpen && !isClosing) return "100%";
+    if (isClosing) return "100%";
+    if (isDragging || dragY > 0) return `${dragY}px`;
+    return "0";
+  };
   return (
     <>
       <SerachDefoult
@@ -141,11 +169,11 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
         ✅ Отдельный слой	Элемент не перерисовывает фон и соседей при движении — экономит ресурсы.
         ✅ Меньше лагов	Особенно важно при 60 fps интерфейсах (модалки, слайдеры, bottom sheets). */}
       <div
-        className={`z-1000 fixed inset-0 transition-transform duration-200 ease-out transform-gpu
-          ${modalIsOpen ? "translate-y-0" : "translate-y-full"}`}
+        className={`z-1000 fixed inset-0  transform-gpu 
+          ${modalIsOpen ? "translate-y-0 " : "translate-y-full "}`}
         style={{
-          transform: isDragging ? `translate3d(0, ${dragY}px, 0)` : undefined,
-          transition: isDragging ? "none" : undefined,
+          transform: `translateY(${getTranslateY()})`,
+          transition: isDragging ? "none " : "transform 500ms ease-out",
         }}
       >
         <div
@@ -167,7 +195,7 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
             <div
               className="absolute flex items-center justify-center w-6 h-6 top-2 right-0 
             bg-[#0a0a0b14] rounded-[50%] cursor-pointer z-1000"
-              onClick={toggleModal}
+              onClick={handleClose}
             >
               <div className="scale-10">
                 <CrossSVG />

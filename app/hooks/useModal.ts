@@ -45,7 +45,7 @@ export const useModal = () => {
     const timer = setTimeout(() => {
       setModalIsOpen(false);
       setIsAnimating(false);
-    }, 100);
+    }, 300);
     return () => clearTimeout(timer);
   }, []);
 

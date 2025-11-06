@@ -2,6 +2,24 @@
 
 export const FINANCIAL_PRODUCTS_ITEMS = [
   {
+    id: 2,
+    href: "#",
+    title: "100% кэшбэк в супермаркетах",
+    description: "По дебетовой карте",
+    titleColor: "#000000",
+    ArrowColor: "#ffffff",
+    bg: "#ddf1ff", //teal
+    srcsetWebp: "FinanceProducts\\cashback-100.png",
+    srcsetPng:
+      "https://cdn.gpb.ru/upload/files/bve/3f8/d54nohkxpwx56jczcs5nffcg07rjhi74/Mobile-new-_-280kh360_1_.png 2x, https://cdn.gpb.ru/upload/files/bve/3f8/d54nohkxpwx56jczcs5nffcg07rjhi74/x1_Mobile-new-_-280kh360_1_.png",
+    srcImg:
+      "https://cdn.gpb.ru/upload/files/bve/3f8/d54nohkxpwx56jczcs5nffcg07rjhi74/x1_Mobile-new-_-280kh360_1_.png",
+    buttonName: "Акции",
+    buttonColor: "bg-black",
+    buttonTextColor: "text-white",
+    scrImg1024: "FinanceProducts\\cashback-1001024.png",
+  },
+  {
     id: 1,
     href: "#",
     title: "Накопительный счет ",
@@ -15,22 +33,12 @@ export const FINANCIAL_PRODUCTS_ITEMS = [
       "https://cdn.gpb.ru/upload/files/bve/de8/y98uufpt7f3lw059qq5cpiugt0lfua3v/Head-Banners-_Mobile-Only_-2-280kh360.png 2x, https://cdn.gpb.ru/upload/files/bve/de8/y98uufpt7f3lw059qq5cpiugt0lfua3v/x1_Head-Banners-_Mobile-Only_-2-280kh360.png",
     srcImg:
       "https://cdn.gpb.ru/upload/files/bve/de8/y98uufpt7f3lw059qq5cpiugt0lfua3v/x1_Head-Banners-_Mobile-Only_-2-280kh360.png",
+    buttonName: "Сбережения",
+    buttonColor: "bg-white",
+    buttonTextColor: "text-black",
+    scrImg1024: "FinanceProducts\\stavka165.png",
   },
-  {
-    id: 2,
-    href: "#",
-    title: "Карта с кэшбэком на самое важное",
-    description: "По дебетовой карте",
-    titleColor: "#000000",
-    ArrowColor: "#ffffff",
-    bg: "#ddf1ff", //teal
-    srcsetWebp:
-      "https://cdn.gpb.ru/upload/files/bve/3f8/d54nohkxpwx56jczcs5nffcg07rjhi74/Mobile-new-_-280kh360_1_.webp 2x, https://cdn.gpb.ru/upload/files/bve/3f8/d54nohkxpwx56jczcs5nffcg07rjhi74/x1_Mobile-new-_-280kh360_1_.webp",
-    srcsetPng:
-      "https://cdn.gpb.ru/upload/files/bve/3f8/d54nohkxpwx56jczcs5nffcg07rjhi74/Mobile-new-_-280kh360_1_.png 2x, https://cdn.gpb.ru/upload/files/bve/3f8/d54nohkxpwx56jczcs5nffcg07rjhi74/x1_Mobile-new-_-280kh360_1_.png",
-    srcImg:
-      "https://cdn.gpb.ru/upload/files/bve/3f8/d54nohkxpwx56jczcs5nffcg07rjhi74/x1_Mobile-new-_-280kh360_1_.png",
-  },
+
   {
     id: 3,
     href: "#",
@@ -45,12 +53,10 @@ export const FINANCIAL_PRODUCTS_ITEMS = [
       "https://cdn.gpb.ru/upload/files/bve/4c0/s70p3jejxbj9nq80y59oowye46o3ctig/Head-banner-mobile-NEW-_-PDS.png 2x, https://cdn.gpb.ru/upload/files/bve/4c0/s70p3jejxbj9nq80y59oowye46o3ctig/x1_Head-banner-mobile-NEW-_-PDS.png",
     srcImg:
       "https://cdn.gpb.ru/upload/files/bve/4c0/s70p3jejxbj9nq80y59oowye46o3ctig/x1_Head-banner-mobile-NEW-_-PDS.png",
-    /*srcsetWebp:
-      "https://cdn.gpb.ru/upload/files/bve/df6/9orh0nxl6exk1c9ndf100xqed4oetkjs/Head-banner-Desktop-_-PDS-_-960x1120px.webp 2x, https://cdn.gpb.ru/upload/files/bve/df6/9orh0nxl6exk1c9ndf100xqed4oetkjs/x1_Head-banner-Desktop-_-PDS-_-960x1120px.webp",
-    srcsetPng:
-      "https://cdn.gpb.ru/upload/files/bve/df6/9orh0nxl6exk1c9ndf100xqed4oetkjs/Head-banner-Desktop-_-PDS-_-960x1120px.png 2x, https://cdn.gpb.ru/upload/files/bve/df6/9orh0nxl6exk1c9ndf100xqed4oetkjs/x1_Head-banner-Desktop-_-PDS-_-960x1120px.png",
-    srcImg:
-      "https://cdn.gpb.ru/upload/files/bve/df6/9orh0nxl6exk1c9ndf100xqed4oetkjs/x1_Head-banner-Desktop-_-PDS-_-960x1120px.png",*/
+    buttonName: "Сбережения",
+    buttonColor: "bg-black",
+    buttonTextColor: "text-white",
+    scrImg1024: "FinanceProducts\\savingsProgram.png",
   },
   {
     id: 4,

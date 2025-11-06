@@ -118,7 +118,7 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
     (e: React.PointerEvent) => {
       if (!isDragging || isClosing) return;
       const delta = e.clientY - startYRef.current;
-      setDragY(delta > 0 ? delta : 0);
+      setDragY(delta);
     },
     [isDragging, isClosing]
   );
@@ -170,15 +170,19 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
         ✅ Меньше лагов	Особенно важно при 60 fps интерфейсах (модалки, слайдеры, bottom sheets). */}
       <div
         className={`z-1000 fixed inset-0  transform-gpu 
-          ${modalIsOpen ? "translate-y-0 " : "translate-y-full "}`}
+          ${
+            modalIsOpen
+              ? "translate-y-300 "
+              : "translate-y-full opacity-0 pointer-events-none"
+          }`}
         style={{
           transform: `translateY(${getTranslateY()})`,
           transition: isDragging ? "none " : "transform 500ms ease-out",
         }}
       >
         <div
-          className="fixed bottom-0 bg-[#fff] w-full rounded-t-2xl px-4 border-gray-200 border
-        left-1/2 -translate-x-1/2 max-w-3xl"
+          className={`fixed bottom-0 bg-[#fff] w-full rounded-t-2xl px-4 border-gray-200 border
+        left-1/2 -translate-x-1/2 max-w-3xl ${modalIsOpen ? "" : ""}`}
         >
           <div
             className="bg-[#0a0a0b14] w-10 h-1 rounded-[20px] mx-auto mt-2 touch-none"
@@ -204,11 +208,12 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
           </div>
           <SearchInput />
           <SearchMenu />
+          <div className="mb-300" />
         </div>
       </div>
       <div
         className={`fixed bg-black/60 w-screen inset-0 transition-opacity duration-500 ease-out
-        ${modalIsOpen ? "opacity-100 pointer-events-none" : "opacity-0"}`}
+        ${modalIsOpen ? "opacity-100 " : "opacity-0 pointer-events-none"}`}
       />
     </>
   );

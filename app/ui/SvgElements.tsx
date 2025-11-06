@@ -654,4 +654,14 @@ export const SVGComponet = {
       </svg>
     </svg>
   ),
+  ArrowNext: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M5.47 13.78a.75.75 0 0 0 1.06 0l5.25-5.25a.75.75 0 0 0 0-1.06L6.53 2.22a.75.75 0 0 0-1.06 1.06L10.19 8l-4.72 4.72a.75.75 0 0 0 0 1.06Z"
+        fill="#1C1C1E"
+      ></path>
+    </svg>
+  ),
 };

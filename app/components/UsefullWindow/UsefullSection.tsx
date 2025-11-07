@@ -9,9 +9,10 @@ import {
   saveUsefulLocalCompleted,
 } from "./utils/saveLoadUsefullLocal";
 import { sortTips } from "./utils/sortedUseFull";
+import { useModalContext } from "@/app/contextApi/ModalContext";
 
 export const SectionUsefull = () => {
-  const [isUsefullWindowOpen, setIsUsefullWindowOpen] = useState(false);
+  const { isUsefullWindowOpen, setIsUsefullWindowOpen } = useModalContext();
   const [selectedPos, setSelectedPos] = useState<number | null>(null);
 
   const preloadUrls = useMemo(() => {

@@ -5,6 +5,7 @@ import "./globals.css";
 import { Footer } from "./ui/Footer";
 import Header from "./ui/Header.jsx";
 import { CityProvider } from "./ui/HeadersComponents/ContextApi/CityContext";
+import { ModalProvider } from "./contextApi/ModalContext";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -13,10 +14,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <CityProvider>
-          <Header />
-          {children}
-          <Footer />
-          <div className={isHome ? "mt-30" : ""} />
+          <ModalProvider>
+            <Header />
+            {children}
+            <Footer />
+            <div className={isHome ? "mt-30" : ""} />
+          </ModalProvider>
         </CityProvider>
       </body>
     </html>

@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import { SerachDefoult } from "./SearchDefoult";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useModalContext } from "@/app/contextApi/ModalContext";
 
 const links = [
   {
@@ -84,7 +85,7 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const startYRef = useRef(0);
-
+  const { isUsefullWindowOpen } = useModalContext();
   useEffect(() => {
     if (modalIsOpen) {
       setDragY(0);
@@ -158,63 +159,66 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
   };
   return (
     <>
-      <SerachDefoult
-        searchIndex={searchIndex}
-        modalIsOpen={modalIsOpen}
-        toggleModal={toggleModal}
-      />
-
-      {/**transform-gpu alt translateZ(0)
+      {!isUsefullWindowOpen && (
+        <>
+          <SerachDefoult
+            searchIndex={searchIndex}
+            modalIsOpen={modalIsOpen}
+            toggleModal={toggleModal}
+          />
+          {/**transform-gpu alt translateZ(0)
        * Плавность	На iOS и Android анимации translate, scale, rotate без GPU иногда «фризят». GPU-слой делает движение идеально плавным.
         ✅ Отдельный слой	Элемент не перерисовывает фон и соседей при движении — экономит ресурсы.
         ✅ Меньше лагов	Особенно важно при 60 fps интерфейсах (модалки, слайдеры, bottom sheets). */}
-      <div
-        className={`z-1000 fixed inset-0  transform-gpu 
+          <div
+            className={`z-1000 fixed inset-0  transform-gpu 
           ${
             modalIsOpen
               ? "translate-y-300 "
               : "translate-y-full opacity-0 pointer-events-none"
           }`}
-        style={{
-          transform: `translateY(${getTranslateY()})`,
-          transition: isDragging ? "none " : "transform 500ms ease-out",
-        }}
-      >
-        <div
-          className={`fixed bottom-0 bg-[#fff] w-full rounded-t-2xl px-4 border-gray-200 border
-        left-1/2 -translate-x-1/2 max-w-3xl ${modalIsOpen ? "" : ""}`}
-        >
-          <div
-            className="bg-[#0a0a0b14] w-10 h-1 rounded-[20px] mx-auto mt-2 touch-none"
-            onPointerDown={onPointerDown}
-            onPointerMove={onPointerMove}
-            onPointerUp={onPointerEndDrag}
-          />
-          <div
-            className="relative min-h-14  pt-4 touch-none"
-            onPointerDown={onPointerDown}
-            onPointerMove={onPointerMove}
-            onPointerUp={onPointerEndDrag}
+            style={{
+              transform: `translateY(${getTranslateY()})`,
+              transition: isDragging ? "none " : "transform 500ms ease-out",
+            }}
           >
             <div
-              className="absolute flex items-center justify-center w-6 h-6 top-2 right-0 
-            bg-[#0a0a0b14] rounded-[50%] cursor-pointer z-1000"
-              onClick={handleClose}
+              className={`fixed bottom-0 bg-[#fff] w-full rounded-t-2xl px-4 border-gray-200 border
+        left-1/2 -translate-x-1/2 max-w-3xl ${modalIsOpen ? "" : ""}`}
             >
-              <div className="scale-10">
-                <CrossSVG />
+              <div
+                className="bg-[#0a0a0b14] w-10 h-1 rounded-[20px] mx-auto mt-2 touch-none"
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerEndDrag}
+              />
+              <div
+                className="relative min-h-14  pt-4 touch-none"
+                onPointerDown={onPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerEndDrag}
+              >
+                <div
+                  className="absolute flex items-center justify-center w-6 h-6 top-2 right-0 
+            bg-[#0a0a0b14] rounded-[50%] cursor-pointer z-1000"
+                  onClick={handleClose}
+                >
+                  <div className="scale-10">
+                    <CrossSVG />
+                  </div>
+                </div>
               </div>
+              <SearchInput />
+              <SearchMenu />
+              <div className="mb-300" />
             </div>
           </div>
-          <SearchInput />
-          <SearchMenu />
-          <div className="mb-300" />
-        </div>
-      </div>
-      <div
-        className={`fixed bg-black/60 w-screen inset-0 transition-opacity duration-500 ease-out
+          <div
+            className={`fixed bg-black/60 w-screen inset-0 transition-opacity duration-500 ease-out
         ${modalIsOpen ? "opacity-100 " : "opacity-0 pointer-events-none"}`}
-      />
+          />{" "}
+        </>
+      )}
     </>
   );
 };

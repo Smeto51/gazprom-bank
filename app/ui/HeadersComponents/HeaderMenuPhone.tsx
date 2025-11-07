@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MOBILE_MENU, MOBILE_MENU_ITEMS } from "./VariablePhone";
 import Cities from "../Cities";
+import { useSearchBlockContext } from "@/app/contextApi/SearchBlockContext";
 
 const resetContainerHeight = (
   containerRef: React.RefObject<HTMLElement | null>
@@ -15,6 +16,8 @@ const resetContainerHeight = (
 };
 
 export const HeaderMenuPhone = () => {
+  const { setIsSearchBlockOpen } = useSearchBlockContext();
+
   const {
     modalIsOpen,
     toggleModal: toggleModalDropDown,
@@ -39,7 +42,7 @@ export const HeaderMenuPhone = () => {
 
   //Закрываем модальное окно, сбрасывая высоту
   const handleClose = useCallback(() => {
-    //resetContainerHeight(containerRef);
+    setIsSearchBlockOpen(true);
     if (!containerRef.current) return;
     const currentHeight = containerRef.current?.getBoundingClientRect().height;
     containerRef.current.style.height = `${currentHeight}px`;
@@ -57,7 +60,7 @@ export const HeaderMenuPhone = () => {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [toggleModalDropDown]);
+  }, [toggleModalDropDown, setIsSearchBlockOpen]);
 
   const handleMove = useCallback(
     (clientY: number) => {
@@ -141,10 +144,13 @@ export const HeaderMenuPhone = () => {
   return (
     <>
       <button
-        className={`py-1.5 pl-2 pr-2 bg-black mr-2 ml-2 rounded-md lg:hidden ${BUTTON_BLACK}`}
-        onClick={toggleModalDropDown}
+        className={`py-1.5 pl-2 pr-2  mr-2 ml-2 rounded-md lg:hidden ${BUTTON_BLACK}`}
+        onClick={() => {
+          toggleModalDropDown();
+          setIsSearchBlockOpen(false);
+        }}
       >
-        <div className="flex h-5 w-3.5 text-white rounded-md">
+        <div className="flex h-5 w-3.5 text-white rounded-md scale-120">
           <DropDownMenuSVG />
         </div>
       </button>

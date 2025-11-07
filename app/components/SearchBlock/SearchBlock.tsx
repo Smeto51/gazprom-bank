@@ -11,6 +11,7 @@ import Link from "next/link";
 import { SerachDefoult } from "./SearchDefoult";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useModalContext } from "@/app/contextApi/ModalContext";
+import { useSearchBlockContext } from "@/app/contextApi/SearchBlockContext";
 
 const links = [
   {
@@ -86,6 +87,7 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
   const [isClosing, setIsClosing] = useState(false);
   const startYRef = useRef(0);
   const { isUsefullWindowOpen } = useModalContext();
+  const { isSearchBlockOpen } = useSearchBlockContext();
   useEffect(() => {
     if (modalIsOpen) {
       setDragY(0);
@@ -159,7 +161,7 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
   };
   return (
     <>
-      {!isUsefullWindowOpen && (
+      {!isUsefullWindowOpen && isSearchBlockOpen && (
         <>
           <SerachDefoult
             searchIndex={searchIndex}
@@ -216,7 +218,7 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
           <div
             className={`fixed bg-black/60 w-screen inset-0 transition-opacity duration-500 ease-out
         ${modalIsOpen ? "opacity-100 " : "opacity-0 pointer-events-none"}`}
-          />{" "}
+          />
         </>
       )}
     </>

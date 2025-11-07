@@ -122,13 +122,15 @@ export const UsefullWindow = ({
       <div className="w-full h-full flex items-center justify-center min-[768]:rounded-2xl">
         <div
           ref={sliderContainerRef}
-          className="flex overflow-x-auto w-full h-full min-[768]:px-4 min-[768]:py-8 scrollbar-hide max-md:snap-x max-md:snap-mandatory items-center overflow-y-hidden gap-4"
+          className="flex overflow-x-auto w-full h-full min-[768]:px-4 min-[768]:py-8 scrollbar-hide max-md:snap-x max-md:snap-mandatory items-center overflow-y-hidden gap-4
+          "
         >
+          <div className="hidden md:block shrink-0 w-[360px]" />
           {viewSliders.map((sliderIndex, origIndex) => {
             const item: UseFulIItem = USESFUL_SLIDER[sliderIndex];
             const currentData = item.slides[currentSlides[sliderIndex]];
             const isActive = sliderIndex === activeSliderIndex;
-            console.log(activeSliderIndex);
+
             return (
               <div
                 key={item.id}
@@ -139,11 +141,12 @@ export const UsefullWindow = ({
                   min-[768px]:min-w-[360px] 
                   min-[768px]:min-h-[640px] 
                   min-[768px]:w-[44.9438202247vh] 
-                  min-[768px]:rounded-2xl overflow-hidden 
+                  min-[768px]:rounded-2xl overflow-hidden max-md:snap-start
+                  duration-300 transition-transform flex
                    ${
                      isActive
                        ? "min-[768px]:scale-100 min-[768px]:z-20"
-                       : "min-[768px]:scale-90 min-[768px]:z-10"
+                       : "min-[768px]:scale-90 min-[768px]:z-10 blur-xs"
                    }
               `}
                 onClick={() => handleSliderClick(sliderIndex)}
@@ -211,6 +214,7 @@ export const UsefullWindow = ({
               </div>
             );
           })}
+          <div className="hidden md:block shrink-0 w-[360px]" />
         </div>
       </div>
     </div>

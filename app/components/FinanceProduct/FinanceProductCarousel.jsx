@@ -10,10 +10,12 @@ export const Carousel = ({ children }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const scrollContainerRef = useRef(null);
-
+  const [pageVisible, setPageVisible] = useState(2);
+  //const pageVisible = window.innerWidth >= 1280 ? 3 : 2;
   useEffect(() => {
     const checkScreenSize = () => {
       const isLarge = window.innerWidth >= 1024;
+      setPageVisible(window.innerWidth >= 1280 ? 3 : 2);
       const wasLarge = isLargeScreen;
 
       setIsLargeScreen(isLarge);
@@ -33,8 +35,10 @@ export const Carousel = ({ children }) => {
   }, [isLargeScreen]);
 
   const handleNextClick = () => {
-    const pageWidth = itemsWidthRef.current.getBoundingClientRect().width / 2;
-    const maxIndex = pages.length - 2;
+    const pageWidth =
+      itemsWidthRef.current.getBoundingClientRect().width / pageVisible - 4;
+    console.log(pageWidth);
+    const maxIndex = pages.length - pageVisible;
     setCurrentIndex((current) => {
       const newIndex = Math.min(current + 1, maxIndex);
       setOffset(-newIndex * pageWidth);
@@ -43,7 +47,8 @@ export const Carousel = ({ children }) => {
   };
 
   const handleBackClick = () => {
-    const pageWidth = itemsWidthRef.current.getBoundingClientRect().width / 2;
+    const pageWidth =
+      itemsWidthRef.current.getBoundingClientRect().width / pageVisible - 4;
 
     setCurrentIndex((current) => {
       const newIndex = Math.max(current - 1, 0);
@@ -84,7 +89,8 @@ export const Carousel = ({ children }) => {
           style={{ transform: `translateX(${offset}px)` }}
         >
           {pages.map((child, index) => {
-            const isVisible = index >= currentIndex && index < currentIndex + 2;
+            const isVisible =
+              index >= currentIndex && index < currentIndex + pageVisible;
             return addStyle(child, index, isVisible);
           })}
         </div>
@@ -109,7 +115,7 @@ export const Carousel = ({ children }) => {
         onClick={handleBackClick}
         disabled={currentIndex === 0}
         className={`absolute top-1/2 left-3 bg-white rounded-full shadow-lg transition-all duration-200
-        max-lg:hidde cursor-pointer ${
+        max-lg:hidde cursor-pointer  ${
           currentIndex === 0 ? "opacity-0 pointer-events-none" : ""
         }`}
       >

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useWindowSize } from "./useWindowSize";
 
 const MODAL_CLASSES = {
-  base: "transition ease-in-out duration-300 z-1000",
+  base: "transition ease-in-out duration-300 z-1",
   open: "opacity-100 translate-y-0",
   close: "opacity-0 translate-y-5 pointer-events-none",
   closeBg: "opacity-0 translate-y-0 pointer-events-none",

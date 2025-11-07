@@ -65,7 +65,6 @@ export const ServicesForYou = () => {
     [tempSERVICES_ITEMS]
   );
 
-  // --- безопасные добавления только в idle ---
   const prependBlock = useCallback(() => {
     if (scrollRef.current) {
       const cardWidth = getCardWidth();
@@ -118,7 +117,7 @@ export const ServicesForYou = () => {
   return (
     <>
       <h2 className="text-[28px] font-semibold m-[32px]">Услуги для вас</h2>
-      <div>
+      <div className=" ">
         <div
           ref={scrollRef}
           onScroll={handleScroll}
@@ -128,7 +127,7 @@ export const ServicesForYou = () => {
           {tempSERVICES_ITEMS.map((items, index) => (
             <div
               key={index}
-              className={`flex-shrink-0 w-screen rounded-2xl min-h-auto relative
+              className={`flex-shrink-0 w-full rounded-2xl min-h-auto relative
                 ${snapOff ? "snap-start" : ""}`}
             >
               <div
@@ -136,7 +135,7 @@ export const ServicesForYou = () => {
                 style={{ background: items.bg }}
               />
               <Link className="absolute" href={items.link} />
-              <div className="relative z-1 pointer-events-none max-[1023px]:flex-col flex h-full mx-4">
+              <div className="relative z-0 pointer-events-none max-[1023px]:flex-col flex h-full mx-4 ">
                 <div className="max-[1023px]:p-6 p-8 relative flex flex-col justify-between h-full">
                   <div className="relative mb-2 z-2.5 text-[24px] font-semibold leading-6">
                     {items.title}

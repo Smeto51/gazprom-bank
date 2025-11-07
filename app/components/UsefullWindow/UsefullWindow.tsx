@@ -118,15 +118,17 @@ export const UsefullWindow = ({
   };
 
   return (
-    <div className="bg-[#1e222e] fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center min-w-[320px] z-100 p-0 ">
+    <div className="bg-[#1e222e] fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center min-w-[320px] z-20 p-0 ">
       <div className="w-full h-full flex items-center justify-center min-[768]:rounded-2xl">
         <div
           ref={sliderContainerRef}
-          className="flex overflow-x-auto w-full h-full min-[768]:px-4 min-[768]:py-8 scrollbar-hide "
+          className="flex overflow-x-auto w-full h-full min-[768]:px-4 min-[768]:py-8 scrollbar-hide max-md:snap-x max-md:snap-mandatory items-center overflow-y-hidden gap-4"
         >
           {viewSliders.map((sliderIndex, origIndex) => {
             const item: UseFulIItem = USESFUL_SLIDER[sliderIndex];
             const currentData = item.slides[currentSlides[sliderIndex]];
+            const isActive = sliderIndex === activeSliderIndex;
+            console.log(activeSliderIndex);
             return (
               <div
                 key={item.id}
@@ -137,7 +139,13 @@ export const UsefullWindow = ({
                   min-[768px]:min-w-[360px] 
                   min-[768px]:min-h-[640px] 
                   min-[768px]:w-[44.9438202247vh] 
-                  min-[768px]:rounded-2xl overflow-hidden`}
+                  min-[768px]:rounded-2xl overflow-hidden 
+                   ${
+                     isActive
+                       ? "min-[768px]:scale-100 min-[768px]:z-20"
+                       : "min-[768px]:scale-90 min-[768px]:z-10"
+                   }
+              `}
                 onClick={() => handleSliderClick(sliderIndex)}
               >
                 <div className="flex h-full absolute w-full">
@@ -145,6 +153,10 @@ export const UsefullWindow = ({
                     className="w-[50%] z-10"
                     onClick={(e) => {
                       e.stopPropagation();
+                      if (!isActive) {
+                        setActiveSliderIndex(sliderIndex);
+                        return;
+                      }
                       backSlide(sliderIndex);
                     }}
                   ></div>
@@ -152,6 +164,10 @@ export const UsefullWindow = ({
                     className="w-[50%] z-10"
                     onClick={(e) => {
                       e.stopPropagation();
+                      if (!isActive) {
+                        setActiveSliderIndex(sliderIndex);
+                        return;
+                      }
                       nextSlide(sliderIndex);
                     }}
                   ></div>
@@ -165,7 +181,7 @@ export const UsefullWindow = ({
                 />
                 <picture className="">
                   <img
-                    className="w-full max-[767px]:h-full max-[767px]:object-cover"
+                    className="w-full max-[767px]:h-full h-full max-[767px]:object-cover"
                     src={currentData.iconBg}
                     alt=""
                   />

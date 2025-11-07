@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-
 *:focus {
   outline: 2px solid transparent;
 }
@@ -8,7 +7,6 @@
 .scrollbar-hide {
   scrollbar-width: none;
 }
-
 
 .modal-slider {
   height: 100%;
@@ -22,4 +20,8 @@
     height: 80vh;
     width: 44.9438202247vh;
   }
+}
+
+body {
+  padding: 10px;
 }

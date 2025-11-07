@@ -31,6 +31,6 @@
     "app/testing file.tsx",
     "app/ui/Header.jsx",
     "app/ui/Cities.tsx"
-  ],
+, "app/ui/data/constant.js", "app/components/FinanceProduct/FinanceProductCarousel.jsx"  ],
   "exclude": ["node_modules"]
 }

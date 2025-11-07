@@ -5,15 +5,12 @@ import "./header.css";
 import HeaderMenu from "./HeadersComponents/HeaderMenu";
 import HeaderNavPanel from "./HeadersComponents/HeaderNavPanel";
 import HeaderSearching from "./HeadersComponents/HeaderMagnifierSearching";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { useWindowSize } from "../hooks/useWindowSize";
-import { CityProvider } from "./HeadersComponents/ContextApi/CityContext";
+import { useLayoutEffect, useRef, useState } from "react";
 
 const Header = () => {
   const [showSearch, setShowSearch] = useState(false);
   const searchRef = useRef();
   const ignoreClickRef = useRef(false);
-  const { width: windowWidth } = useWindowSize();
 
   useLayoutEffect(() => {
     const handleKeyDown = (e) => {
@@ -52,9 +49,7 @@ const Header = () => {
   return (
     <header className="w-full">
       <div className="header_full_main_menu">
-        <CityProvider>
-          <HeaderMenu onSearchClick={handleSearchClick} />
-        </CityProvider>
+        <HeaderMenu onSearchClick={handleSearchClick} />
 
         <div className="hidden lg:block h-full">
           <HeaderNavPanel />

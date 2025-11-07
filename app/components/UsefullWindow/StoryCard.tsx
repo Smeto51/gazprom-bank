@@ -6,7 +6,7 @@ import { Slide } from "./data/type";
 export const StoryCard = ({ currentData }: { currentData?: Slide }) => {
   if (!currentData) return null;
   return (
-    <div className="absolute pt-11 pr-6 pb-8 pl-6 bottom-0 left-0 right-0 text-white">
+    <div className="absolute pt-11 pr-6 pb-8 pl-6 bottom-0 left-0 right-0 text-white z-10">
       <h4 className="font-semibold text-[20px] leading-6 ">
         {currentData.title}
       </h4>

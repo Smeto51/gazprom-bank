@@ -4,10 +4,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useWindowSize } from "./useWindowSize";
 
 const MODAL_CLASSES = {
-  base: "transition ease-in-out duration-300 z-20",
+  base: "transition ease-in-out duration-300 z-1000",
   open: "opacity-100 translate-y-0",
   close: "opacity-0 translate-y-5 pointer-events-none",
   closeBg: "opacity-0 translate-y-0 pointer-events-none",
+  open2: "opacity-100 ",
+  close2: "opacity-0 pointer-events-none",
 } as const;
 
 const getModalStateClass = (modalIsOpen: boolean, isAnimating: boolean) =>
@@ -30,6 +32,9 @@ export const useModal = () => {
       phone: `${getModalStateClass(modalIsOpen, isAnimating)}`,
       bg: `${MODAL_CLASSES.base} ${
         modalIsOpen && !isAnimating ? MODAL_CLASSES.open : MODAL_CLASSES.closeBg
+      }`,
+      opacity: `${MODAL_CLASSES.base} ${
+        modalIsOpen && !isAnimating ? MODAL_CLASSES.open2 : MODAL_CLASSES.close2
       }`,
     }),
     [modalIsOpen, isAnimating]

@@ -1,14 +1,26 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import "./globals.css";
+import { Footer } from "./ui/Footer";
 import Header from "./ui/Header.jsx";
+import { CityProvider } from "./ui/HeadersComponents/ContextApi/CityContext";
+import { ModalProvider } from "./contextApi/ModalContext";
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
+        <CityProvider>
+          <ModalProvider>
+            <Header />
+            {children}
+            <Footer />
+            <div className={isHome ? "mt-30" : ""} />
+          </ModalProvider>
+        </CityProvider>
       </body>
     </html>
   );

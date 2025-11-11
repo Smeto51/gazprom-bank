@@ -25,7 +25,7 @@ export const SearchTheSite = () => {
   const handleSearch = useCallback(() => {}, []);
 
   return (
-    <div className="lg:max-w-[864px] lg:pl-11 lg:pr-11 mx-auto">
+    <div className="">
       <h2 className="flex text-5xl justify-center mt-20 font-semibold">
         Поиск по сайту
       </h2>
@@ -39,7 +39,11 @@ export const SearchTheSite = () => {
       </div>
       <div className="flex gap-3 flex-wrap justify-center mt-4 items-center">
         {typesSearch.map((items, index) => (
-          <div key={index} className="bg-gray-400/20 rounded-[8px] px-4 py-2">
+          <div
+            key={index}
+            className="bg-gray-400/10 rounded-[8px] px-4 py-2
+          hover:bg-gray-400/30 cursor-pointer transition-colors duration-300 ease-in-out"
+          >
             {items.desc}
           </div>
         ))}

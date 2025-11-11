@@ -67,7 +67,6 @@ export const Carousel = ({ children }) => {
         ...child.props.style,
         opacity: isVisible ? "100" : "0",
         pointerEvents: isVisible ? "auto" : "none",
-        transition: "opacity 400ms ease-in-out",
       },
     });
   };

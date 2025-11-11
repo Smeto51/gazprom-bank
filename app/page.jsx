@@ -23,11 +23,14 @@ export default function Home() {
         <div className="lg:hidden">
           <FinanceSection />
         </div>
-        <div className="hidden lg:block">
+        <div className="hidden lg:block lg:max-w-[864px] lg:pl-11 lg:pr-11 mx-auto">
           <SearchTheSite />
         </div>
-        <BestOffers />
-        <Banners b={BANNERS_1} />
+        <div className="lg:hidden">
+          <BestOffers />
+          <Banners b={BANNERS_1} />
+        </div>
+
         <Calculation />
         <ServicesForYou />
         <Banners b={BANNERS_2} />

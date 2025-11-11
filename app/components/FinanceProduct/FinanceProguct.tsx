@@ -43,7 +43,7 @@ export const FinProfuct = () => {
               href={item.href}
               className={`relative block flex-shrink-0 rounded-2xl max-[1024px]:w-80 h-full
                 lg:w-[calc(50%-16px)] xl:w-[calc(33%-16px)] scale-99 
-                hover:-translate-y-1 transition-transform duration-300 ease-in-out`}
+                hover:-translate-y-1 duration-300 ease-in-out transform will-change-transform`}
               style={{ backgroundColor: item.bg }}
             >
               <MobileImg

@@ -2,16 +2,18 @@
 
 import { useEffect, useState } from "react";
 
-const formatNumber = (num: number): string => {
+export const formatNumber = (num: number): string => {
   return new Intl.NumberFormat("ru-RU").format(num);
 };
 
 export const AnimatedCounter = ({
   value,
   duration = 50,
+  isFloor = true,
 }: {
   value: number;
   duration?: number;
+  isFloor?: boolean;
 }) => {
   const [displayValue, setDisplayValue] = useState(value);
 
@@ -25,15 +27,18 @@ export const AnimatedCounter = ({
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      //const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-      //const currentValue = startValue + (endValue - startValue) * easeOutQuart;
       const currentValue = startValue + (endValue - startValue) * progress;
-      setDisplayValue(Math.floor(currentValue));
+      setDisplayValue(
+        isFloor ? Math.floor(currentValue) : Number(currentValue.toFixed(2))
+      );
+
       if (progress < 1) {
         requestAnimationFrame(updateValue);
       }
     };
     requestAnimationFrame(updateValue);
-  }, [value, duration, displayValue]);
+  }, [value, duration, displayValue, isFloor]);
   return <>{formatNumber(displayValue)}</>;
 };
+/**        ? setDisplayValue(Math.floor(currentValue))
+        : setDisplayValue(currentValue); */

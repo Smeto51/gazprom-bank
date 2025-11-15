@@ -1,9 +1,8 @@
 "use client";
 
-import { FallBackImg } from "@/app/utils/FallBackImg";
+import { FallBackImg } from "@/app/utils/fallbackImg";
 import { CALCULATION_ITEMS } from "./data/constant";
 import { useState } from "react";
-import { DepositsBlock } from "../Desktop/Calculate/Deposits";
 
 export const Calculation = () => {
   const [activePage, setActivPage] = useState(0);
@@ -54,7 +53,14 @@ export const Calculation = () => {
           </div>
         </div>
         <div className="pt-[60px] pb-[64px] max-w-[1536px] ">
-          <DepositsBlock />
+          {CALCULATION_ITEMS.map((item, index) => (
+            <div
+              key={index}
+              className={`${activePage == index ? "" : "hidden"} `}
+            >
+              {item.blockLg}
+            </div>
+          ))}
         </div>
       </div>
     </div>

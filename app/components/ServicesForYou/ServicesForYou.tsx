@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { SERVICES_ITEMS } from "./data/constant";
 import { ArrowSVG } from "@/app/ui/SvgElements";
-import { FallBackImg } from "@/app/utils/FallBackImg";
+import { FallBackImg } from "@/app/utils/fallbackImg";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export const ServicesForYou = () => {

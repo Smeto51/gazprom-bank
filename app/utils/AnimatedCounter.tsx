@@ -40,5 +40,3 @@ export const AnimatedCounter = ({
   }, [value, duration, displayValue, isFloor]);
   return <>{formatNumber(displayValue)}</>;
 };
-/**        ? setDisplayValue(Math.floor(currentValue))
-        : setDisplayValue(currentValue); */

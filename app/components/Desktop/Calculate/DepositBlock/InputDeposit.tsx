@@ -11,7 +11,7 @@ type InputProps = {
   textInput?: string;
 };
 
-export const InputDefault = ({
+export const InputDeposit = ({
   value = 15000,
   handleInputChange,
   handleBlur,

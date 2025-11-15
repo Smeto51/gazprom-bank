@@ -1,7 +1,7 @@
 "use client";
 
 import { ChangeEvent, useCallback, useState } from "react";
-import { InputDefault } from "./InputDefault";
+import { InputDeposit } from "../DepositBlock/InputDeposit";
 import Link from "next/link";
 import { DurationDepositsBlock, itemsDepositsBlock } from "./data/const";
 import { AnimatedCounter, formatNumber } from "@/app/utils/AnimatedCounter";
@@ -193,7 +193,7 @@ export const DepositsBlock = () => {
               </>
             )}
 
-            <InputDefault
+            <InputDeposit
               value={depositValue}
               handleInputChange={handleInputChange}
               handleBlur={handleBlur}
@@ -245,7 +245,7 @@ export const DepositsBlock = () => {
                     в банке больше 30 дней, укажите сумму
                   </p>
                 </div>
-                <InputDefault
+                <InputDeposit
                   value={gpbDepositValue}
                   handleInputChange={handleInputGPBChange}
                   textInput={"Сумма со счетов Газпромбанка"}

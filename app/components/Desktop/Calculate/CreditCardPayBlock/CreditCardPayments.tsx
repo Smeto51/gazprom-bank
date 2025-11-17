@@ -11,7 +11,9 @@ export const CreditCardPayments = () => {
   const [dateStartCard, setDateStartCard] = useState("");
   const [dateSend, setDateSend] = useState("");
   const [openPicker, setOpenPicker] = useState<"start" | "send" | null>(null);
-  const pickerRef = useRef<HTMLDivElement | null>(null);
+
+  const startWrapperRef = useRef<HTMLDivElement | null>(null);
+  const sendWrapperRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const today = new Date();
@@ -28,10 +30,7 @@ export const CreditCardPayments = () => {
       >
         <div className="relative bg-white p-[52px] rounded-2xl lg:w-[calc(60%-8px)]">
           <h3 className="text-[28px] font-semibold mb-10">Параметры покупки</h3>
-          <div
-            className="relative mb-4"
-            ref={openPicker === "start" ? pickerRef : null}
-          >
+          <div ref={startWrapperRef} className="relative mb-4">
             <InputCreditCard
               value={dateStartCard}
               handleInputChange={setDateStartCard}
@@ -41,17 +40,15 @@ export const CreditCardPayments = () => {
             />
             <CalendarDatePicker
               openPicker={openPicker}
-              dateStartCard={dateStartCard}
-              setDateStartCard={setDateStartCard}
-              pickerRef={pickerRef}
+              pickerType="start"
+              dateValue={dateStartCard}
+              setDateValue={setDateStartCard}
               setOpenPicker={setOpenPicker}
+              containerRef={startWrapperRef}
             />
           </div>
 
-          <div
-            className="relative mb-10"
-            ref={openPicker === "send" ? pickerRef : null}
-          >
+          <div ref={sendWrapperRef} className="relative mb-10">
             <InputCreditCard
               value={dateSend}
               handleInputChange={setDateSend}
@@ -59,16 +56,16 @@ export const CreditCardPayments = () => {
               svgElement={<SVGComponet.Calendar />}
               onOpenCalendar={() => setOpenPicker("send")}
             />
-            <div
-              className={`absolute left-0 top-full mt-2 z-20
-              transition-all duration-200 
-              ${
-                openPicker === "send"
-                  ? "opacity-100 scale-100 visible"
-                  : "opacity-0 scale-95 invisible"
-              }`}
-            ></div>
+            <CalendarDatePicker
+              openPicker={openPicker}
+              pickerType="send"
+              dateValue={dateSend}
+              setDateValue={setDateSend}
+              setOpenPicker={setOpenPicker}
+              containerRef={sendWrapperRef}
+            />
           </div>
+
           <h3 className="text-[28px] font-semibold">Минимальные платежи</h3>
           <span>Сумма покупки</span>
           <div className="realtive text-gray-300 text-[14px]">

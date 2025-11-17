@@ -22,6 +22,7 @@ export const InputCreditCard = ({
   onOpenCalendar,
 }: InputProps) => {
   const [isFocused, setIsFocused] = useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const getNextInputPosition = (val: string) => {
@@ -35,22 +36,14 @@ export const InputCreditCard = ({
     if (!value) {
       handleInputChange?.("__.__.____");
     }
-
-    setTimeout(() => {
-      if (inputRef.current) {
-        const position = value ? getNextInputPosition(value) : 0;
-        inputRef.current.setSelectionRange(position, position);
-      }
-    }, 0);
-  };
-
-  const onClick = () => {
-    requestAnimationFrame(() => {
-      if (inputRef.current) {
-        const position = value ? getNextInputPosition(value) : 0;
-        inputRef.current.setSelectionRange(position, position);
-      }
-    });
+    if (!value || value.includes("_")) {
+      setTimeout(() => {
+        if (inputRef.current) {
+          const position = getNextInputPosition(inputRef.current.value);
+          inputRef.current.setSelectionRange(position, position);
+        }
+      }, 0);
+    }
   };
 
   const onAccept = (value: string) => {
@@ -82,7 +75,6 @@ export const InputCreditCard = ({
         value={value}
         onAccept={onAccept}
         onFocus={onFocus}
-        onClick={onClick}
         onBlur={onBlur}
         inputRef={inputRef}
         className={`relative text-[16px] p-3 w-full rounded-[8px] duration-300 pt-5 pb-1

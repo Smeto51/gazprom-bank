@@ -15,42 +15,51 @@ import { CalendarCaption } from "./componets/CalendarCaption";
 
 type DateProps = {
   openPicker: string | null;
-  dateStartCard: string;
-  setDateStartCard: (date: string) => void;
-  pickerRef: React.RefObject<HTMLDivElement | null>;
+  pickerType: "start" | "send";
+  dateValue: string;
+  setDateValue: (date: string) => void;
   setOpenPicker: (value: "start" | "send" | null) => void;
+  containerRef: React.RefObject<HTMLDivElement | null>;
 };
 
 export const CalendarDatePicker = ({
   openPicker,
-  dateStartCard,
-  setDateStartCard,
-  pickerRef,
+  pickerType,
+  dateValue,
+  setDateValue,
   setOpenPicker,
+  containerRef,
 }: DateProps) => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [showYearModal, setShowYearModal] = useState(false);
   const yearModalRef = useRef<HTMLDivElement | null>(null);
+  const pickerRef = useRef<HTMLDivElement | null>(null);
+  const isVisible = openPicker === pickerType;
 
   const handleYearSelect = (year: number) => {
     const newDate = new Date(selectedMonth);
     newDate.setFullYear(year);
     setSelectedMonth(newDate);
+    setDateValue(formatDateRu(newDate));
     setCurrentYear(year);
     setShowYearModal(false);
   };
 
   useEffect(() => {
-    if (!openPicker && !showYearModal) return;
+    if (!isVisible) return;
 
     const handleClick = (e: MouseEvent) => {
-      const clickedInsidePicker = pickerRef.current?.contains(e.target as Node);
-      const clickedInsideYearModal = yearModalRef.current?.contains(
-        e.target as Node
-      );
+      const target = e.target as Node;
+      const clickedInsidePicker = pickerRef.current?.contains(target);
+      const clickedInsideYearModal = yearModalRef.current?.contains(target);
+      const clickedInsideContainer = containerRef.current?.contains(target);
 
-      if (!clickedInsidePicker && !clickedInsideYearModal) {
+      if (
+        !clickedInsidePicker &&
+        !clickedInsideYearModal &&
+        !clickedInsideContainer
+      ) {
         setOpenPicker(null);
         setShowYearModal(false);
       }
@@ -58,7 +67,14 @@ export const CalendarDatePicker = ({
 
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
-  }, [openPicker, showYearModal, pickerRef, setOpenPicker]);
+  }, [setOpenPicker, isVisible, containerRef]);
+
+  useEffect(() => {
+    const parsed = parseDate(dateValue);
+    if (parsed && !isNaN(parsed.getTime())) {
+      setSelectedMonth(parsed);
+    }
+  }, [dateValue]);
 
   useEffect(() => {
     setCurrentYear(selectedMonth.getFullYear());
@@ -67,10 +83,11 @@ export const CalendarDatePicker = ({
   return (
     <>
       <div
+        ref={pickerRef}
         className={`absolute left-0 top-full mt-2 z-20
         transition-all duration-100 bg-white rounded-2xl
         ${
-          openPicker === "start"
+          isVisible
             ? "opacity-100 scale-100 visible"
             : "opacity-0 scale-95 invisible"
         }`}
@@ -79,21 +96,24 @@ export const CalendarDatePicker = ({
           <DayPicker
             mode="single"
             locale={ru}
-            selected={parseDate(dateStartCard)}
+            selected={parseDate(dateValue)}
             showOutsideDays
             required
             captionLayout="label"
             month={selectedMonth}
             onMonthChange={setSelectedMonth}
+            startMonth={new Date(2025, 4)}
+            endMonth={new Date(2026, 4)}
             onSelect={(day) => {
               if (!day) return;
-              setDateStartCard(formatDateRu(day));
+              setDateValue(formatDateRu(day));
+
               setOpenPicker(null);
             }}
             //onDayClick даёт возможность выбрать уже выбранный день ранее
             //Но снимает выделение, поэтому сохраняем onSelect
             onDayClick={(day) => {
-              setDateStartCard(formatDateRu(day));
+              setDateValue(formatDateRu(day));
               setOpenPicker(null);
             }}
             modifiers={{
@@ -108,23 +128,31 @@ export const CalendarDatePicker = ({
             }}
             components={{
               CaptionLabel: () => (
-                <CalendarCaption
-                  selectedMonth={selectedMonth}
-                  currentYear={currentYear}
-                  onYearClick={() => setShowYearModal(true)}
-                />
+                <div className="relative bottom-14">
+                  <CalendarCaption
+                    selectedMonth={selectedMonth}
+                    currentYear={currentYear}
+                    onYearClick={() => setShowYearModal(true)}
+                  />
+                  <ModalYears
+                    handleYearSelect={handleYearSelect}
+                    showYearModal={showYearModal}
+                    yearModalRef={yearModalRef}
+                    currentYear={currentYear}
+                  />
+                </div>
               ),
             }}
             classNames={DAY_PICKER_CLASSES}
           />
         </div>
       </div>
-      <ModalYears
+    </>
+  );
+};
+/**<ModalYears
         handleYearSelect={handleYearSelect}
         showYearModal={showYearModal}
         yearModalRef={yearModalRef}
         currentYear={currentYear}
-      />
-    </>
-  );
-};
+      /> */

@@ -17,8 +17,8 @@ export const ModalYears = ({
 
   return (
     <div
-      className={`absolute -inset-5 flex items-center justify-center z-40 top-60 right-50 -left-12
-      transition-all duration-100
+      className={`absolute -inset-5 flex items-center justify-center z-40 top-45
+      transition-all duration-100 
       ${
         showYearModal
           ? "opacity-100 scale-100 visible"

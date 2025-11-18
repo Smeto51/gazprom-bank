@@ -12,7 +12,7 @@ export const DAY_PICKER_CLASSES = {
   root: "shadow-lg p-5 bg-white pb-20 rounded-2xl",
   nav: "flex justify-between w-full",
   today: "font-bold text-blue-500",
-  day_button: "cursor-pointer w-10 h-10 rounded-full transition-all",
+  day_button: ["cursor-pointer w-10 h-10 rounded-full transition-all"].join(),
   outside: "opacity-40 pointer-events-none cursor-default text-gray-400",
   button_previous:
     "mb-2 ml-4 hover:text-blue-500 fill-current duration-200 transition-colors",

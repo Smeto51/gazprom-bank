@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { formatDateRu } from "@/app/utils/formatDateRu";
 
 import { CalendarDatePicker } from "./Calendar/Calendar";
+import { parseDate } from "./Calendar/utils/parsedate";
 
 export const CreditCardPayments = () => {
   const [dateStartCard, setDateStartCard] = useState("");
@@ -22,6 +23,20 @@ export const CreditCardPayments = () => {
     setDateSend(formattedDate);
   }, []);
 
+  const handleStartDateChange = (value: string) => {
+    setDateStartCard(value);
+    const parsed = parseDate(value);
+    if (parsed && !isNaN(parsed.getTime())) {
+      setDateSend(formatDateRu(parsed));
+    }
+  };
+
+  const getMinDate = () => {
+    const date = new Date();
+    date.setMonth(date.getMonth() - 6);
+    console.log("date = ", date);
+    return date;
+  };
   return (
     <div className="bg-[#000]/5  pt-[124px] pb-[124px] rounded-2xl ">
       <div
@@ -33,7 +48,7 @@ export const CreditCardPayments = () => {
           <div ref={startWrapperRef} className="relative mb-4">
             <InputCreditCard
               value={dateStartCard}
-              handleInputChange={setDateStartCard}
+              handleInputChange={handleStartDateChange}
               textInput="Дата получения карты"
               svgElement={<SVGComponet.Calendar />}
               onOpenCalendar={() => setOpenPicker("start")}
@@ -42,9 +57,10 @@ export const CreditCardPayments = () => {
               openPicker={openPicker}
               pickerType="start"
               dateValue={dateStartCard}
-              setDateValue={setDateStartCard}
+              setDateValue={handleStartDateChange}
               setOpenPicker={setOpenPicker}
               containerRef={startWrapperRef}
+              minDate={getMinDate()}
             />
           </div>
 
@@ -63,6 +79,7 @@ export const CreditCardPayments = () => {
               setDateValue={setDateSend}
               setOpenPicker={setOpenPicker}
               containerRef={sendWrapperRef}
+              minDate={parseDate(dateStartCard)}
             />
           </div>
 

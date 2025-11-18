@@ -20,6 +20,7 @@ type DateProps = {
   setDateValue: (date: string) => void;
   setOpenPicker: (value: "start" | "send" | null) => void;
   containerRef: React.RefObject<HTMLDivElement | null>;
+  minDate?: Date | null;
 };
 
 export const CalendarDatePicker = ({
@@ -29,6 +30,7 @@ export const CalendarDatePicker = ({
   setDateValue,
   setOpenPicker,
   containerRef,
+  minDate,
 }: DateProps) => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -36,6 +38,20 @@ export const CalendarDatePicker = ({
   const yearModalRef = useRef<HTMLDivElement | null>(null);
   const pickerRef = useRef<HTMLDivElement | null>(null);
   const isVisible = openPicker === pickerType;
+
+  const getEffectiveMinDate = () => {
+    if (!minDate || isNaN(minDate.getTime())) return undefined;
+
+    if (pickerType === "send") {
+      return minDate;
+    } else {
+      const date = new Date(minDate);
+      date.setMonth(date.getMonth() + 1, 0);
+      return date;
+    }
+  };
+
+  const effectiveMinDate = getEffectiveMinDate();
 
   const handleYearSelect = (year: number) => {
     const newDate = new Date(selectedMonth);
@@ -106,10 +122,16 @@ export const CalendarDatePicker = ({
             endMonth={new Date(2026, 4)}
             onSelect={(day) => {
               if (!day) return;
-              setDateValue(formatDateRu(day));
 
+              if (effectiveMinDate && day < effectiveMinDate) {
+                return;
+              }
+              setDateValue(formatDateRu(day));
               setOpenPicker(null);
             }}
+            disabled={
+              effectiveMinDate ? { before: effectiveMinDate } : undefined
+            }
             //onDayClick даёт возможность выбрать уже выбранный день ранее
             //Но снимает выделение, поэтому сохраняем onSelect
             onDayClick={(day) => {
@@ -125,6 +147,8 @@ export const CalendarDatePicker = ({
             modifiersClassNames={{
               weekendCurrent: "text-red-500 font-semibold",
               weekendOutside: "!text-red-500/70",
+              disabled:
+                "text-gray-300 opacity-60 cursor-default pointer-events-none ",
             }}
             components={{
               CaptionLabel: () => (
@@ -150,9 +174,3 @@ export const CalendarDatePicker = ({
     </>
   );
 };
-/**<ModalYears
-        handleYearSelect={handleYearSelect}
-        showYearModal={showYearModal}
-        yearModalRef={yearModalRef}
-        currentYear={currentYear}
-      /> */

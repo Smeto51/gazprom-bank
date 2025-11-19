@@ -137,7 +137,7 @@ export const CreditCardPayments = () => {
 
   const getSendMaxDate = () => {
     const [, month, year] = dateStartCard.split(".").map(Number);
-    return new Date(year, month + 1, 0);
+    return new Date(year, month + 2, 0);
   };
 
   return (
@@ -192,9 +192,11 @@ export const CreditCardPayments = () => {
               maxDate={getSendMaxDate()}
             />
           </div>
-          <PurchaseAmountSlider />
-
-          <p className="mt-10">График минимальных платежей</p>
+          <PurchaseAmountSlider
+            dateSend={dateSend}
+            minPayDate={getSendMaxDate()}
+            dateMaturity={getLastDate()}
+          />
         </div>
         <div className="relative lg:w-[calc(40%-8px)]   h-full">
           <div className=" p-[52px] bg-white rounded-2xl">

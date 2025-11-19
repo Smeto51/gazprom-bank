@@ -7,10 +7,42 @@ const MIN = 100;
 const MAX = 1000000;
 const STEP = 100;
 
-export const PurchaseAmountSlider = () => {
+const MONTH = [
+  "января",
+  "февраля",
+  "марта",
+  "апреля",
+  "мая",
+  "июня",
+  "июля",
+  "августа",
+  "сентября",
+  "октября",
+  "ноября",
+  "декабря",
+];
+
+type PropPurchaseAmount = {
+  dateSend: string;
+  minPayDate: Date;
+  dateMaturity: string;
+};
+export const PurchaseAmountSlider = ({
+  dateSend,
+  minPayDate,
+  dateMaturity,
+}: PropPurchaseAmount) => {
   const [isFocused, setIsFocused] = useState(false);
   const [value, setValue] = useState(40000);
   const percent = ((value - MIN) / (MAX - MIN)) * 100;
+
+  const getDayAndMonthWord = (): string => {
+    const [day, month, year] = dateSend.split(".").map(Number);
+    const dm = new Date(year, month, day);
+    if (!dm || isNaN(dm.getMonth())) return "";
+
+    return dm.getDay() + " " + MONTH[dm.getMonth()];
+  };
 
   const rangeNewValue = (num: number) => {
     if (Number.isNaN(num)) return MIN;
@@ -35,6 +67,17 @@ export const PurchaseAmountSlider = () => {
     setValue(clamped);
   };
 
+  const formatDateToWord = (date: Date): string => {
+    console.log("getDay", minPayDate);
+    return (
+      "до " +
+      date.getDate() +
+      " " +
+      MONTH[date.getMonth()] +
+      " " +
+      date.getFullYear()
+    );
+  };
   return (
     <div className="relative">
       <div>
@@ -109,6 +152,47 @@ export const PurchaseAmountSlider = () => {
           <span className="">от 100 ₽</span>
           <span className="absolute right-3">до 1 000 000 ₽</span>
         </div>
+      </div>
+      <div className="relative text-blue-500">
+        <p className="mt-10 text-sm">График минимальных платежей</p>
+
+        <button
+          type="button"
+          className="flex absolute scale-5 inset-0 items-center translate-x-1/2"
+        >
+          <SVGComponet.ArrowTop />
+        </button>
+      </div>
+      <div className="relative top-8">
+        <span className="text-[12px] text-gray-400">
+          {getDayAndMonthWord()}
+        </span>
+        <div className="relative mb-2">
+          <p className="text-sm">Покупка</p>
+          <span className="absolute top-0 right-0 font-semibold">
+            – {value.toLocaleString("ru-Ru")} ₽
+          </span>
+          <div className="inset-0 rounded-full bg-gray-200 h-0.5 mt-3" />
+        </div>
+        <span className="text-[12px] text-gray-400">
+          {formatDateToWord(minPayDate)}
+        </span>
+        <div className="relative mb-2">
+          <p className="text-sm">Минимальный платеж</p>
+          <span className="absolute top-0 right-0 font-semibold">
+            {(value * 0.09).toLocaleString("ru-Ru")} ₽
+          </span>
+          <div className="inset-0 rounded-full bg-gray-200 h-0.5 mt-3" />
+        </div>
+        <span className="text-[12px] text-gray-400">{dateMaturity}</span>
+        <div className="relative">
+          <span className="text-sm">Погашение задолженности</span>
+          <span className="absolute top-0 right-0 font-semibold">
+            {(value - value * 0.09).toLocaleString("ru-Ru")} ₽
+          </span>
+        </div>
+
+        <div className="mb-10" />
       </div>
     </div>
   );

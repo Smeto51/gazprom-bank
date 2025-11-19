@@ -722,4 +722,14 @@ export const SVGComponet = {
       ></path>
     </svg>
   ),
+  ArrowTop: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M2.22 5.22a.75.75 0 0 0 0 1.06l5.25 5.25a.75.75 0 0 0 1.06 0l5.25-5.25a.75.75 0 0 0-1.06-1.06L8 9.94 3.28 5.22a.75.75 0 0 0-1.06 0Z"
+        fill="currentColor"
+      ></path>
+    </svg>
+  ),
 };

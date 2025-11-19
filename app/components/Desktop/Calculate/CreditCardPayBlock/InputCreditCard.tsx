@@ -1,5 +1,6 @@
 "use client";
 
+import { CrossSVG } from "@/app/ui/SvgElements";
 import { formatDateRu } from "@/app/utils/formatDateRu";
 import { useState, useRef } from "react";
 import { IMaskInput } from "react-imask";
@@ -60,6 +61,12 @@ export const InputCreditCard = ({
     }
   };
 
+  const handleClickClear = () => {
+    if (handleInputChange) {
+      handleInputChange("");
+    }
+  };
+
   const showMask = isFocused || value.length > 0;
 
   return (
@@ -69,7 +76,7 @@ export const InputCreditCard = ({
       flex items-center p-1 pr-2 `}
     >
       <IMaskInput
-        mask="00.00.0000"
+        mask={Date}
         placeholderChar="_"
         lazy={false}
         value={value}
@@ -96,7 +103,18 @@ export const InputCreditCard = ({
       >
         {textInput}
       </p>
-
+      <div
+        onClick={handleClickClear}
+        className={`absolute -right-20 cursor-pointer scale-20 hover:text-black duration-200
+          ${isFocused ? "text-black" : "text-black/25"}
+          ${
+            value.length == 0 || value === "__.__.____"
+              ? "opacity-0"
+              : "opacity-100"
+          }`}
+      >
+        <CrossSVG />
+      </div>
       <div onClick={onOpenCalendar} className="absolute right-4 cursor-auto">
         {svgElement}
       </div>

@@ -8,6 +8,8 @@ import { formatDateRu } from "@/app/utils/formatDateRu";
 import { ModalYears } from "./componets/ModalYerars";
 import { DAY_PICKER_CLASSES, DAY_PICKER_STYLES } from "./utils/const";
 import {
+  getMaxDate,
+  getMinDate,
   isWeekendInCurrentMonth,
   isWeekendOutsideMonth,
 } from "./utils/dateModifiers";
@@ -21,6 +23,7 @@ type DateProps = {
   setOpenPicker: (value: "start" | "send" | null) => void;
   containerRef: React.RefObject<HTMLDivElement | null>;
   minDate?: Date | null;
+  maxDate?: Date | null;
 };
 
 export const CalendarDatePicker = ({
@@ -31,6 +34,7 @@ export const CalendarDatePicker = ({
   setOpenPicker,
   containerRef,
   minDate,
+  maxDate,
 }: DateProps) => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
@@ -50,8 +54,21 @@ export const CalendarDatePicker = ({
       return date;
     }
   };
+  const getEffectiveMaxDate = () => {
+    if (!maxDate || isNaN(maxDate.getTime())) return undefined;
+
+    if (pickerType === "send") {
+      return maxDate;
+    } else {
+      return new Date(3000, 0, 1);
+    }
+  };
 
   const effectiveMinDate = getEffectiveMinDate();
+  const effectiveMaxDate = getEffectiveMaxDate();
+
+  const minMonth = pickerType === "start" ? new Date(getMinDate()) : minDate;
+  const maxMonth = pickerType === "start" ? new Date(getMaxDate()) : maxDate;
 
   const handleYearSelect = (year: number) => {
     const newDate = new Date(selectedMonth);
@@ -118,8 +135,8 @@ export const CalendarDatePicker = ({
             captionLayout="label"
             month={selectedMonth}
             onMonthChange={setSelectedMonth}
-            startMonth={new Date(2025, 4)}
-            endMonth={new Date(2026, 4)}
+            startMonth={minMonth!}
+            endMonth={maxMonth!}
             onSelect={(day) => {
               if (!day) return;
 
@@ -130,7 +147,12 @@ export const CalendarDatePicker = ({
               setOpenPicker(null);
             }}
             disabled={
-              effectiveMinDate ? { before: effectiveMinDate } : undefined
+              effectiveMinDate || effectiveMaxDate
+                ? {
+                    before: effectiveMinDate,
+                    after: effectiveMaxDate!,
+                  }
+                : undefined
             }
             //onDayClick даёт возможность выбрать уже выбранный день ранее
             //Но снимает выделение, поэтому сохраняем onSelect
@@ -163,6 +185,8 @@ export const CalendarDatePicker = ({
                     showYearModal={showYearModal}
                     yearModalRef={yearModalRef}
                     currentYear={currentYear}
+                    pickerType={pickerType}
+                    date={effectiveMaxDate}
                   />
                 </div>
               ),

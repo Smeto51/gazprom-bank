@@ -7,6 +7,13 @@ import { formatDateRu } from "@/app/utils/formatDateRu";
 
 import { CalendarDatePicker } from "./Calendar/Calendar";
 import { parseDate } from "./Calendar/utils/parsedate";
+import Link from "next/link";
+import {
+  getDayWord,
+  getMaxDate,
+  getMinDate,
+} from "./Calendar/utils/dateModifiers";
+import { PurchaseAmountSlider } from "./PurchaseAmountSlider";
 
 export const CreditCardPayments = () => {
   const [dateStartCard, setDateStartCard] = useState("");
@@ -18,8 +25,9 @@ export const CreditCardPayments = () => {
 
   const [startError, setStartError] = useState("");
   const [sendError, setSendError] = useState("");
-  const START_MIN_DATE = new Date(2025, 4, 31);
-  const START_MAX_DATE = new Date(2026, 4, 31);
+
+  const START_MIN_DATE = getMinDate();
+  const START_MAX_DATE = getMaxDate();
 
   const validateStartDate = (value: string) => {
     const d = parseDate(value);
@@ -28,13 +36,16 @@ export const CreditCardPayments = () => {
       setStartError("");
       return;
     }
-
-    if (d < START_MIN_DATE || d > START_MAX_DATE) {
+    if (d < START_MIN_DATE) {
       setStartError(
         "Выберите год в диапазоне от 2025 до 2026; Дата должна быть не раньше 31.05.2025"
       );
     } else {
-      setStartError("");
+      if (d > START_MAX_DATE) {
+        setStartError(
+          "Выберите год в диапазоне от 2025 до 2026; Дата должна быть не позже 31.05.2025"
+        );
+      } else setStartError("");
     }
   };
 
@@ -75,11 +86,58 @@ export const CreditCardPayments = () => {
     setDateSend(value);
     validateSendDate(value, dateStartCard);
   };
-  const getMinDate = () => {
-    const date = new Date();
-    date.setMonth(date.getMonth() - 6);
-    console.log("date = ", date);
-    return date;
+
+  const getDaysFromMonthToMonth = () => {
+    const [day, month, year] = dateSend.split(".").map(Number);
+    const selectedDate = new Date(year, month - 1, day);
+
+    const [daySt, monthSt, yearSt] = dateStartCard.split(".").map(Number);
+    const startDate = new Date(yearSt, monthSt - 1, daySt);
+
+    const lastMonth = new Date(startDate);
+    lastMonth.setMonth(startDate.getMonth() + 2);
+
+    const lastDayOfLustMonth = new Date(
+      lastMonth.getFullYear(),
+      lastMonth.getMonth() + 1,
+      0
+    );
+    const timeOff = lastDayOfLustMonth.getTime() - selectedDate.getTime();
+    const dayCount = Math.ceil(timeOff / (1000 * 60 * 60 * 24));
+
+    return dayCount + getDayWord(dayCount);
+  };
+  const getLastDate = () => {
+    const months = [
+      "января",
+      "февраля",
+      "марта",
+      "апреля",
+      "мая",
+      "июня",
+      "июля",
+      "августа",
+      "сентября",
+      "октября",
+      "ноября",
+      "декабря",
+    ];
+    const [, month, year] = dateStartCard.split(".").map(Number);
+    const lastDate = new Date(year, month + 2, 0);
+
+    return (
+      "до " +
+      lastDate.getDate() +
+      " " +
+      months[lastDate.getMonth()] +
+      " " +
+      lastDate.getFullYear()
+    );
+  };
+
+  const getSendMaxDate = () => {
+    const [, month, year] = dateStartCard.split(".").map(Number);
+    return new Date(year, month + 1, 0);
   };
 
   return (
@@ -131,19 +189,39 @@ export const CreditCardPayments = () => {
               setOpenPicker={setOpenPicker}
               containerRef={sendWrapperRef}
               minDate={parseDate(dateStartCard)}
+              maxDate={getSendMaxDate()}
             />
           </div>
-
-          <h3 className="text-[28px] font-semibold">Минимальные платежи</h3>
-          <span>Сумма покупки</span>
-          <div className="realtive text-gray-300 text-[14px]">
-            <span>от 100 ₽</span>
-            <span className="absolute right-3">до 1 000 000 ₽</span>
-          </div>
+          <PurchaseAmountSlider />
 
           <p className="mt-10">График минимальных платежей</p>
         </div>
-        <div className="lg:w-[calc(40%-8px)] mt-20"></div>
+        <div className="relative lg:w-[calc(40%-8px)]   h-full">
+          <div className=" p-[52px] bg-white rounded-2xl">
+            <p className="text-[14px] text-gray-400">
+              Первый беспроцентный период
+            </p>
+            <span className="text-[24px] font-semibold text-blue-500">
+              {getDaysFromMonthToMonth()}
+            </span>
+            <p className="text-[14px] text-gray-400">
+              Оплатите задолженность без&nbsp;%
+            </p>
+            <span className="text-[24px] font-semibold ">{getLastDate()}</span>
+          </div>
+          <div className="mt-2 bg-blue-600/90 rounded-[8px] hover:bg-blue-700 duration-300">
+            <Link
+              href="#"
+              className="flex text-white justify-center px-4 py-2 "
+            >
+              Оформить карту
+            </Link>
+          </div>
+          <p className="text-[14px] text-gray-400 mt-5">
+            Расчет калькулятора предварительный. Персональные условия вы сможете
+            узнать после оформления заявки
+          </p>
+        </div>
       </div>
     </div>
   );

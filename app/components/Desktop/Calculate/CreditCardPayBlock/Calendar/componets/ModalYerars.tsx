@@ -5,6 +5,14 @@ type YearsProps = {
   showYearModal: boolean;
   yearModalRef: React.RefObject<HTMLDivElement | null>;
   currentYear: number;
+  pickerType: "start" | "send";
+  date: Date | undefined;
+};
+
+const getCountYears = (date?: Date) => {
+  if (!date || isNaN(date.getTime())) return 2;
+
+  return date.getFullYear() - new Date().getFullYear() + 1;
 };
 
 export const ModalYears = ({
@@ -12,8 +20,13 @@ export const ModalYears = ({
   showYearModal,
   yearModalRef,
   currentYear,
+  pickerType,
+  date,
 }: YearsProps) => {
-  const years = Array.from({ length: 2 }, (_, i) => 2025 + i);
+  const years =
+    pickerType == "start"
+      ? Array.from({ length: 2 }, (_, i) => new Date().getFullYear() + i)
+      : Array.from({ length: getCountYears(date) }, (_, i) => 2025 + i);
 
   return (
     <div

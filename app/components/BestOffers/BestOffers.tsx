@@ -1,6 +1,6 @@
 "use client";
 
-import { FallBackImg } from "@/app/utils/fallbackImg";
+import { FallBackImg } from "@/app/utils/FallBackImg";
 import { BEST_OFFERS } from "./data/constant";
 import Link from "next/link";
 import { UIEvent, useRef, useState } from "react";

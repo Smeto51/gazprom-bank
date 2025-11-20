@@ -1,7 +1,7 @@
 "use client";
 
+import { FallBackImg } from "@/app/utils/FallBackImg";
 import Link from "next/link";
-import { FallBackImg } from "@/app/utils/fallbackImg";
 
 export const Banners = ({ b }) => {
   return (

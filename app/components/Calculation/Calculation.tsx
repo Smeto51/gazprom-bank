@@ -1,5 +1,6 @@
 "use client";
 
+import { FallBackImg } from "@/app/utils/FallBackImg";
 import { CALCULATION_ITEMS } from "./data/constant";
 import { useState } from "react";
 

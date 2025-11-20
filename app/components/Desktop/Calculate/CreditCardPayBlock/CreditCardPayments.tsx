@@ -198,7 +198,7 @@ export const CreditCardPayments = () => {
             dateMaturity={getLastDate()}
           />
         </div>
-        <div className="relative lg:w-[calc(40%-8px)]   h-full">
+        <div className="relative lg:w-[calc(40%-8px)]  h-full">
           <div className=" p-[52px] bg-white rounded-2xl">
             <p className="text-[14px] text-gray-400">
               Первый беспроцентный период

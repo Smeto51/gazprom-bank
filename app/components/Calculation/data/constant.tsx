@@ -1,3 +1,4 @@
+import { CashLoanBlock } from "../../Desktop/Calculate/CashLoan/CashLoan";
 import { CreditCardPayments } from "../../Desktop/Calculate/CreditCardPayBlock/CreditCardPayments";
 import { DepositsBlock } from "../../Desktop/Calculate/DepositBlock/Deposits";
 
@@ -23,6 +24,7 @@ export const CALCULATION_ITEMS = [
     title: "Кредит наличными",
     icon: "https://cdn.gpb.ru/upload/files/bve/ac8/e1h3c9wd9ft5t9z9j2y4uuvvd0vn79os/x1_Dokhod-ot-vklada.png",
     localIcon: DOMEN + "doxodVklada.png",
+    blockLg: <CashLoanBlock />,
   },
   {
     id: 4,

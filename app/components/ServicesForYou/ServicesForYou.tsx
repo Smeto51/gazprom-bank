@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { SERVICES_ITEMS } from "./data/constant";
 import { ArrowSVG } from "@/app/ui/SvgElements";
-import { FallBackImg } from "@/app/utils/FallBackImg";
+
 import { useCallback, useEffect, useRef, useState } from "react";
+import { FallBackImg } from "@/app/utils/FallBackImg";
 
 export const ServicesForYou = () => {
   const scrollRef = useRef<HTMLDivElement>(null);

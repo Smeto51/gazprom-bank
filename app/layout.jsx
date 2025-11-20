@@ -6,6 +6,7 @@ import { Footer } from "./ui/Footer";
 import Header from "./ui/Header.jsx";
 import { CityProvider } from "./ui/HeadersComponents/ContextApi/CityContext";
 import { ModalProvider } from "./contextApi/ModalContext";
+import { SearchBlockProvider } from "./contextApi/SearchBlockContext";
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
@@ -13,14 +14,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <CityProvider>
-          <ModalProvider>
-            <Header />
-            {children}
-            <Footer />
-            <div className={isHome ? "mt-30" : ""} />
-          </ModalProvider>
-        </CityProvider>
+        <SearchBlockProvider>
+          <CityProvider>
+            <ModalProvider>
+              <Header />
+              {children}
+              <Footer />
+              <div className={isHome ? "mt-30" : ""} />
+            </ModalProvider>
+          </CityProvider>
+        </SearchBlockProvider>
       </body>
     </html>
   );

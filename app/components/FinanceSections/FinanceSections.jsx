@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { FINANCE_SECTION } from "./data/constants";
 import { useState } from "react";
-import { FallBackImg } from "../../utils/FallBackImg.js";
+import { FallBackImg } from "@/app/utils/FallBackImg";
 
 const FinanceItem = ({ item }) => (
   <div>

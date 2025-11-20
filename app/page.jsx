@@ -10,6 +10,7 @@ import { ServicesForYou } from "./components/ServicesForYou/ServicesForYou";
 import { LastNews } from "./components/News/News";
 import { SearchHome } from "./components/SearchBlock/SearchBlock";
 import { FinProfuct } from "./components/FinanceProduct/FinanceProguct";
+import { SearchTheSite } from "./components/Desktop/SearchTheSite/SearchTheSite";
 
 export default function Home() {
   const searchIndex = 0;
@@ -19,9 +20,17 @@ export default function Home() {
         <FinProfuct />
         <div className="pb-8 -z-100" />
         <SectionUsefull />
-        <FinanceSection />
-        <BestOffers />
-        <Banners b={BANNERS_1} />
+        <div className="lg:hidden">
+          <FinanceSection />
+        </div>
+        <div className="hidden lg:block lg:max-w-[864px] lg:pl-11 lg:pr-11 mx-auto">
+          <SearchTheSite />
+        </div>
+        <div className="lg:hidden">
+          <BestOffers />
+          <Banners b={BANNERS_1} />
+        </div>
+
         <Calculation />
         <ServicesForYou />
         <Banners b={BANNERS_2} />

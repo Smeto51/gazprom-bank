@@ -34,3 +34,5 @@
 , "app/ui/data/constant.js", "app/components/FinanceProduct/FinanceProductCarousel.jsx"  ],
   "exclude": ["node_modules"]
 }
+//"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  

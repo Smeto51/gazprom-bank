@@ -101,7 +101,7 @@ const HeaderMenu = ({ onSearchClick }) => {
     checkOverflow();
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
-  }, [isLoading]);
+  }, [isLoading, checkOverflow]);
 
   const handleCityChange = () => {
     setCityChanged([]);

@@ -10,6 +10,7 @@ import {
   calculateDifferentiatedPayment,
   getDynamicMonthlyRate,
 } from "../utils/calculationAnnuityPayment";
+import { getMonthWord } from "../utils/formatedNumberToText";
 const MIN = 10000;
 const MAX = 7000000;
 const STEP = 100;
@@ -121,6 +122,7 @@ export const CashLoanBlock = () => {
     );
     setMonthlyPayment(payment);
   };
+
   return (
     <div className="bg-[#000]/5  pt-[124px] pb-[124px] rounded-2xl ">
       <div
@@ -135,6 +137,7 @@ export const CashLoanBlock = () => {
             handleAccept={handleAccept}
             handleBlur={handleBlurValue}
             nameInput="Сумма кредита"
+            suffixChar="₽"
           />
           <div>
             <InputRange
@@ -151,6 +154,9 @@ export const CashLoanBlock = () => {
             handleAccept={handleAcceptDate}
             handleBlur={handleBlurMonths}
             nameInput="Срок кредита"
+            suffixChar={getMonthWord(months)}
+            inputLenght={4}
+            isSetFixedSvg={true}
           />
           <div>
             <InputRange

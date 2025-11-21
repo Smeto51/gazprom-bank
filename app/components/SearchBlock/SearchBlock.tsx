@@ -8,7 +8,7 @@ import {
   SVGComponet,
 } from "@/app/ui/SvgElements";
 import Link from "next/link";
-import { SerachDefoult } from "./SearchDefoult";
+import { SerachDefoult } from "./SearchDefault";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useModalContext } from "@/app/contextApi/ModalContext";
 import { useSearchBlockContext } from "@/app/contextApi/SearchBlockContext";

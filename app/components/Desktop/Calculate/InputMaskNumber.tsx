@@ -87,7 +87,7 @@ export const InputMaskNumber = ({
           {formattedValue}
         </span>
       </div>
-      {suffixRight !== null && (
+      {suffixRight !== null && isSetFixedSvg && (
         <div>
           <button
             type="button"

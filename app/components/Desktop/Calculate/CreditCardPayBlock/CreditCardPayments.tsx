@@ -141,12 +141,12 @@ export const CreditCardPayments = () => {
   };
 
   return (
-    <div className="bg-[#000]/5  pt-[124px] pb-[124px] rounded-2xl ">
+    <div className="lg:bg-[#000]/5  lg:pt-[124px] lg:pb-[124px] rounded-2xl ">
       <div
-        className="flex gap-4
+        className="lg:flex gap-4
         lg:pl-11 lg:pr-11"
       >
-        <div className="relative bg-white p-[52px] rounded-2xl lg:w-[calc(60%-8px)]">
+        <div className="relative bg-white p-[52px] max-lg:p-4 rounded-2xl lg:w-[calc(60%-8px)]">
           <h3 className="text-[28px] font-semibold mb-10">Параметры покупки</h3>
           <div ref={startWrapperRef} className="relative mb-4">
             <InputCreditCard
@@ -198,8 +198,11 @@ export const CreditCardPayments = () => {
             dateMaturity={getLastDate()}
           />
         </div>
-        <div className="relative lg:w-[calc(40%-8px)]  h-full">
-          <div className=" p-[52px] bg-white rounded-2xl">
+        <div className="relative lg:w-[calc(40%-8px)]  h-full max-lg:mx-4">
+          <div
+            className="p-[52px]  bg-white rounded-2xl
+          max-lg:p-4 max-lg:bg-gray-100 "
+          >
             <p className="text-[14px] text-gray-400">
               Первый беспроцентный период
             </p>
@@ -219,7 +222,7 @@ export const CreditCardPayments = () => {
               Оформить карту
             </Link>
           </div>
-          <p className="text-[14px] text-gray-400 mt-5">
+          <p className="text-[14px] text-gray-400 lg:mt-5 max-lg:py-8 ">
             Расчет калькулятора предварительный. Персональные условия вы сможете
             узнать после оформления заявки
           </p>

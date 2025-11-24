@@ -129,12 +129,12 @@ export const CreditBlock = ({
     setMonthlyPayment(payment);
   }, [loverRate, value, months]);
   return (
-    <div className="bg-[#000]/5  pt-[124px] pb-[124px] rounded-2xl ">
+    <div className="lg:bg-[#000]/5  lg:pt-[124px] lg:pb-[124px] rounded-2xl">
       <div
-        className="flex gap-4
+        className="lg:flex gap-4
         lg:pl-11 lg:pr-11"
       >
-        <div className="relative bg-white p-[52px] rounded-2xl lg:w-[calc(60%-8px)]">
+        <div className="relative bg-white p-4 lg:p-[52px] rounded-2xl lg:w-[calc(60%-8px)]">
           <h3 className="text-[28px] font-semibold mb-5">Параметры кредита</h3>
 
           <InputMaskNumber
@@ -175,8 +175,8 @@ export const CreditBlock = ({
           </div>
           {children}
         </div>
-        <div className="relative lg:w-[calc(40%-8px)] h-full flex flex-col">
-          <div className="p-[40px] bg-white rounded-2xl">
+        <div className="relative lg:w-[calc(40%-8px)] h-full flex flex-col mx-4 max-lg:mb-10">
+          <div className="lg:p-[40px] p-4 lg:bg-white rounded-2xl bg-gray-100">
             <h3 className="text-[24px] font-semibold">Ежемесячный платеж</h3>
             <p className="text-2xl font-bold mb-4 text-blue-500">
               <AnimatedCounter value={Math.trunc(monthlyPayment)} /> ₽

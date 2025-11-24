@@ -128,15 +128,26 @@ export const DepositsBlock = () => {
   }, [depositValue, activeItem, rate, activePeriod]);
 
   return (
-    <div className="bg-[#000]/5  pt-[124px] pb-[124px] rounded-2xl ">
-      <h2 className="text-3xl font-semibold items-center my-auto justify-center flex -translate-y-2/2">
+    <div
+      className="lg:bg-[#000]/5 bg-white rounded-2xl
+    min-lg:pt-[124px] min-lg:pb-[124px]"
+    >
+      <h2
+        className="
+        text-3xl font-semibold items-center my-auto justify-center flex -translate-y-2/2
+        max-lg:hidden"
+      >
         Вклад «Новые деньги»
       </h2>
       <div
-        className="flex gap-4
+        className="lg:flex gap-4
         lg:pl-11 lg:pr-11"
       >
-        <div className="bg-white p-[52px] rounded-2xl lg:w-[calc(60%-8px)]">
+        <div
+          className="
+          bg-white  rounded-2xl p-4
+            lg:w-[calc(60%-8px)] lg:p-[52px]"
+        >
           <div className="bg-white  flex flex-col flex-wrap gap-4  transition-all ">
             <div className="flex gap-4 flex-wrap ">
               {itemsDepositsBlock.map((item, index) => (
@@ -238,9 +249,9 @@ export const DepositsBlock = () => {
               <span>Я клиент Газпромбанка</span>
             </div>
             {checkBox && (
-              <div>
-                <div className="bg-gray-200/90 p-4 rounded-2xl py-6 mb-5">
-                  <p>
+              <div className="relative flex flex-col">
+                <div className="bg-gray-200/90 lg:p-4 rounded-2xl py-6 mb-5 ">
+                  <p className="px-2">
                     Если вы собираетесь положить на вклад деньги, которые лежат
                     в банке больше 30 дней, укажите сумму
                   </p>
@@ -278,33 +289,39 @@ export const DepositsBlock = () => {
           </div>
         </div>
         <div className="lg:w-[calc(40%-8px)]">
-          <div className="bg-white p-[52px] rounded-2xl">
-            <div className=" flex flex-col  gap-4  transition-all leading-0">
-              <p className="text-gray-500 l-">Ставка</p>
-              <p className="text-5xl font-bold text-blue-500 mb-4">
-                <AnimatedCounter value={rate} isFloor={false} /> %
-              </p>
-              <p className="text-gray-500">Доход по повышенной ставке</p>
-              <p className="text-2xl font-bold mb-4">
-                <AnimatedCounter value={Math.trunc(income)} /> ₽
-              </p>
-              <div className={`${baseIncome < 1 ? "hidden" : ""}`}>
-                <p className="text-gray-500">Доход по базовой ставке</p>
-                <p className="text-2xl font-bold mb-4 mt-3">
-                  <AnimatedCounter value={Math.trunc(baseIncome)} /> ₽
+          <div
+            className="
+          bg-white lg:p-[52px] rounded-2 p-2 max-lg:p-4 max-lg:mt-5
+          "
+          >
+            <div className="max-lg:p-8 max-lg:bg-gray-200/50 rounded-2xl">
+              <div className=" flex flex-col  gap-4  transition-all leading-0">
+                <p className="text-gray-500 l-">Ставка</p>
+                <p className="text-5xl font-bold text-blue-500 mb-4">
+                  <AnimatedCounter value={rate} isFloor={false} /> %
+                </p>
+                <p className="text-gray-500">Доход по повышенной ставке</p>
+                <p className="text-2xl font-bold mb-4">
+                  <AnimatedCounter value={Math.trunc(income)} /> ₽
+                </p>
+                <div className={`${baseIncome < 1 ? "hidden" : ""}`}>
+                  <p className="text-gray-500">Доход по базовой ставке</p>
+                  <p className="text-2xl font-bold mb-4 mt-3">
+                    <AnimatedCounter value={Math.trunc(baseIncome)} /> ₽
+                  </p>
+                </div>
+
+                <p className="text-gray-500">Сумма в конце срока</p>
+                <p className="text-2xl font-bold ">
+                  <AnimatedCounter
+                    value={Math.trunc(income + depositValue + baseIncome)}
+                  />{" "}
+                  ₽
                 </p>
               </div>
-
-              <p className="text-gray-500">Сумма в конце срока</p>
-              <p className="text-2xl font-bold ">
-                <AnimatedCounter
-                  value={Math.trunc(income + depositValue + baseIncome)}
-                />{" "}
-                ₽
-              </p>
             </div>
           </div>
-          <div className="mt-2 bg-blue-600/90 rounded-[8px] hover:bg-blue-700 duration-300">
+          <div className="mt-2 max-lg:mx-4 bg-blue-600/90 rounded-[8px] hover:bg-blue-700 duration-300">
             <Link
               href="#"
               className="flex text-white justify-center px-4 py-2 "
@@ -313,7 +330,7 @@ export const DepositsBlock = () => {
             </Link>
           </div>
 
-          <p className="text-[14px] text-gray-500 mt-6">
+          <p className="text-[14px] text-gray-500 lg:mt-6 max-lg:py-8 max-lg:mx-4 ">
             Расчет является предварительным
           </p>
         </div>

@@ -22,7 +22,7 @@ const links = [
   },
 ];
 
-export const SerachDefoult = ({
+export const SerachDefault = ({
   searchIndex,
   modalIsOpen,
   toggleModal,
@@ -33,7 +33,7 @@ export const SerachDefoult = ({
 }) => {
   return (
     <div
-      className={`fixed bottom-0 max-w-3xl z-1000 flex flex-col gap-3   bg-white border-t 
+      className={`fixed bottom-0 max-w-3xl z-1000 flex flex-col gap-3   bg-white border 
          border-gray-300 rounded-t-[12px] 
          duration-500 cursor-pointer focus:outline-none 
          left-1/2 -translate-x-1/2 w-full

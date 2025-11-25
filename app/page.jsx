@@ -11,6 +11,7 @@ import { LastNews } from "./components/News/News";
 import { SearchHome } from "./components/SearchBlock/SearchBlock";
 import { FinProfuct } from "./components/FinanceProduct/FinanceProguct";
 import { SearchTheSite } from "./components/Desktop/SearchTheSite/SearchTheSite";
+import { ProductCategories } from "./components/ProductCategories/ProductCategories";
 
 export default function Home() {
   const searchIndex = 0;
@@ -32,6 +33,10 @@ export default function Home() {
         </div>
 
         <Calculation />
+        <div className="max-lg:hidden">
+          <ProductCategories />
+        </div>
+
         <ServicesForYou />
         <Banners b={BANNERS_2} />
         <LastNews />

@@ -3,7 +3,14 @@
 import { SVGComponet } from "@/app/ui/SvgElements";
 import { cloneElement, useEffect, useRef, useState } from "react";
 
-export const Carousel = ({ children }) => {
+export const Carousel = ({
+  children,
+  lg = 2,
+  xl = 3,
+  conteinerStyle = "h-45 lg:h-[560px] pl-4 pr-4 min-lg:pl-11 lg:pr-11",
+  arrowNext = "right-8",
+  arrowPrev = "left-4",
+}) => {
   const pages = children;
   const [offset, setOffset] = useState(0);
   const itemsWidthRef = useRef(null);
@@ -11,11 +18,24 @@ export const Carousel = ({ children }) => {
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const scrollContainerRef = useRef(null);
   const [pageVisible, setPageVisible] = useState(2);
-  //const pageVisible = window.innerWidth >= 1280 ? 3 : 2;
+
+  const getStep = () => {
+    if (!itemsWidthRef.current) return 0;
+    const track = itemsWidthRef.current;
+    const firstChild = track.children[0];
+    if (!firstChild) return 0;
+
+    const cardWidth = firstChild.getBoundingClientRect().width;
+
+    const styles = getComputedStyle(track);
+
+    const gap = parseFloat(styles.columnGap || styles.gap || "0") || 0;
+    return Math.round(cardWidth + gap);
+  };
   useEffect(() => {
     const checkScreenSize = () => {
       const isLarge = window.innerWidth >= 1024;
-      setPageVisible(window.innerWidth >= 1280 ? 3 : 2);
+      setPageVisible(window.innerWidth >= 1280 ? xl : lg);
       const wasLarge = isLargeScreen;
 
       setIsLargeScreen(isLarge);
@@ -32,27 +52,29 @@ export const Carousel = ({ children }) => {
     window.addEventListener("resize", checkScreenSize);
 
     return () => window.removeEventListener("resize", checkScreenSize);
-  }, [isLargeScreen]);
+  }, [isLargeScreen, lg, xl]);
 
   const handleNextClick = () => {
-    const pageWidth =
-      itemsWidthRef.current.getBoundingClientRect().width / pageVisible - 4;
-    console.log(pageWidth);
-    const maxIndex = pages.length - pageVisible;
+    //const pageWidth =
+    //  itemsWidthRef.current.getBoundingClientRect().width / pageVisible - 4;
+    const step = getStep();
+    if (!step) return;
+
+    const maxIndex = Math.max(0, pages.length - pageVisible); //pages.length - pageVisible;
     setCurrentIndex((current) => {
       const newIndex = Math.min(current + 1, maxIndex);
-      setOffset(-newIndex * pageWidth);
+      setOffset(-newIndex * step);
       return newIndex;
     });
   };
 
   const handleBackClick = () => {
-    const pageWidth =
-      itemsWidthRef.current.getBoundingClientRect().width / pageVisible - 4;
+    const step = getStep();
+    if (!step) return;
 
     setCurrentIndex((current) => {
       const newIndex = Math.max(current - 1, 0);
-      setOffset(-newIndex * pageWidth);
+      setOffset(-newIndex * step);
       return newIndex;
     });
   };
@@ -72,14 +94,10 @@ export const Carousel = ({ children }) => {
   };
 
   return (
-    <div
-      className="h-45 lg:h-[560px] pl-4 pr-4
-      min-lg:pl-11 lg:pr-11 
-    "
-    >
+    <div className={`${conteinerStyle}`}>
       <div
         ref={scrollContainerRef}
-        className="flex h-full w-full lg:overflow-hidden overflow-y-hidden overflow-x-auto scrollbar-hide duration-200 "
+        className="flex h-full w-full lg:overflow-hidden overflow-y-hidden overflow-x-auto scrollbar-hide duration-200"
       >
         <div
           ref={itemsWidthRef}
@@ -97,7 +115,7 @@ export const Carousel = ({ children }) => {
       <button
         onClick={handleNextClick}
         disabled={currentIndex >= pages.length - 2}
-        className={`absolute top-1/2 right-8 bg-white rounded-full shadow-lg transition-all duration-200
+        className={`absolute top-1/2 -translate-y-1/2 ${arrowNext} bg-white rounded-full shadow-lg transition-all duration-200
           max-lg:hidden cursor-pointer ${
             currentIndex >= pages.length - 2
               ? "opacity-0 pointer-events-none"
@@ -113,12 +131,12 @@ export const Carousel = ({ children }) => {
       <button
         onClick={handleBackClick}
         disabled={currentIndex === 0}
-        className={`absolute top-1/2 left-3 bg-white rounded-full shadow-lg transition-all duration-200
+        className={`absolute top-1/2 -translate-y-1/2 ${arrowPrev} bg-white rounded-full shadow-lg transition-all duration-200
         max-lg:hidde cursor-pointer  ${
           currentIndex === 0 ? "opacity-0 pointer-events-none" : ""
         }`}
       >
-        <div className="rounded-full bg-[#ebebeb] w-15 scale-80">
+        <div className="rounded-full bg-[#ebebeb] w-15 scale-80 ">
           <div className="scale-80 rotate-180">
             <SVGComponet.ArrowNext />
           </div>

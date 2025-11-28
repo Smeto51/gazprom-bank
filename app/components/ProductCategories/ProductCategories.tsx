@@ -7,19 +7,20 @@ import { Carousel } from "../FinanceProduct/FinanceProductCarousel";
 
 export const ProductCategories = () => {
   return (
-    <div className={`flex w-full relative overflow-x-hidden `}>
+    <div className={`flex w-full relative overflow-x-hidden`}>
       <Carousel
         lg={4}
         xl={6}
-        conteinerStyle="px-5"
-        arrowNext="right-0"
-        arrowPrev="left-0"
+        conteinerStyle=""
+        gap="gap-6"
+        arrowPl={0}
+        arrowPr={0}
       >
         {PRODUCT_CATEGORIES.map((product, index) => (
           <div
             key={index}
-            className={`relative flex-shrink-0 rounded-2xl 
-            lg:w-[calc(25%-30px)] xl:w-[calc(16%-12px)] bg-gray-100 p-4 h-full ml-1
+            className={`relative flex-shrink-0 rounded-2xl scale-99
+            lg:w-[calc(23%-48px)] xl:w-[calc(16%-24px)] bg-gray-100 p-4 h-full
             hover:-translate-y-1 duration-300 ease-in-out transform will-change-transform`}
           >
             {product.title}

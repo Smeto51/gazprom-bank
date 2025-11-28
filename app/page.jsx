@@ -12,6 +12,7 @@ import { SearchHome } from "./components/SearchBlock/SearchBlock";
 import { FinProfuct } from "./components/FinanceProduct/FinanceProguct";
 import { SearchTheSite } from "./components/Desktop/SearchTheSite/SearchTheSite";
 import { ProductCategories } from "./components/ProductCategories/ProductCategories";
+import { Popular } from "./components/Popular/Popular";
 
 export default function Home() {
   const searchIndex = 0;
@@ -35,6 +36,7 @@ export default function Home() {
         <Calculation />
         <div className="max-lg:hidden">
           <ProductCategories />
+          <Popular />
         </div>
 
         <ServicesForYou />

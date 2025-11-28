@@ -12,25 +12,25 @@ export const Popular = () => {
         {POPULAR_ITEMS.map((item, index) => {
           const widthClass =
             index % 3 === 0
-              ? "basis-full"
-              : "xl:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_100%] ";
+              ? "basis-full group"
+              : "xl:flex-[0_0_calc(50%-12px)] lg:flex-[0_0_100%] group";
           return (
             <div
               key={index}
-              className={`transition-all duration-500 ease-in-out  relative rounded-2xl ${widthClass} overflow-hidden
-            ${item.bgColor} ${item.textColor}`}
+              className={`transition-all duration-500 ease-in-out  relative rounded-2xl ${widthClass} overflow-hidden cursor-pointer
+            ${item.bgColor} ${item.textColor} `}
             >
               <div
                 className={`absolute inset-0 w-full overflow-hidden rounded-2xl h-full
                   transition-transform duration-500
-            ${item.imgPos} `}
+            ${item.imgPos} group-hover:scale-110`}
               >
                 <Image
                   src={item.src}
                   alt={item.title}
                   fill
                   sizes="100vw"
-                  className="object-cover"
+                  className="object-cover "
                 />
               </div>
               <div

@@ -17,7 +17,7 @@ export const POPULAR_ITEMS = [
     bgArrowColor: "bg-white",
     ArrowColor: "text-black",
     src: "/Popular/credit_nalich.png",
-    imgPos: "max-w-[736px] lg:translate-x-130 xl:translate-x-40",
+    imgPos: "max-w-[736px] lg:translate-x-100 xl:translate-x-40",
   },
   {
     title: "Кредитная карта с гибкими условиями",
@@ -27,7 +27,7 @@ export const POPULAR_ITEMS = [
     bgArrowColor: "bg-black",
     ArrowColor: "text-white",
     src: "/Popular/credit_card.png",
-    imgPos: "max-w-[736px] lg:translate-x-130 xl:translate-x-40",
+    imgPos: "max-w-[736px] lg:translate-x-100 xl:translate-x-40",
   },
   {
     title: "На 10% больше кэшбэка на одежду и обувь ",
@@ -47,7 +47,7 @@ export const POPULAR_ITEMS = [
     bgArrowColor: "bg-black",
     ArrowColor: "text-white",
     src: "/Popular/yandex_cert.png",
-    imgPos: "max-w-[736px] max-xl:translate-x-130 xl:right-auto xl:left-40",
+    imgPos: "max-w-[736px] max-xl:translate-x-100 xl:right-auto xl:left-40",
   },
   {
     title: "Приводите друзей в Газпромбанк",
@@ -57,6 +57,6 @@ export const POPULAR_ITEMS = [
     bgArrowColor: "bg-black",
     ArrowColor: "text-white",
     src: "/Popular/frends.png",
-    imgPos: "max-w-[736px] max-xl:translate-x-130 xl:right-auto xl:left-40",
+    imgPos: "max-w-[736px] max-xl:translate-x-100 xl:right-auto xl:left-40",
   },
 ];

@@ -14,6 +14,7 @@ import { SearchTheSite } from "./components/Desktop/SearchTheSite/SearchTheSite"
 import { ProductCategories } from "./components/ProductCategories/ProductCategories";
 import { Popular } from "./components/Popular/Popular";
 import { MobileApp } from "./components/Desktop/AppMobile/MobileApp";
+import { PossiblyInteresting } from "./components/Desktop/PossiblyInteresting/PossiblyInteresting";
 
 export default function Home() {
   const searchIndex = 0;
@@ -44,7 +45,12 @@ export default function Home() {
         </div>
 
         <ServicesForYou />
-        <Banners b={BANNERS_2} />
+        <div className="lg:hidden">
+          <Banners b={BANNERS_2} />
+        </div>
+        <section className="max-lg:hidden xl:max-w-7xl mx-auto pl-11 pr-11 pt-15 pb-16">
+          <PossiblyInteresting />
+        </section>
         <LastNews />
       </div>
       <span className="lg:hidden">

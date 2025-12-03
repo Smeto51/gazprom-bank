@@ -105,7 +105,7 @@ export const Calculation = () => {
   );
 
   return (
-    <div className="max-lg:pt-8 max-lg:pb-8 lg:mt-20  xl:max-w-[1280px] xl:pl-7 xl:pr-7 mx-auto">
+    <div className="max-lg:pt-8 max-lg:pb-8 lg:mt-20  xl:max-w-[1280px] xl:pl-7 xl:pr-7 mx-auto ">
       <div
         className="
         max-lg:bg-[#F5F5F5] pt-6 pb-6 rounded-2xl max-lg:max-w-3xl max-lg:ml-auto max-lg:mr-auto max-lg:w-full

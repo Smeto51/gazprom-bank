@@ -2,6 +2,28 @@ const DOMEN = "/ServiseForYou/";
 
 export const SERVICES_ITEMS = [
   {
+    id: 3,
+    title: "Заботимся о вашей безопасности",
+    desc: "Как не попасться на уловки мошенников",
+    icon: "",
+    localIcon: DOMEN + "Mobile.png",
+    localIconDesc: DOMEN + "mobileDesc.png",
+    bg: "rgb(244, 246, 250)",
+    link: "javascript:void(0)",
+    grid: "lg:col-span-2 lg:row-span-2",
+  },
+  {
+    id: 4,
+    title: "Отечественные сертификаты безопасности",
+    desc: "Инструкция по установке российских TLS сертификатов",
+    //icon: "https://cdn.gpb.ru/upload/files/bve/500/q3bp19lgf4folbspfits3jvr61b9wz46/x1_1534x360_2-_1_.png",
+    localIcon: DOMEN + "Safety.png",
+    localIconDesc: DOMEN + "SafetyDesc.png",
+    bg: "rgb(255, 231, 219)",
+    link: "javascript:void(0)",
+    grid: "lg:col-span-2 lg:row-span-2 xl:row-span-1",
+  },
+  {
     id: 1,
     title: "Частые финансовые вопросы и ответы",
     desc: "Информационный материал, который поможет принимать грамотные финансовые решения",
@@ -9,6 +31,7 @@ export const SERVICES_ITEMS = [
     localIcon: DOMEN + "financialIssues.png",
     bg: "rgb(244, 246, 250)",
     link: "javascript:void(0)",
+    grid: "",
   },
   {
     id: 2,
@@ -17,23 +40,6 @@ export const SERVICES_ITEMS = [
     localIcon: DOMEN + "promo.png",
     bg: "rgb(216, 223, 255)",
     link: "javascript:void(0)",
-  },
-  {
-    id: 3,
-    title: "Заботимся о вашей безопасности",
-    desc: "Как не попасться на уловки мошенников",
-    icon: "https://cdn.gpb.ru/upload/files/bve/4c9/qvf2iq74ozsjkhk9v5cciu4bpq4ahc18/x1_Mobile_1534x360-_1_.png",
-    localIcon: DOMEN + "Mobile.png",
-    bg: "rgb(244, 246, 250)",
-    link: "javascript:void(0)",
-  },
-  {
-    id: 4,
-    title: "Отечественные сертификаты безопасности",
-    desc: "Инструкция по установке российских TLS сертификатов",
-    icon: "https://cdn.gpb.ru/upload/files/bve/500/q3bp19lgf4folbspfits3jvr61b9wz46/x1_1534x360_2-_1_.png",
-    localIcon: DOMEN + "Safety.png",
-    bg: "rgb(255, 231, 219)",
-    link: "javascript:void(0)",
+    grid: " ",
   },
 ];

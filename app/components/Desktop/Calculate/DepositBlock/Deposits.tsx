@@ -130,7 +130,7 @@ export const DepositsBlock = () => {
   return (
     <div
       className="lg:bg-[#000]/5 bg-white rounded-2xl
-    min-lg:pt-[124px] min-lg:pb-[124px]"
+    min-lg:pt-[124px] min-lg:pb-[124px] "
     >
       <h2
         className="
@@ -141,12 +141,12 @@ export const DepositsBlock = () => {
       </h2>
       <div
         className="lg:flex gap-4
-        lg:pl-11 lg:pr-11"
+        lg:pl-11 lg:pr-11 justify-center"
       >
         <div
           className="
           bg-white  rounded-2xl p-4
-            lg:w-[calc(60%-8px)] lg:p-[52px]"
+            lg:w-[calc(60%-96px)] lg:p-[52px]"
         >
           <div className="bg-white  flex flex-col flex-wrap gap-4  transition-all ">
             <div className="flex gap-4 flex-wrap ">
@@ -288,10 +288,10 @@ export const DepositsBlock = () => {
             </div>
           </div>
         </div>
-        <div className="lg:w-[calc(40%-8px)]">
+        <div className="lg:w-[calc(40%-96px)] ">
           <div
             className="
-          bg-white lg:p-[52px] rounded-2 p-2 max-lg:p-4 max-lg:mt-5
+          bg-white lg:p-[52px] rounded-2 p-2 max-lg:p-4 max-lg:mt-5 rounded-lg
           "
           >
             <div className="max-lg:p-8 max-lg:bg-gray-200/50 rounded-2xl">

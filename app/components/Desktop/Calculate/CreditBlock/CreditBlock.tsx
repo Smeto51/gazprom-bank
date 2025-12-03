@@ -132,9 +132,9 @@ export const CreditBlock = ({
     <div className="lg:bg-[#000]/5  lg:pt-[124px] lg:pb-[124px] rounded-2xl">
       <div
         className="lg:flex gap-4
-        lg:pl-11 lg:pr-11"
+        lg:pl-11 lg:pr-11 justify-center"
       >
-        <div className="relative bg-white p-4 lg:p-[52px] rounded-2xl lg:w-[calc(60%-8px)]">
+        <div className="relative bg-white p-4 lg:p-[52px] rounded-2xl lg:w-[calc(60%-96px)]">
           <h3 className="text-[28px] font-semibold mb-5">Параметры кредита</h3>
 
           <InputMaskNumber
@@ -175,7 +175,7 @@ export const CreditBlock = ({
           </div>
           {children}
         </div>
-        <div className="relative lg:w-[calc(40%-8px)] h-full flex flex-col mx-4 max-lg:mb-10">
+        <div className="relative lg:w-[calc(40%-96px)] h-full flex flex-col mx-4 max-lg:mb-10">
           <div className="lg:p-[40px] p-4 lg:bg-white rounded-2xl bg-gray-100">
             <h3 className="text-[24px] font-semibold">Ежемесячный платеж</h3>
             <p className="text-2xl font-bold mb-4 text-blue-500">

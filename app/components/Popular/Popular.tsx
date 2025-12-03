@@ -6,9 +6,9 @@ import { ArrowSVG } from "@/app/ui/SvgElements";
 
 export const Popular = () => {
   return (
-    <div className="pl-11 pr-11 relative">
+    <div className="pl-11 pr-11 relative xl:max-w-7xl mx-auto">
       <h2 className="text-5xl font-semibold mt-30 mb-20 ">Популярное</h2>
-      <div className="flex flex-wrap gap-6">
+      <div className="flex flex-wrap gap-6  ">
         {POPULAR_ITEMS.map((item, index) => {
           const widthClass =
             index % 3 === 0

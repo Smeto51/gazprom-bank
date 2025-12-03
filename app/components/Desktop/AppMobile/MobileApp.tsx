@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export const MobileApp = () => {
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center xl:max-w-7xl mx-auto">
       <div className="relative flex-[0_0_496px]">
         <Image
           src="/MobileApp/mobileApp.png"

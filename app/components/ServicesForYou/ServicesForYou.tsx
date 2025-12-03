@@ -6,12 +6,13 @@ import { ArrowSVG } from "@/app/ui/SvgElements";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FallBackImg } from "@/app/utils/FallBackImg";
+import { useWindowSize } from "@/app/hooks/useWindowSize";
 
 export const ServicesForYou = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const scrollingRef = useRef(false);
   const idTimerRef = useRef<number | null>(null);
-
+  const { width } = useWindowSize();
   const [snapOff, setSnapOff] = useState(true);
 
   const initialCopies = 3;
@@ -101,10 +102,8 @@ export const ServicesForYou = () => {
       setSnapOff(true);
       const cardWidth = getCardWidth();
       const idx = Math.round(scrollRef.current.scrollLeft / cardWidth);
-      //===> RIGHT
       const scrollLeft = scrollRef.current.scrollLeft;
       setCurrentIndex(idx);
-      //BJDebugMsg("newIndex = " + idx);
       if (scrollLeft > (tempSERVICES_ITEMS.length - 1) * 400 + 20) {
         setTempSERVICES_ITEMS([...tempSERVICES_ITEMS, ...SERVICES_ITEMS]);
       } else {
@@ -115,38 +114,52 @@ export const ServicesForYou = () => {
 
   const normalizedIndex = currentIndex % SERVICES_ITEMS.length;
 
+  const service = width < 1024 ? tempSERVICES_ITEMS : SERVICES_ITEMS;
   return (
-    <>
-      <h2 className="text-[28px] font-semibold m-[32px]">Услуги для вас</h2>
+    <div className="lg:pt-15 lg:pb-16 lg:pr-11 lg:pl-11 xl:max-w-7xl mx-auto">
+      <h2 className="text-[28px] font-semibold m-[32px] lg:hidden">
+        Услуги для вас
+      </h2>
       <div className=" ">
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className={`flex overflow-x-auto scrollbar-hide overflow-y-hidden 
+          className={`flex scrollbar-hide max-lg:overflow-y-hidden max-lg:overflow-x-auto 
+            lg:grid lg:gap-4 lg:grid-cols-2 lg:auto-rows-[220px] xl:auto-rows-[268px]
+            xl:grid-cols-4 
+            
           ${snapOff ? "snap-x snap-mandatory" : ""}`}
         >
-          {tempSERVICES_ITEMS.map((items, index) => (
+          {service.map((items, index) => (
             <div
               key={index}
-              className={`flex-shrink-0 w-full rounded-2xl min-h-auto relative
+              className={`flex-shrink-0 w-full rounded-2xl min-h-auto relative 
+                
+                ${items.grid}
                 ${snapOff ? "snap-start" : ""}`}
             >
               <div
-                className="absolute inset-0 mx-[16px] rounded-2xl"
+                className="absolute inset-0 max-lg:mx-[16px] rounded-2xl cursor-pointer"
                 style={{ background: items.bg }}
               />
               <Link className="absolute" href={items.link} />
-              <div className="relative z-0 pointer-events-none max-[1023px]:flex-col flex h-full mx-4 ">
-                <div className="max-[1023px]:p-6 p-8 relative flex flex-col justify-between h-full">
+              <div
+                className="relative z-0 pointer-events-none max-[1023px]:flex-col flex h-full mx-4 
+                lg:flex-col lg:h-full "
+              >
+                <div
+                  className="max-[1023px]:p-6 p-8 max-lg:relative flex flex-col max-lg:justify-between h-full
+                lg:p-4"
+                >
                   <div className="relative mb-2 z-2.5 text-[24px] font-semibold leading-6">
                     {items.title}
                   </div>
 
-                  <p className="relative text-[20px] leading-5 font-normal">
+                  <p className="relative text-[20px] lg:text-[14px] leading-5 font-normal">
                     {items.desc}
                   </p>
                   <Link
-                    className="relative h-5 cursor-pointer mt-6 flex items-center"
+                    className="lg:absolute h-5 cursor-pointer mt-6 flex items-center lg:bottom-4"
                     href={items.link}
                   >
                     <span className="text-[14px] leading-4 font-normal mr-2 opacity-[.64] flex">
@@ -157,19 +170,30 @@ export const ServicesForYou = () => {
                     </div>
                   </Link>
                 </div>
-                <div className="flex justify-center items-center h-auto -ml-4 ">
+                <div
+                  className="relative flex max-lg:justify-center max-lg:items-center h-auto -ml-4 
+                lg:h-full justify-between "
+                >
                   <FallBackImg
-                    src={items.icon}
+                    src={width < 1024 ? items.icon : items.localIconDesc}
                     offIcon={items.localIcon}
                     alt={items.title}
-                    className="w-full min-w-200 min-h-50 object-contain"
+                    className={`max-lg:w-full h-full object-contain
+                      max-lg:min-w-200 max-lg:min-h-50             
+                    right-0 bottom-0 lg:absolute
+                    ${
+                      index == 0
+                        ? "lg:w-[460px] lg:h-[400px]"
+                        : "lg:w-[280px] lg:h-[268px]"
+                    }
+                    ${index > 1 && width > 1024 ? "hidden" : ""}`}
                   />
                 </div>
               </div>
             </div>
           ))}
         </div>
-        <ul className="flex items-center justify-center w-full h-3 p-0 m-0 mt-4 gap-2">
+        <ul className="flex items-center justify-center w-full h-3 p-0 m-0 mt-4 gap-2 lg:hidden">
           {SERVICES_ITEMS.map((items, index) => (
             <li key={items.id}>
               <div
@@ -184,6 +208,6 @@ export const ServicesForYou = () => {
           ))}
         </ul>
       </div>
-    </>
+    </div>
   );
 };

@@ -7,7 +7,9 @@ import { Carousel } from "../FinanceProduct/FinanceProductCarousel";
 
 export const ProductCategories = () => {
   return (
-    <div className={`flex w-full relative overflow-x-hidden`}>
+    <div
+      className={`flex w-full relative overflow-x-hidden xl:max-w-7xl mx-auto`}
+    >
       <Carousel
         lg={4}
         xl={6}

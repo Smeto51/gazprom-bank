@@ -144,9 +144,9 @@ export const CreditCardPayments = () => {
     <div className="lg:bg-[#000]/5  lg:pt-[124px] lg:pb-[124px] rounded-2xl ">
       <div
         className="lg:flex gap-4
-        lg:pl-11 lg:pr-11"
+        lg:pl-11 lg:pr-11 justify-center"
       >
-        <div className="relative bg-white p-[52px] max-lg:p-4 rounded-2xl lg:w-[calc(60%-8px)]">
+        <div className="relative bg-white p-[52px] max-lg:p-4 rounded-2xl lg:w-[calc(60%-96px)]">
           <h3 className="text-[28px] font-semibold mb-10">Параметры покупки</h3>
           <div ref={startWrapperRef} className="relative mb-4">
             <InputCreditCard
@@ -198,7 +198,7 @@ export const CreditCardPayments = () => {
             dateMaturity={getLastDate()}
           />
         </div>
-        <div className="relative lg:w-[calc(40%-8px)]  h-full max-lg:mx-4">
+        <div className="relative  lg:w-[calc(40%-96px)]  h-full max-lg:mx-4">
           <div
             className="p-[52px]  bg-white rounded-2xl
           max-lg:p-4 max-lg:bg-gray-100 "

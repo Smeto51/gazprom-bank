@@ -1,4 +1,5 @@
-import { CashLoanBlock } from "../../Desktop/Calculate/CashLoan/CashLoan";
+import { AvtoCredit } from "../../Desktop/Calculate/CreditBlock/AutoCredit";
+import { CashLoanBlock } from "../../Desktop/Calculate/CreditBlock/CashLoan";
 import { CreditCardPayments } from "../../Desktop/Calculate/CreditCardPayBlock/CreditCardPayments";
 import { DepositsBlock } from "../../Desktop/Calculate/DepositBlock/Deposits";
 
@@ -31,5 +32,6 @@ export const CALCULATION_ITEMS = [
     title: "Автокредит",
     icon: "https://cdn.gpb.ru/upload/files/bve/a74/yxvbfuhhqfmn2vjm4l4kffaz678hq5ge/x1_Avtokredit.png",
     localIcon: DOMEN + "avtokredit.png",
+    blockLg: <AvtoCredit />,
   },
 ];

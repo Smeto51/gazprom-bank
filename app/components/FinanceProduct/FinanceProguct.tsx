@@ -51,7 +51,7 @@ export const FinProfuct = () => {
                 srcsetPng={item.srcsetPng}
                 srcImg={item.srcImg}
                 title={item.title}
-              ></MobileImg>
+              />
               <div className="max-lg:hidden">
                 <picture>
                   <img

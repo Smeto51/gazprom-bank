@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InputMaskNumber } from "../InputMaskNumber";
 import { rangeNewValue } from "../utils/formatedNumberRange";
 import { InputRange } from "../InputRange";
@@ -10,20 +10,34 @@ import {
   calculateDifferentiatedPayment,
   getDynamicMonthlyRate,
 } from "../utils/calculationAnnuityPayment";
-const MIN = 10000;
-const MAX = 7000000;
-const STEP = 100;
+import { getMonthWord } from "../utils/formatedNumberToText";
 
-const MIN_MONTH = 13;
-const MAX_MONTH = 60;
-const STEP_MONTH = 1;
+type PropsCreditBlock = {
+  MIN: number;
+  MAX: number;
+  STEP: number;
+  MIN_MONTH: number;
+  MAX_MONTH: number;
+  STEP_MONTH: number;
+  defaultValue: number;
+  children?: React.ReactNode;
+  loverRate?: number;
+};
 
-export const CashLoanBlock = () => {
-  const [value, setValue] = useState(7000000);
+export const CreditBlock = ({
+  MIN,
+  MAX,
+  STEP,
+  MIN_MONTH,
+  MAX_MONTH,
+  STEP_MONTH,
+  defaultValue,
+  children,
+  loverRate = 0,
+}: PropsCreditBlock) => {
+  const [value, setValue] = useState(defaultValue);
   const [months, setMonths] = useState(60);
-  const [checkBox, setCheckBox] = useState(false);
   const [monthlyPayment, setMonthlyPayment] = useState(245127);
-  const [loverRate, setLoverRate] = useState(0);
 
   const handleAccept = (val: string | number) => {
     const startVal = Number(String(val).replace(/[^\d]/g, ""));
@@ -105,29 +119,22 @@ export const CashLoanBlock = () => {
     setMonthlyPayment(payment);
   };
 
-  const handleClick = () => {
-    let rate;
-    setCheckBox(!checkBox);
-    if (!checkBox) {
-      rate = 0.15 / 12;
-    } else rate = 0;
-
-    setLoverRate(rate);
-    const currentStavka = getDynamicMonthlyRate(months, rate);
+  useEffect(() => {
+    const currentStavka = getDynamicMonthlyRate(months, loverRate);
     const payment = calculateDifferentiatedPayment(
       value,
       months,
       currentStavka
     );
     setMonthlyPayment(payment);
-  };
+  }, [loverRate, value, months]);
   return (
-    <div className="bg-[#000]/5  pt-[124px] pb-[124px] rounded-2xl ">
+    <div className="lg:bg-[#000]/5  lg:pt-[124px] lg:pb-[124px] rounded-2xl">
       <div
-        className="flex gap-4
-        lg:pl-11 lg:pr-11"
+        className="lg:flex gap-4
+        lg:pl-11 lg:pr-11 justify-center"
       >
-        <div className="relative bg-white p-[52px] rounded-2xl lg:w-[calc(60%-8px)]">
+        <div className="relative bg-white p-4 lg:p-[52px] rounded-2xl lg:w-[calc(60%-96px)]">
           <h3 className="text-[28px] font-semibold mb-5">Параметры кредита</h3>
 
           <InputMaskNumber
@@ -135,6 +142,7 @@ export const CashLoanBlock = () => {
             handleAccept={handleAccept}
             handleBlur={handleBlurValue}
             nameInput="Сумма кредита"
+            suffixChar="₽"
           />
           <div>
             <InputRange
@@ -151,6 +159,9 @@ export const CashLoanBlock = () => {
             handleAccept={handleAcceptDate}
             handleBlur={handleBlurMonths}
             nameInput="Срок кредита"
+            suffixChar={getMonthWord(months)}
+            inputLenght={4}
+            isSetFixedSvg={true}
           />
           <div>
             <InputRange
@@ -162,34 +173,10 @@ export const CashLoanBlock = () => {
               typeText="month"
             />
           </div>
-          <h3 className="text-[24px] font-semibold mb-5 mt-10">
-            Дополнительные опции
-          </h3>
-          <div className="relative flex items-center gap-2">
-            <span
-              onClick={handleClick}
-              className={`w-[36px] h-[20px] rounded-[96px] cursor-pointer duration-200 
-              ${checkBox ? "bg-blue-600" : "bg-[#a5a5a5]"} `}
-            />
-            <span
-              onClick={handleClick}
-              className={`absolute h-3 w-3 left-0 rounded-[50%] bg-white duration-200 cursor-pointer
-                ${checkBox ? "translate-x-5" : "translate-x-1"} `}
-            />
-            <span onClick={handleClick} className="cursor-pointer">
-              Снизить процентную ставку
-            </span>
-            <div className="absolute right-0 top-0 bg-[#43bb3a] p-1 text-white rounded-[8px] w-10 text-[12px] justify-center flex">
-              -15%
-            </div>
-          </div>
-
-          <Link href="#" className="text-blue-600 text-sm mx-11">
-            Подробнее
-          </Link>
+          {children}
         </div>
-        <div className="relative lg:w-[calc(40%-8px)] h-full flex flex-col">
-          <div className="p-[40px] bg-white rounded-2xl">
+        <div className="relative lg:w-[calc(40%-96px)] h-full flex flex-col mx-4 max-lg:mb-10">
+          <div className="lg:p-[40px] p-4 lg:bg-white rounded-2xl bg-gray-100">
             <h3 className="text-[24px] font-semibold">Ежемесячный платеж</h3>
             <p className="text-2xl font-bold mb-4 text-blue-500">
               <AnimatedCounter value={Math.trunc(monthlyPayment)} /> ₽

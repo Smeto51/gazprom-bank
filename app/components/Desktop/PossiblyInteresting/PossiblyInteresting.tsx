@@ -49,12 +49,12 @@ export const PossiblyInteresting = () => {
       </h2>
       <div
         className={`z-1 absolute top-0 -right-1 h-full w-32 bg-gradient-to-l from-white to-transparent pointer-events-none
-            duration-300 transition-opacity
+            duration-100 transition-opacity
         ${isVisibleArrowRight && arrowWidhtHide ? "opacity-100" : "opacity-0"}`}
       />
       <div
         className={`z-1 absolute top-0 left-0 h-full w-32 bg-gradient-to-r from-white to-transparent pointer-events-none
-            duration-300 transition-opacity
+            duration-100 transition-opacity
         ${isVisibleArrowLeft && arrowWidhtHide ? "opacity-100" : "opacity-0"}`}
       />
       <div className="relative ">
@@ -94,9 +94,11 @@ export const PossiblyInteresting = () => {
           className={`absolute top-1/2  -translate-y-1/2 right-0 z-10
           bg-gray-100 w-10 h-10 rounded-full
          flex items-center justify-center
-         transition-opacity duration-300
+         transition-opacity duration-600 cursor-pointer
           ${
-            isVisibleArrowRight && arrowWidhtHide ? "opacity-100" : "opacity-0"
+            isVisibleArrowRight && arrowWidhtHide
+              ? "opacity-100"
+              : "opacity-0 pointer-events-none"
           }`}
         >
           <div className="w-7 h-7 bg-white rounded-full">
@@ -108,8 +110,12 @@ export const PossiblyInteresting = () => {
           className={`absolute top-1/2  -translate-y-1/2 left-0 z-10
          bg-gray-100 w-10 h-10 rounded-full
          flex items-center justify-center rotate-180
-         transition-opacity duration-300
-         ${isVisibleArrowLeft && arrowWidhtHide ? "opacity-100" : "opacity-0"}`}
+         transition-opacity duration-600 cursor-pointer
+         ${
+           isVisibleArrowLeft && arrowWidhtHide
+             ? "opacity-100"
+             : "opacity-0 pointer-events-none"
+         }`}
         >
           <div className="w-7 h-7 bg-white rounded-full">
             <SVGComponet.ArrowNext />

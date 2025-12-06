@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
               <Header />
               {children}
               <Footer />
-              <div className={isHome ? "mt-30" : ""} />
+              <div className={isHome ? "max-lg:mt-30" : ""} />
             </ModalProvider>
           </CityProvider>
         </SearchBlockProvider>

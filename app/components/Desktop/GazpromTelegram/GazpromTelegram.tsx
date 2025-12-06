@@ -21,7 +21,7 @@ export const GazpromTelegram = () => {
               src="/GazpomTelegram/gpbTg.png"
               alt="Изображение: азпромбанк в Telegram"
               fill
-              sizes="100vw"
+              sizes="(max-width: 1279px) 100vw, 1280px"
             />
           </div>
         </div>

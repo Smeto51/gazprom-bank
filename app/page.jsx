@@ -16,6 +16,7 @@ import { Popular } from "./components/Popular/Popular";
 import { MobileApp } from "./components/Desktop/AppMobile/MobileApp";
 import { PossiblyInteresting } from "./components/Desktop/PossiblyInteresting/PossiblyInteresting";
 import { GazpromTelegram } from "./components/Desktop/GazpromTelegram/GazpromTelegram";
+import { ProjectBank } from "./components/Desktop/ProjectBank/ProjectBank";
 
 export default function Home() {
   const searchIndex = 0;
@@ -55,6 +56,9 @@ export default function Home() {
           </section>
           <section className="lg:max-w-[776px] xl:max-w-[1016px] mx-auto pt-20 pb-20 transition-all duration-500">
             <GazpromTelegram />
+          </section>
+          <section>
+            <ProjectBank />
           </section>
         </div>
 

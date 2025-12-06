@@ -31,7 +31,7 @@ export const ServicesForYou = () => {
 
   useEffect(() => {
     if (scrollRef.current) {
-      const cardWidth = window.innerWidth;
+      const cardWidth = scrollRef.current.clientWidth;
       const initialPosition = initialCopies * SERVICES_ITEMS.length * cardWidth;
       scrollRef.current.scrollLeft = initialPosition;
     }
@@ -41,7 +41,7 @@ export const ServicesForYou = () => {
     (index: number) => {
       setCurrentIndex(index);
       if (scrollRef.current) {
-        const cardWidth = window.innerWidth;
+        const cardWidth = scrollRef.current.clientWidth;
 
         let closestIndex = index;
         const currentScrollIndex = Math.round(
@@ -50,6 +50,7 @@ export const ServicesForYou = () => {
         const currentCopy = Math.floor(
           currentScrollIndex / SERVICES_ITEMS.length
         );
+
         closestIndex = index + currentCopy * SERVICES_ITEMS.length;
 
         if (closestIndex >= tempSERVICES_ITEMS.length) {
@@ -114,7 +115,8 @@ export const ServicesForYou = () => {
 
   const normalizedIndex = currentIndex % SERVICES_ITEMS.length;
 
-  const service = width < 1024 ? tempSERVICES_ITEMS : SERVICES_ITEMS;
+  const service =
+    width < 1024 && width != 0 ? tempSERVICES_ITEMS : SERVICES_ITEMS;
   return (
     <div className="lg:pt-15 lg:pb-16 lg:pr-11 lg:pl-11 xl:max-w-7xl mx-auto">
       <h2 className="text-[28px] font-semibold m-[32px] lg:hidden">

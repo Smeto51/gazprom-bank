@@ -9,13 +9,15 @@ type SeacrhProps = {
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleClearInput: () => void;
   handleSearch: () => void;
+  id?: string;
 };
 
-export const SerachInput = ({
+export const SearchInput = ({
   searchValue,
   handleInputChange,
   handleClearInput,
   handleSearch,
+  id = "",
 }: SeacrhProps) => (
   <>
     <div
@@ -25,7 +27,7 @@ export const SerachInput = ({
     >
       <input
         type="text"
-        id="HeaderSearching"
+        id={id}
         maxLength={57}
         placeholder="Например: Кредитный рейтинг"
         value={searchValue}

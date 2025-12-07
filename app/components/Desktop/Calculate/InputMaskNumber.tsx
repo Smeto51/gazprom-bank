@@ -109,6 +109,7 @@ export const InputMaskNumber = ({
           inputRef.current = e;
         }}
         className="text-2xl font-semibold  outline-none w-full"
+        name="maskNumber"
         mask={Number}
         maxLength={inputLenght}
         scale={0}

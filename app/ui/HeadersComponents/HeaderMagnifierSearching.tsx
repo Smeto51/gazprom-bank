@@ -1,5 +1,5 @@
 "use client";
-import { SerachInput } from "@/app/components/Desktop/SearchTheSite/SearchInput";
+import { SearchInput } from "@/app/components/Desktop/SearchTheSite/SearchInput";
 import { memo, useCallback, useState } from "react";
 
 type HeaderSearchingProps = { onClose: () => void };
@@ -26,11 +26,12 @@ const HeaderSearching = memo(({ onClose }: HeaderSearchingProps) => {
     <div className="relative lg:h-auto ">
       <div className="relative w-full flex  bg-white z-10 rounded-b-2xl ">
         <div className="flex w-full mx-auto space-x-7 wrapper lg:p-10">
-          <SerachInput
+          <SearchInput
             searchValue={searchValue}
             handleInputChange={handleInputChange}
             handleClearInput={handleClearInput}
             handleSearch={handleSearch}
+            id="HeaderSearch"
           />
         </div>
       </div>

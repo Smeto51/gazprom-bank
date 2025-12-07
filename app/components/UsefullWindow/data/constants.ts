@@ -5,9 +5,9 @@ export const USESFUL_TIPS = [
     id: 3,
     title: "Финансовая пирамида",
     srcsetWebp:
-      "https://cdn.gpb.ru/upload/files/iblock/242/772h70vero4vb22mqwtmgptsrlq5hnrw/-Ikonka.webp 2x, https://cdn.gpb.ru/upload/files/iblock/242/772h70vero4vb22mqwtmgptsrlq5hnrw/x1_-Ikonka.webp",
+      "https://cdn.gpb.ru/upload/files/iblock/242/772h70vero4vb22mqwtmgptsrlq5hnrw/x1_-Ikonka.webp",
     srcsetPng:
-      "https://cdn.gpb.ru/upload/files/iblock/242/772h70vero4vb22mqwtmgptsrlq5hnrw/-Ikonka.png 2x, https://cdn.gpb.ru/upload/files/iblock/242/772h70vero4vb22mqwtmgptsrlq5hnrw/x1_-Ikonka.png",
+      "https://cdn.gpb.ru/upload/files/iblock/242/772h70vero4vb22mqwtmgptsrlq5hnrw/x1_-Ikonka.png",
     srcImg:
       "https://cdn.gpb.ru/upload/files/iblock/242/772h70vero4vb22mqwtmgptsrlq5hnrw/x1_-Ikonka.webp",
     //"https://cdn.gpb.ru/upload/files/iblock/cd6/a7nnndqkxran111x0ohfqyrkhqe9v6uj/x1_Banner-na-sayt-0-_1_.jpg",
@@ -16,9 +16,9 @@ export const USESFUL_TIPS = [
     id: 1,
     title: "Кредит на авто",
     srcsetWebp:
-      "https://cdn.gpb.ru/upload/files/iblock/367/xcby5sm2uafdak1m3usytys5qjap38y1/Avtokredit-ikonka.webp 2x, https://cdn.gpb.ru/upload/files/iblock/367/xcby5sm2uafdak1m3usytys5qjap38y1/x1_Avtokredit-ikonka.webp",
+      "https://cdn.gpb.ru/upload/files/iblock/367/xcby5sm2uafdak1m3usytys5qjap38y1/x1_Avtokredit-ikonka.webp",
     srcsetPng:
-      "https://cdn.gpb.ru/upload/files/iblock/469/8yshc0gjw007syumt4ln8n6t3d9p5jml/Ikonka_.jpg 2x, https://cdn.gpb.ru/upload/files/iblock/469/8yshc0gjw007syumt4ln8n6t3d9p5jml/x1_Ikonka_.jpg",
+      "https://cdn.gpb.ru/upload/files/iblock/469/8yshc0gjw007syumt4ln8n6t3d9p5jml/x1_Ikonka_.jpg",
     srcImg:
       "https://cdn.gpb.ru/upload/files/iblock/469/8yshc0gjw007syumt4ln8n6t3d9p5jml/x1_Ikonka_.jpg",
   },
@@ -56,7 +56,7 @@ export const USESFUL_TIPS = [
     id: 7,
     title: "Про карту Mir Supreme",
     srcsetWebp:
-      "https://cdn.gpb.ru/upload/files/iblock/9b5/qjltetgucievgce2e1jpa0jf04swcn9z/ikonka-Premium.webp 2x, https://cdn.gpb.ru/upload/files/iblock/9b5/qjltetgucievgce2e1jpa0jf04swcn9z/x1_ikonka-Premium.webp",
+      "https://cdn.gpb.ru/upload/files/iblock/9b5/qjltetgucievgce2e1jpa0jf04swcn9z/x1_ikonka-Premium.webp",
   },
 ];
 

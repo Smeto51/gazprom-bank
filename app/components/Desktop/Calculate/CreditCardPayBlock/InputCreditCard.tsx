@@ -76,6 +76,7 @@ export const InputCreditCard = ({
       flex items-center p-1 pr-2 `}
     >
       <IMaskInput
+        name={"creditCard"}
         mask={Date}
         placeholderChar="_"
         lazy={false}

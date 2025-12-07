@@ -154,17 +154,18 @@ export const Calculation = () => {
             ))}
           </div>
         </div>
-
-        <div className="hidden lg:block lg:pt-[60px] lg:pb-[64px] max-w-[1536px]">
-          {CALCULATION_ITEMS.map((item, index) => (
-            <div
-              key={index}
-              className={`${activePage === index ? "" : "hidden"}`}
-            >
-              {item.blockLg}
-            </div>
-          ))}
-        </div>
+        {!isMobile && (
+          <div className="hidden lg:block lg:pt-[60px] lg:pb-[64px] max-w-[1536px]">
+            {CALCULATION_ITEMS.map((item, index) => (
+              <div
+                key={index}
+                className={`${activePage === index ? "" : "hidden"}`}
+              >
+                {item.blockLg}
+              </div>
+            ))}
+          </div>
+        )}
 
         <div
           className={`transition-opacity duration-100 ${
@@ -172,7 +173,6 @@ export const Calculation = () => {
               ? "opacity-0  "
               : "fixed left-0 bottom-0 bg-black/70 w-full h-full z-1 cursor-pointer opacity-100 min-lg:hidden"
           }`}
-          //onClick={() => setIsOpenCalculation(false)}
         />
         {isOpenCalculation && (
           <div
@@ -249,28 +249,30 @@ export const Calculation = () => {
                 </div>
               </div>
             </>
-            <div
-              className="overflow-y-auto max-lg:max-w-3xl overflow-x-hidden transition-all duration-500 ease-in-out"
-              style={{
-                height: contentHeight > 0 ? `${contentHeight}px` : "auto",
-              }}
-            >
-              {CALCULATION_ITEMS.map((item, index) => (
-                <div
-                  key={index}
-                  ref={(el) => {
-                    contentRefs.current[index] = el;
-                  }}
-                  className={`duration-100 transition-all ${
-                    activePage === index
-                      ? "opacity-100 block"
-                      : "opacity-0 absolute"
-                  }`}
-                >
-                  {item.blockLg}
-                </div>
-              ))}
-            </div>
+            {isMobile && (
+              <div
+                className="overflow-y-auto max-lg:max-w-3xl overflow-x-hidden transition-all duration-500 ease-in-out"
+                style={{
+                  height: contentHeight > 0 ? `${contentHeight}px` : "auto",
+                }}
+              >
+                {CALCULATION_ITEMS.map((item, index) => (
+                  <div
+                    key={index}
+                    ref={(el) => {
+                      contentRefs.current[index] = el;
+                    }}
+                    className={`duration-100 transition-all ${
+                      activePage === index
+                        ? "opacity-100 block"
+                        : "opacity-0 absolute"
+                    }`}
+                  >
+                    {item.blockLg}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

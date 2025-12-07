@@ -40,7 +40,7 @@ const SearchInput = () => (
   <div className="flex gap-5 pb-4 px-5">
     <div className=" flex gap-3 text-black/50 bg-[#0a0a0b14] p-2 rounded-[8px] w-full">
       <Magnifier />
-      <input className="w-full" placeholder="Поиск" />
+      <input className="w-full" placeholder="Поиск" name="search" />
       <button>
         <SVGComponet.ButtonArrow />
       </button>

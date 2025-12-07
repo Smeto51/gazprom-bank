@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { SerachInput } from "./SearchInput";
+import { SearchInput } from "./SearchInput";
 
 const typesSearch = [
   { id: 1, desc: "Что входит в Газпром Бонус?" },
@@ -30,11 +30,12 @@ export const SearchTheSite = () => {
         Поиск по сайту
       </h2>
       <div className="flex gap-4 mt-10">
-        <SerachInput
+        <SearchInput
           searchValue={searchValue}
           handleInputChange={handleInputChange}
           handleClearInput={handleClearInput}
           handleSearch={handleSearch}
+          id="searchSite"
         />
       </div>
       <div className="flex gap-3 flex-wrap justify-center mt-4 items-center">

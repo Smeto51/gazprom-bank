@@ -79,7 +79,7 @@ export const PossiblyInteresting = () => {
                   src={items.src}
                   alt={`Изображение: ${items.title}`}
                   fill
-                  sizes="100vw"
+                  sizes="(max-width: 1279px) 100vw, 1280px"
                 />
               </div>
 

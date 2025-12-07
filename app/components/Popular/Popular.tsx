@@ -29,7 +29,7 @@ export const Popular = () => {
                   src={item.src}
                   alt={item.title}
                   fill
-                  sizes="100vw"
+                  sizes="(max-width: 1279px) 100vw, 1280px"
                   className="object-cover "
                 />
               </div>

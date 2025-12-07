@@ -11,7 +11,6 @@ export const MobileApp = () => {
           alt="Moбильное приложение"
           width={496}
           height={428}
-          sizes="100vw"
           className="top-0 left-0"
         />
       </div>

@@ -118,14 +118,14 @@ export const UsefullWindow = ({
   };
 
   return (
-    <div className="bg-[#1e222e] fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center min-w-[320px] z-20 p-0 ">
-      <div className="w-full h-full flex items-center justify-center min-[768]:rounded-2xl">
+    <div className="bg-[#1e222e] fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center min-w-[320px] z-20 p-0">
+      <div className="w-full h-full flex items-center justify-center md:rounded-2xl">
         <div
           ref={sliderContainerRef}
-          className="flex overflow-x-auto w-full h-full min-[768]:px-4 min-[768]:py-8 scrollbar-hide max-md:snap-x max-md:snap-mandatory items-center overflow-y-hidden gap-4
+          className="flex overflow-x-auto w-full h-full md:px-4 md:py-8 scrollbar-hide max-md:snap-x max-md:snap-mandatory items-center overflow-y-hidden lg:gap-4
           "
         >
-          <div className="hidden md:block shrink-0 w-[360px]" />
+          <div className="hidden md:block shrink-0 lg:w-[360px] w-full" />
           {viewSliders.map((sliderIndex, origIndex) => {
             const item: UseFulIItem = USESFUL_SLIDER[sliderIndex];
             const currentData = item.slides[currentSlides[sliderIndex]];
@@ -137,16 +137,16 @@ export const UsefullWindow = ({
                 ref={(e) => {
                   sliderRefs.current[origIndex] = e;
                 }}
-                className={`relative w-screen h-full flex-shrink-0 
-                  min-[768px]:min-w-[360px] 
-                  min-[768px]:min-h-[640px] 
-                  min-[768px]:w-[44.9438202247vh] 
-                  min-[768px]:rounded-2xl overflow-hidden max-md:snap-start
+                className={`relative w-screen h-full flex-shrink-0
+                  md:min-w-[360px] 
+                  md:min-h-[640px] 
+                  md:w-[44.9438202247vh] 
+                  md:rounded-2xl overflow-hidden max-md:snap-start
                   duration-300 transition-transform flex
                    ${
                      isActive
-                       ? "min-[768px]:scale-100 min-[768px]:z-20"
-                       : "min-[768px]:scale-90 min-[768px]:z-10 blur-xs"
+                       ? "md:scale-100 md:z-20"
+                       : "md:scale-90 md:z-10 md:blur-xs"
                    }
               `}
                 onClick={() => handleSliderClick(sliderIndex)}
@@ -182,14 +182,14 @@ export const UsefullWindow = ({
                   progressBars={progressBars[sliderIndex]}
                   setIsPaused={setIsPaused}
                 />
-                <picture className="">
+                <picture className="max-lg:w-full">
                   <img
                     className="w-full max-[767px]:h-full h-full max-[767px]:object-cover"
                     src={currentData.iconBg}
                     alt=""
                   />
                 </picture>
-                <div className="flex absolute items-center top-11 pl-6 gap-3 text-white font-medium">
+                <div className="flex absolute items-center top-11 pl-6 lg:gap-3 text-white font-medium">
                   <div className="w-10 h-10 rounded-[50%]">
                     <picture className="">
                       <img
@@ -203,7 +203,7 @@ export const UsefullWindow = ({
                 </div>
                 <StoryCard currentData={currentData} />
 
-                <div className="absolute flex top-10 right-4 gap-8">
+                <div className="absolute flex top-10 right-4 lg:gap-8">
                   <button
                     className="w-6 h-6 min-w-6 bg-white/10 rounded-[50%] z-100"
                     onClick={onClose}

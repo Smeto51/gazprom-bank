@@ -9,6 +9,8 @@ type InputProps = {
   handleInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleBlur?: () => void;
   textInput?: string;
+  id?: string;
+  idPrefix?: string;
 };
 
 export const InputDeposit = ({
@@ -16,6 +18,8 @@ export const InputDeposit = ({
   handleInputChange,
   handleBlur,
   textInput,
+  id = "",
+  idPrefix = "",
 }: InputProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -53,7 +57,7 @@ export const InputDeposit = ({
     >
       <input
         type="text"
-        id="Deposits"
+        id={id + idPrefix}
         maxLength={11}
         value={displayValue}
         onChange={onChange}

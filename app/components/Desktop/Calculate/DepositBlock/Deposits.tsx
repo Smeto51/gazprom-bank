@@ -6,7 +6,7 @@ import Link from "next/link";
 import { DurationDepositsBlock, itemsDepositsBlock } from "./data/const";
 import { AnimatedCounter, formatNumber } from "@/app/utils/AnimatedCounter";
 
-export const DepositsBlock = () => {
+export const DepositsBlock = ({}) => {
   const [activeItem, setActivItem] = useState(0);
   const [depositValue, setDepositValue] = useState(15000);
   const [gpbDepositValue, setGpbDepositValue] = useState(0);
@@ -209,6 +209,7 @@ export const DepositsBlock = () => {
               handleInputChange={handleInputChange}
               handleBlur={handleBlur}
               textInput={"Сумма вклада"}
+              id="DepositsSum"
             />
             <div className="text-[14px] text-gray-500 -mt-3">
               {activeItem === 4 ? "от 300 000 ₽" : "от 15 000 ₽"}
@@ -260,6 +261,7 @@ export const DepositsBlock = () => {
                   value={gpbDepositValue}
                   handleInputChange={handleInputGPBChange}
                   textInput={"Сумма со счетов Газпромбанка"}
+                  id="DepositsSummGPBClient"
                 />
                 <div className="relative flex mt-2">
                   <div className="text-[14px] text-gray-500 ">от 0 ₽</div>

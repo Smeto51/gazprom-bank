@@ -101,6 +101,7 @@ export const Carousel = ({
     const checkScreenSize = () => {
       const isLarge = window.innerWidth >= 1024;
       const visible = window.innerWidth >= 1280 ? xl : lg;
+      if (window.innerWidth < 1024) return;
       setPageVisible(visible);
       const wasLarge = isLargeScreen;
 

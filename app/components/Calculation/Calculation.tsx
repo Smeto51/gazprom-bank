@@ -105,7 +105,7 @@ export const Calculation = () => {
   );
 
   return (
-    <div className="max-lg:pt-8 max-lg:pb-8 lg:mt-20  xl:max-w-[1280px] xl:pl-7 xl:pr-7 mx-auto ">
+    <div className="max-lg:pt-8 max-lg:pb-8 lg:mt-20  xl:max-w-[1280px] xl:pl-7 xl:pr-7 mx-auto">
       <div
         className="
         max-lg:bg-[#F5F5F5] pt-6 pb-6 rounded-2xl max-lg:max-w-3xl max-lg:ml-auto max-lg:mr-auto 
@@ -174,14 +174,9 @@ export const Calculation = () => {
               : "fixed left-0 bottom-0 bg-black/70 w-full h-full z-1 cursor-pointer opacity-100 min-lg:hidden"
           }`}
         />
+
         {isOpenCalculation && (
-          <div
-            className="fixed max-w-3xl bottom-0 top-0 z-45 bg-white"
-            style={{
-              transform: `translateY(calc(50% + ${dragY}px)`,
-              transition: isDragging ? "none" : "transform 0.5s ease-out",
-            }}
-          />
+          <div className="fixed top-1/2 bottom-0 w-3xl bg-white z-45 max-w-3xl pointer-events-none min-lg:hidden" />
         )}
         <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none min-lg:hidden">
           <div
@@ -189,12 +184,13 @@ export const Calculation = () => {
               w-full max-w-3xl pointer-events-auto
               bg-white rounded-t-2xl overflow-hidden flex flex-col 
               max-h-[calc(100vh-80px)]
-              transition-transform duration-500 ease-out
+              
             `}
             style={{
               transform: isOpenCalculation
                 ? `translateY(${dragY}px)`
                 : `translateY(100%)`,
+              transition: isDragging ? "none" : "transform 0.5s ease-out",
             }}
           >
             <>
@@ -212,7 +208,7 @@ export const Calculation = () => {
                 onPointerDown={onPointerDown}
                 onPointerUp={onPointerUp}
               >
-                <div className="flex justify-between">
+                <div className="flex justify-between ">
                   <h3 className="font-semibold text-lg">
                     {CALCULATION_ITEMS[activePage].title}
                   </h3>
@@ -232,7 +228,7 @@ export const Calculation = () => {
                         key={item.id}
                         onClick={() => handleItemClick(index)}
                         className={`relative  pl-3 pr-3 overflow-hidden transition-colors duration-300 ease-in-out 
-                      max-lg:min-w-[140px] py-3 rounded-[8px] cursor-pointer
+                        max-lg:min-w-[140px] py-3 rounded-[8px] cursor-pointer
                      
                   ${
                     activePage == index

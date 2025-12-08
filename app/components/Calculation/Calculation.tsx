@@ -175,9 +175,17 @@ export const Calculation = () => {
           }`}
         />
 
-        {isOpenCalculation && (
-          <div className="fixed top-1/2 bottom-0 w-3xl bg-white z-45 max-w-3xl pointer-events-none min-lg:hidden" />
-        )}
+        <div
+          className={`fixed top-0 bottom-0 w-3xl bg-white z-45 max-w-3xl pointer-events-none min-lg:hidden
+              ${isOpenCalculation ? "opacity-100" : "opacity-0"}`}
+          style={{
+            transform: isOpenCalculation
+              ? `translateY(calc(50% + ${dragY}px)`
+              : `translateY(120%)`,
+            transition: isDragging ? "none" : "transform 0.5s ease-out",
+          }}
+        />
+
         <div className="fixed inset-0 z-50 flex items-end justify-center pointer-events-none min-lg:hidden">
           <div
             className={`
@@ -189,7 +197,7 @@ export const Calculation = () => {
             style={{
               transform: isOpenCalculation
                 ? `translateY(${dragY}px)`
-                : `translateY(100%)`,
+                : `translateY(120%)`,
               transition: isDragging ? "none" : "transform 0.5s ease-out",
             }}
           >

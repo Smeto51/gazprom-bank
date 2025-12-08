@@ -81,7 +81,7 @@ export const GazpromBankSvg = () => {
 //w-4 h-4 group-hover:scale-150 transition-transform duration-500
 export const CrossSVG = () => {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
         <path
           fillRule="evenodd"

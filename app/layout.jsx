@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <meta name="yandex-verification" content="ee8c03bb26c7d932" />
+        <meta name="yandex-verification" content="4ae76c47f7607378" />
       </head>
       <body>
         <SearchBlockProvider>

@@ -13,6 +13,9 @@ export default function RootLayout({ children }) {
   const isHome = pathname === "/";
   return (
     <html lang="en">
+      <head>
+        <meta name="yandex-verification" content="ee8c03bb26c7d932" />
+      </head>
       <body>
         <SearchBlockProvider>
           <CityProvider>

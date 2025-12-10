@@ -158,8 +158,9 @@ export const HeaderMenuPhone = () => {
       <div
         aria-modal="true"
         role="dialog"
-        className={`${phone} bg-white left-0 right-0 bottom-0 fixed ml-auto mr-auto min-w-[320px] rounded-t-lg z-100 transition-[height,transform] duration-300 ease-out ${
-          isCitiesOpen ? "top-0  " : "max-w-3xl max-h-dynamic "
+        className={`${phone} bg-white left-0 right-0 bottom-0 fixed ml-auto mr-auto min-w-[320px] rounded-t-lg z-100 
+        transition-[height,transform] duration-300 ease-out ${
+          isCitiesOpen ? "top-0" : "max-w-3xl max-h-dynamic"
         }`}
         style={{
           transform: isDragging ? `translateY(0px)` : "translateY(0)",
@@ -175,7 +176,7 @@ export const HeaderMenuPhone = () => {
           <div className="absolute top-0 left-0 right-0 h-2 bg-transparent" />
 
           <div className={`${isCitiesOpen ? "" : "trait"} `} />
-          <div className="p-4 pt-6">
+          <div className="p-4 pt-6 ">
             <div
               className="flex items-center justify-center rounded-full bg-[rgba(30,34,46,0.08)] w-6 aspect-square ml-auto hover:bg-blue-500 hover:text-white duration-300 cursor-pointer"
               onClick={handleClose}

@@ -82,30 +82,12 @@ export const GazpromBankSvg = () => {
 export const CrossSVG = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M12.596 3.404a.625.625 0 0 1 0 .884L8.884 8l3.712 3.712a.625.625 0 1 1-.884.884L8 8.884l-3.712 3.712a.625.625 0 1 1-.884-.884L7.116 8 3.404 4.288a.625.625 0 0 1 .884-.884L8 7.116l3.712-3.712a.625.625 0 0 1 .884 0Z"
-          fill="currentColor"
-        ></path>
-      </svg>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M15.303 4.697a.75.75 0 0 1 0 1.06L11.061 10l4.242 4.243a.75.75 0 0 1-1.06 1.06L10 11.061l-4.243 4.242a.75.75 0 1 1-1.06-1.06L8.939 10 4.697 5.757a.75.75 0 1 1 1.06-1.06L10 8.939l4.243-4.242a.75.75 0 0 1 1.06 0Z"
-          fill="currentColor"
-        ></path>
-      </svg>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M18.718 5.283a.75.75 0 0 1 0 1.06L13.06 12l5.657 5.657a.75.75 0 0 1-1.061 1.06L12 13.062l-5.657 5.657a.75.75 0 1 1-1.06-1.061L10.938 12 5.282 6.343a.75.75 0 0 1 1.061-1.06L12 10.939l5.657-5.656a.75.75 0 0 1 1.06 0Z"
-          fill="currentColor"
-        ></path>
-      </svg>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12.596 3.404a.625.625 0 0 1 0 .884L8.884 8l3.712 3.712a.625.625 0 1 1-.884.884L8 8.884l-3.712 3.712a.625.625 0 1 1-.884-.884L7.116 8 3.404 4.288a.625.625 0 0 1 .884-.884L8 7.116l3.712-3.712a.625.625 0 0 1 .884 0Z"
+        fill="currentColor"
+      ></path>
     </svg>
   );
 };
@@ -147,69 +129,6 @@ export const QrSVG = () => {
           fill="currentColor"
         ></path>
       </svg>
-      {/*<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M3.082 3.41C3 3.57 3 3.78 3 4.2v3.828c0 .42 0 .63.082.79a.75.75 0 0 0 .328.328c.16.082.37.082.79.082h3.828c.42 0 .63 0 .79-.082a.75.75 0 0 0 .328-.328c.082-.16.082-.37.082-.79V4.2c0-.42 0-.63-.082-.79a.75.75 0 0 0-.328-.328C8.658 3 8.448 3 8.028 3H4.2c-.42 0-.63 0-.79.082a.75.75 0 0 0-.328.328ZM4.5 4.5h3.228v3.228H4.5V4.5Z"
-          fill="currentColor"
-        ></path>
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M3.082 11.182c-.082.16-.082.37-.082.79V15.8c0 .42 0 .63.082.79a.75.75 0 0 0 .328.328c.16.082.37.082.79.082h3.828c.42 0 .63 0 .79-.082a.75.75 0 0 0 .328-.328c.082-.16.082-.37.082-.79v-3.828c0-.42 0-.63-.082-.79a.75.75 0 0 0-.328-.328c-.16-.082-.37-.082-.79-.082H4.2c-.42 0-.63 0-.79.082a.75.75 0 0 0-.328.328Zm1.418 1.09h3.228V15.5H4.5v-3.228Z"
-          fill="currentColor"
-        ></path>
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M10.772 4.2c0-.42 0-.63.082-.79a.75.75 0 0 1 .328-.328c.16-.082.37-.082.79-.082H15.8c.42 0 .63 0 .79.082a.75.75 0 0 1 .328.328c.082.16.082.37.082.79v3.828c0 .42 0 .63-.082.79a.75.75 0 0 1-.328.328c-.16.082-.37.082-.79.082h-3.828c-.42 0-.63 0-.79-.082a.75.75 0 0 1-.328-.328c-.082-.16-.082-.37-.082-.79V4.2Zm1.5 3.528V4.5H15.5v3.228h-3.228Z"
-          fill="currentColor"
-        ></path>
-        <path
-          d="M10.77 10.77h2.077v2.077H10.77V10.77Z"
-          fill="currentColor"
-        ></path>
-        <path
-          d="M14.923 12.847h-2.076v2.076H10.77V17h2.077v-2.077h2.076V17H17v-2.077h-2.077v-2.076Z"
-          fill="currentColor"
-        ></path>
-        <path
-          d="M14.923 12.847V10.77H17v2.077h-2.077Z"
-          fill="currentColor"
-        ></path>
-      </svg>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path d="M13 14.5h2V13h-2v1.5Z" fill="currentColor"></path>
-        <path
-          d="M16.5 14.5V18h-2v3H13v-4.5h2v-2h1.5Z"
-          fill="currentColor"
-        ></path>
-        <path d="M16.5 14.5V13H21v1.5h-4.5Z" fill="currentColor"></path>
-        <path
-          d="M21 19.4V18h-1.5v1.5H16V21h3.4c.56 0 .84 0 1.054-.109a1 1 0 0 0 .437-.437C21 20.24 21 19.96 21 19.4Z"
-          fill="currentColor"
-        ></path>
-        <path d="M19.5 18v-2H18v2h1.5Z" fill="currentColor"></path>
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M3.109 3.546C3 3.76 3 4.04 3 4.6v4.807c0 .56 0 .84.109 1.054a1 1 0 0 0 .437.437c.214.11.494.11 1.054.11h4.807c.56 0 .84 0 1.054-.11a1 1 0 0 0 .437-.437c.11-.214.11-.494.11-1.054V4.6c0-.56 0-.84-.11-1.054a1 1 0 0 0-.437-.437C10.247 3 9.967 3 9.407 3H4.6c-.56 0-.84 0-1.054.109a1 1 0 0 0-.437.437ZM4.5 4.5h5.007v5.007H4.5V4.5Z"
-          fill="currentColor"
-        ></path>
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M3.109 13.539C3 13.753 3 14.033 3 14.593V19.4c0 .56 0 .84.109 1.054a1 1 0 0 0 .437.437C3.76 21 4.04 21 4.6 21h4.807c.56 0 .84 0 1.054-.109a1 1 0 0 0 .437-.437c.11-.214.11-.494.11-1.054v-4.807c0-.56 0-.84-.11-1.054a1 1 0 0 0-.437-.437c-.214-.11-.494-.11-1.054-.11H4.6c-.56 0-.84 0-1.054.11a1 1 0 0 0-.437.437Zm1.391.954h5.007V19.5H4.5v-5.007Z"
-          fill="currentColor"
-        ></path>
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M12.993 4.6c0-.56 0-.84.109-1.054a1 1 0 0 1 .437-.437C13.753 3 14.033 3 14.593 3H19.4c.56 0 .84 0 1.054.109a1 1 0 0 1 .437.437C21 3.76 21 4.04 21 4.6v4.807c0 .56 0 .84-.109 1.054a1 1 0 0 1-.437.437c-.214.11-.494.11-1.054.11h-4.807c-.56 0-.84 0-1.054-.11a1 1 0 0 1-.437-.437c-.11-.214-.11-.494-.11-1.054V4.6Zm1.5-.1H19.5v5.007h-5.007V4.5Z"
-          fill="currentColor"
-        ></path>
-      </svg>*/}
     </svg>
   );
 };
@@ -591,7 +510,13 @@ export const SVGComponet = {
     </svg>
   ),
   SmartPhone: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
       <path
         d="M7.1 12.1a.9.9 0 1 1 1.8 0 .9.9 0 0 1-1.8 0Z"
         fill="#1C1C1E"
@@ -623,7 +548,13 @@ export const SVGComponet = {
     </svg>
   ),
   Ruble: () => (
-    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width="32"
+      height="32"
+      viewBox="0 0 16 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M3.7 11.928c-.29 0-.481-.216-.481-.498 0-.282.19-.498.481-.498h1.303V9.338H3.7c-.29 0-.481-.216-.481-.498 0-.282.19-.498.481-.498h1.303v-5.57c0-.473.29-.772.747-.772h3.047c2.25 0 3.694 1.577 3.694 3.677 0 2.109-1.461 3.66-3.71 3.66H6.497v1.595h3.087c.291 0 .482.216.482.498 0 .282-.191.498-.482.498H6.498v1.228c0 .44-.308.764-.748.764s-.747-.324-.747-.764v-1.228H3.7Zm2.798-3.885h1.909c1.71 0 2.548-.921 2.548-2.366 0-1.436-.83-2.349-2.548-2.349h-1.91v4.715Z"
         fill="#1C1C1E"
@@ -631,7 +562,13 @@ export const SVGComponet = {
     </svg>
   ),
   Money: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -641,7 +578,12 @@ export const SVGComponet = {
     </svg>
   ),
   ArrowNext: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 16 16"
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"

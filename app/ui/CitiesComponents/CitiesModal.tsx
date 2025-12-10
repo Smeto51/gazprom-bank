@@ -9,16 +9,16 @@ const mediaModalSize = `
 
 type CitiesModalProps = {
   isVisible: boolean;
-  children: ReactNode;
-  setIsVisible: (value: boolean) => void;
-  setIsOpen: (value: boolean) => void;
   isOpen: boolean;
+  children: ReactNode;
+  onClose: () => void;
+  setIsOpen: (value: boolean) => void;
 };
 
 const CitiesModal = ({
   isVisible,
   children,
-  setIsVisible,
+  onClose,
   setIsOpen,
   isOpen,
 }: CitiesModalProps) => {
@@ -34,11 +34,11 @@ const CitiesModal = ({
         modalRef.current &&
         !modalRef.current.contains(event.target as Node)
       ) {
-        setIsVisible(false);
+        onClose();
         setTimeout(() => setIsOpen(false), 200);
       }
     },
-    [setIsVisible, setIsOpen]
+    [onClose, setIsOpen]
   );
 
   useEffect(() => {
@@ -46,14 +46,14 @@ const CitiesModal = ({
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setIsVisible(false);
+        onClose();
         setTimeout(() => setIsOpen(false), 200);
       }
     };
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, setIsOpen, setIsVisible]);
+  }, [isOpen, setIsOpen, onClose]);
 
   return (
     <div

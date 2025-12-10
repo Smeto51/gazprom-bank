@@ -54,16 +54,15 @@ const SearchInput = () => (
 );
 
 const SearchMenu = () => (
-  <div className="p-2 flex flex-col gap-4 min-w-[calc(100vw-32px)]">
+  <div className="relative p-2 flex flex-col gap-4  max-w-3xl">
     {links.map((item, index) => (
       <Link
         key={index}
         href={item.href}
-        className="flex items-center justify-between relative px-3 py-2 rounded-lg transition"
+        className="relative flex items-center justify-between px-3 py-2 rounded-lg transition"
       >
-        <div className="flex items-center gap-3 text-black/80">
+        <div className="relative flex items-center gap-3 text-black/80">
           <div className="w-10 h-10 flex items-center justify-center text-black/60 bg-[#f5f5f5] rounded-[8px]">
-            <div></div>
             {item.icon}
           </div>
           {item.text}
@@ -178,7 +177,7 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
         ✅ Отдельный слой	Элемент не перерисовывает фон и соседей при движении — экономит ресурсы.
         ✅ Меньше лагов	Особенно важно при 60 fps интерфейсах (модалки, слайдеры, bottom sheets). */}
         <div
-          className={`z-1000 fixed inset-0  transform-gpu 
+          className={`z-1000 fixed inset-x-0 top-0 h-dvh transform-gpu 
           ${
             modalIsOpen
               ? "translate-y-300 "
@@ -210,7 +209,7 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
                 bg-[#0a0a0b14] rounded-[50%] cursor-pointer z-1000"
                 onClick={handleClose}
               >
-                <div className="scale-10">
+                <div className="w-5 h-5">
                   <CrossSVG />
                 </div>
               </div>

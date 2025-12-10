@@ -116,6 +116,11 @@ const CitiesContent = ({ onCityChange, onOpenChange }: CitiesContentProps) => {
     return result;
   }, [cities, searchingCity]);
 
+  const handleCloseModal = useCallback(() => {
+    setIsVisible(false);
+    onOpenChange?.(false);
+  }, [onOpenChange]);
+
   const handleCitySelect = useCallback(
     (city: string) => {
       setSelectedCity(city);
@@ -147,7 +152,7 @@ const CitiesContent = ({ onCityChange, onOpenChange }: CitiesContentProps) => {
       {isOpen && (
         <CitiesModal
           isVisible={isVisible}
-          setIsVisible={setIsVisible}
+          onClose={handleCloseModal}
           setIsOpen={setIsOpen}
           isOpen={isOpen}
         >

@@ -62,9 +62,7 @@ export const SerachDefault = ({
             key={index}
             href={link}
             className={`bg-[#0a0a0b14] px-3 py-1 rounded-[8px] flex ml-3 mr-3
-                  ${
-                    searchIndex == index ? "text-white bg-black" : "text-black"
-                  }`}
+            ${searchIndex == index ? "text-white bg-black" : "text-black"}`}
           >
             <div className="flex w-5 h-5 my-0.5">{link.icon}</div>
 

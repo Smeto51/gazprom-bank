@@ -112,13 +112,19 @@ export const UsefullWindow = ({
   useEffect(() => {
     setActiveSliderIndex(startActiveSliderIndex);
   }, [startActiveSliderIndex]);
-
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
   const handleSliderClick = (index: number) => {
     setActiveSliderIndex(index);
   };
 
   return (
-    <div className="bg-[#1e222e] fixed top-0 right-0 bottom-0 left-0 flex items-center justify-center min-w-[320px] z-20 p-0">
+    <div className="bg-[#1e222e] fixed inset-x-0 top-0 h-dvh flex items-center justify-center min-w-[320px] z-20 p-0">
       <div className="w-full h-full flex items-center justify-center md:rounded-2xl">
         <div
           ref={sliderContainerRef}

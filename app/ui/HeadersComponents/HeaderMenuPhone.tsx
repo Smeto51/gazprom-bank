@@ -6,6 +6,7 @@ import Link from "next/link";
 import { MOBILE_MENU, MOBILE_MENU_ITEMS } from "./VariablePhone";
 import Cities from "../Cities";
 import { useSearchBlockContext } from "@/app/contextApi/SearchBlockContext";
+import { useLockBodyScroll } from "@/app/hooks/useLockBodyScroll";
 
 const resetContainerHeight = (
   containerRef: React.RefObject<HTMLElement | null>
@@ -67,7 +68,7 @@ export const HeaderMenuPhone = () => {
       if (!isDragging || !containerRef.current) return;
       const deltaY = clientY - dragInfoRef.current.startY;
       const newHeight = dragInfoRef.current.startHeight - deltaY;
-      const minHeight = 40;
+      const minHeight = 300;
 
       if (newHeight <= minHeight) {
         handleClose();
@@ -140,6 +141,8 @@ export const HeaderMenuPhone = () => {
       document.removeEventListener("touchend", handleEnd);
     };
   }, [isDragging, handleMouseMove, handleEnd, handleTouchMove]);
+
+  useLockBodyScroll(modalIsOpen);
 
   return (
     <>
@@ -276,7 +279,7 @@ export const HeaderMenuPhone = () => {
       </div>
 
       <div
-        className={`${bg} fixed top-0 left-0 bg-black/50 w-full h-full z-0 cursor-pointer`}
+        className={`${bg} fixed inset-x-0 top-0 h-dvh bg-black/50 z-0 cursor-pointer`}
         onClick={handleClose}
       />
     </>

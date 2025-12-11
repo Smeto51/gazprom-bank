@@ -171,7 +171,7 @@ export const Calculation = () => {
           className={`transition-opacity duration-100 ${
             isMobile && !isOpenCalculation
               ? "opacity-0  "
-              : "fixed left-0 bottom-0 bg-black/70 w-full h-full z-1 cursor-pointer opacity-100 min-lg:hidden"
+              : "fixed inset-x-0 top-0 h-dvh bg-black/70 z-1 cursor-pointer opacity-100 min-lg:hidden"
           }`}
         />
 
@@ -222,9 +222,9 @@ export const Calculation = () => {
                   </h3>
                   <button
                     onClick={() => setIsOpenCalculation(false)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200"
+                    className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 mb-1"
                   >
-                    <div className="scale-15">
+                    <div className="w-5 h-5">
                       <CrossSVG />
                     </div>
                   </button>

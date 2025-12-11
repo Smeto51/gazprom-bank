@@ -220,7 +220,7 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
           </div>
         </div>
         <div
-          className={`fixed bg-black/60 w-screen inset-0 transition-opacity duration-500 ease-out
+          className={`fixed bg-black/60 inset-x-0 top-0 h-dvh transition-opacity duration-500 ease-out
         ${modalIsOpen ? "opacity-100 " : "opacity-0 pointer-events-none"}`}
         />
       </div>

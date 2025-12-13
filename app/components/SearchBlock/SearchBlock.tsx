@@ -12,6 +12,7 @@ import { SerachDefault } from "./SearchDefault";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useModalContext } from "@/app/contextApi/ModalContext";
 import { useSearchBlockContext } from "@/app/contextApi/SearchBlockContext";
+import { useLockBodyScroll } from "@/app/hooks/useLockBodyScroll";
 
 const links = [
   {
@@ -105,6 +106,8 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
     }
   }, [isDragging]);
 
+  useLockBodyScroll(modalIsOpen);
+
   const onPointerDown = useCallback(
     (e: React.PointerEvent) => {
       if (!modalIsOpen || isClosing) return;
@@ -135,7 +138,6 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
           toggleModal();
         }, 250);
       } else {
-        // Возвращаемся на место
         setDragY(0);
       }
 
@@ -158,6 +160,9 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
     if (isDragging || dragY > 0) return `${dragY}px`;
     return "0";
   };
+
+  const showOverlay = modalIsOpen && !isClosing;
+
   return (
     <>
       <div
@@ -172,6 +177,17 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
           modalIsOpen={modalIsOpen}
           toggleModal={toggleModal}
         />
+
+        {showOverlay && (
+          <div
+            className="fixed inset-0 bg-black/60 ease-out z-1000"
+            style={{
+              opacity: showOverlay ? 1 : 0,
+              pointerEvents: showOverlay ? "auto" : "none",
+            }}
+            onClick={handleClose}
+          />
+        )}
         {/**transform-gpu alt translateZ(0)
        * Плавность	На iOS и Android анимации translate, scale, rotate без GPU иногда «фризят». GPU-слой делает движение идеально плавным.
         ✅ Отдельный слой	Элемент не перерисовывает фон и соседей при движении — экономит ресурсы.
@@ -219,11 +235,11 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
             <div className="mb-300" />
           </div>
         </div>
-        <div
-          className={`fixed bg-black/60 inset-x-0 top-0 h-dvh transition-opacity duration-500 ease-out
-        ${modalIsOpen ? "opacity-100 " : "opacity-0 pointer-events-none"}`}
-        />
       </div>
     </>
   );
 };
+/*<div
+          className={`fixed bg-black/60 inset-x-0 top-0 h-dvh transition-opacity duration-500 ease-out
+        ${modalIsOpen ? "opacity-100 " : "opacity-0 pointer-events-none"}`}
+        />*/

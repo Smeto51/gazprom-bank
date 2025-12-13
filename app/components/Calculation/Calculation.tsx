@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useWindowSize } from "@/app/hooks/useWindowSize";
 import { useSearchBlockContext } from "@/app/contextApi/SearchBlockContext";
 import { CrossSVG } from "@/app/ui/SvgElements";
+import { useLockBodyScroll } from "@/app/hooks/useLockBodyScroll";
 
 export const Calculation = () => {
   const [activePage, setActivePage] = useState(0);
@@ -54,18 +55,6 @@ export const Calculation = () => {
     } else setIsSearchBlockOpen(true);
   }, [isOpenCalculation, setIsSearchBlockOpen]);
 
-  useEffect(() => {
-    if (isMobile && isOpenCalculation) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMobile, isOpenCalculation]);
-
   const onPointerDown = useCallback(
     (e: React.PointerEvent) => {
       if (!isOpenCalculation) {
@@ -103,6 +92,8 @@ export const Calculation = () => {
     },
     [isDragging, dragY]
   );
+
+  useLockBodyScroll(isOpenCalculation);
 
   return (
     <div className="max-lg:pt-8 max-lg:pb-8 lg:mt-20  xl:max-w-[1280px] xl:pl-7 xl:pr-7 mx-auto">
@@ -229,14 +220,14 @@ export const Calculation = () => {
                     </div>
                   </button>
                 </div>
-                <div className="border rounded-2xl p-2 overflow-x-auto">
-                  <div className="flex gap-4 w-max">
+                <div className="border rounded-2xl p-2 overflow-x-auto scrollbar-hide">
+                  <div className="flex gap-4 w-max scrollbar-hide">
                     {CALCULATION_ITEMS.map((item, index) => (
                       <div
                         key={item.id}
                         onClick={() => handleItemClick(index)}
                         className={`relative  pl-3 pr-3 overflow-hidden transition-colors duration-300 ease-in-out 
-                        max-lg:min-w-[140px] py-3 rounded-[8px] cursor-pointer
+                        max-lg:min-w-[140px] py-3 rounded-[8px] cursor-pointer 
                      
                   ${
                     activePage == index
@@ -244,7 +235,7 @@ export const Calculation = () => {
                       : "text-black hover:bg-gray-200"
                   }`}
                       >
-                        <p className="font-medium justify-center flex  whitespace-nowrap">
+                        <p className="font-medium justify-center flex  whitespace-nowrap ">
                           {item.title}
                         </p>
                       </div>

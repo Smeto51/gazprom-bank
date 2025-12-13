@@ -5,6 +5,8 @@ bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/
 ## Libraries Used
 
 [Tailwindcss](https://tailwindcss.com)
+[react-day-picker]
+[react-imask]
 
 ## Project verification
 

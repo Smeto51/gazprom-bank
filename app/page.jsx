@@ -21,7 +21,7 @@ import { ProjectBank } from "./components/Desktop/ProjectBank/ProjectBank";
 export default function Home() {
   const searchIndex = 0;
   return (
-    <div className="">
+    <div className="xl:max-w-7xl mx-auto">
       <div className="max-[1024px]:max-w-3xl max-[1024]:ml-auto max-[1024px]:mr-auto">
         <FinProfuct />
         <div className="pb-8 -z-100" />

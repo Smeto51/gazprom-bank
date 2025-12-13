@@ -10,6 +10,7 @@ import {
 } from "./utils/saveLoadUsefullLocal";
 import { sortTips } from "./utils/sortedUseFull";
 import { useModalContext } from "@/app/contextApi/ModalContext";
+import { useLockBodyScroll } from "@/app/hooks/useLockBodyScroll";
 
 export const SectionUsefull = () => {
   const { isUsefullWindowOpen, setIsUsefullWindowOpen } = useModalContext();
@@ -87,6 +88,8 @@ export const SectionUsefull = () => {
       return copy;
     });
   };
+
+  useLockBodyScroll(isUsefullWindowOpen);
 
   return (
     <>

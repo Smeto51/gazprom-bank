@@ -207,8 +207,8 @@ export const Carousel = ({
           currentIndex === 0 ? "opacity-0 pointer-events-none" : ""
         }`}
       >
-        <div className="rounded-full bg-[#ebebeb] w-15 scale-80">
-          <div className="scale-80 rotate-180">
+        <div className="rounded-full bg-[#ebebeb] w-12 h-12 scale-80 items-center flex justify-center">
+          <div className="scale-100 rotate-180">
             <SVGComponet.ArrowNext />
           </div>
         </div>
@@ -225,8 +225,8 @@ export const Carousel = ({
               : ""
           }`}
       >
-        <div className="rounded-full bg-[#ebebeb] w-15 scale-80">
-          <div className="scale-80">
+        <div className="rounded-full bg-[#ebebeb] w-12 h-12 scale-80 items-center flex justify-center">
+          <div className="scale-100">
             <SVGComponet.ArrowNext />
           </div>
         </div>

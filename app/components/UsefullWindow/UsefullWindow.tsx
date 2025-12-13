@@ -112,13 +112,7 @@ export const UsefullWindow = ({
   useEffect(() => {
     setActiveSliderIndex(startActiveSliderIndex);
   }, [startActiveSliderIndex]);
-  useEffect(() => {
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = prev;
-    };
-  }, []);
+
   const handleSliderClick = (index: number) => {
     setActiveSliderIndex(index);
   };
@@ -128,8 +122,7 @@ export const UsefullWindow = ({
       <div className="w-full h-full flex items-center justify-center md:rounded-2xl">
         <div
           ref={sliderContainerRef}
-          className="flex overflow-x-auto w-full h-full md:px-4 md:py-8 scrollbar-hide max-md:snap-x max-md:snap-mandatory items-center overflow-y-hidden lg:gap-4
-          "
+          className="flex overflow-x-auto w-full h-full md:px-4 md:py-8 scrollbar-hide max-md:snap-x max-md:snap-mandatory items-center overflow-y-hidden lg:gap-4"
         >
           <div className="hidden md:block shrink-0 lg:w-[360px] w-full" />
           {viewSliders.map((sliderIndex, origIndex) => {

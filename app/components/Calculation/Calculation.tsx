@@ -39,6 +39,7 @@ export const Calculation = () => {
       setActivePage(index);
     }
   };
+
   useEffect(() => {
     if (isOpenCalculation && isMobile) {
       setTimeout(() => {
@@ -49,6 +50,7 @@ export const Calculation = () => {
       }, 50);
     }
   }, [isOpenCalculation, isMobile, activePage]);
+
   useEffect(() => {
     if (isOpenCalculation) {
       setIsSearchBlockOpen(false);
@@ -182,7 +184,7 @@ export const Calculation = () => {
             className={`
               w-full max-w-3xl pointer-events-auto
               bg-white rounded-t-2xl overflow-hidden flex flex-col 
-              max-h-[calc(100vh-80px)]
+              max-h-[calc(100dvh-80px)]
               
             `}
             style={{

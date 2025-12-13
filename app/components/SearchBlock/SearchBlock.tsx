@@ -180,11 +180,8 @@ export const SearchHome = ({ searchIndex }: { searchIndex: number }) => {
 
         {showOverlay && (
           <div
-            className="fixed inset-0 bg-black/60 ease-out z-1000"
-            style={{
-              opacity: showOverlay ? 1 : 0,
-              pointerEvents: showOverlay ? "auto" : "none",
-            }}
+            className={`fixed inset-0 bg-black/60 transition-opacity duration-500 z-[999]
+            ${showOverlay ? "opacity-100" : "opacity-0 pointer-events-none"}`}
             onClick={handleClose}
           />
         )}

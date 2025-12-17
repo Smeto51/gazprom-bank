@@ -143,7 +143,7 @@ export const CityProvider = ({ children }: { children: React.ReactNode }) => {
             maximumAge: 60000,
           }
         );
-        console.log("allCities", allCities);
+        //console.log("allCities", allCities);
       } catch (e) {
         console.error("Ошибка определения города", e);
       }

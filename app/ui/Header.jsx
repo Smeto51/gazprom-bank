@@ -48,7 +48,7 @@ const Header = () => {
 
   return (
     <header className="relative w-full z-20">
-      <div className="header_full_main_menu ">
+      <div className="realtive header_full_main_menu ">
         <HeaderMenu onSearchClick={handleSearchClick} />
 
         <div className="hidden lg:block h-full ">
@@ -67,6 +67,11 @@ const Header = () => {
             </div>
           }
         </div>
+        <div
+          className={`fixed inset-0 bg-black/50 -z-1 cursor-pointer h-[100dvh]
+            ${showSearch ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+          onClick={() => setShowSearch(false)}
+        />
       </div>
     </header>
   );

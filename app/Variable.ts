@@ -3,7 +3,7 @@
 export const FINANCIAL_PRODUCTS_ITEMS = [
   {
     id: 2,
-    href: "#",
+    href: "/cashback/",
     title: "100% кэшбэк в супермаркетах",
     description: "По дебетовой карте",
     titleColor: "#000000",

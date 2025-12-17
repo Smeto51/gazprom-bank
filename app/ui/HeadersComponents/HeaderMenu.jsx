@@ -30,11 +30,11 @@ export const DefoultLinkGPB = ({ href, title }) => {
 
 const MENU = [
   { id: 1, title: "Для всех", href: "/" },
-  { id: 2, title: "Private", href: "2" },
-  { id: 3, title: "Малому и среднему бизнесу", href: "3" },
-  { id: 4, title: "Крупному бизнесу", href: "4" },
-  { id: 5, title: "Финансовым организациям", href: "5" },
-  { id: 6, title: "Инвесторам", href: "6" },
+  { id: 2, title: "Private", href: "/" },
+  { id: 3, title: "Малому и среднему бизнесу", href: "/" },
+  { id: 4, title: "Крупному бизнесу", href: "/" },
+  { id: 5, title: "Финансовым организациям", href: "/" },
+  { id: 6, title: "Инвесторам", href: "/" },
 ];
 
 const HeaderMenu = ({ onSearchClick }) => {

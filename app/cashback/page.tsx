@@ -1,5 +1,11 @@
 "use client";
 
+import { TitleBannerProduct } from "./components/TitleBannerProduct";
+
 export default function CashBackPage() {
-  return <h2>HELLO WORLD</h2>;
+  return (
+    <div className="xl:max-w-7xl">
+      <TitleBannerProduct />
+    </div>
+  );
 }

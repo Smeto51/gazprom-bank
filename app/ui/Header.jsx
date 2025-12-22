@@ -73,8 +73,9 @@ const Header = () => {
           onClick={() => setShowSearch(false)}
         />
       </div>
+      <div className="min-lg:pt-28"></div>
     </header>
   );
 };
-//#4768BF0
+
 export default Header;

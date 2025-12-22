@@ -34,7 +34,7 @@ const MobileImg = ({
 
 export const FinProfuct = () => {
   return (
-    <section className=" min-lg:pt-28 relative z-0">
+    <section className="  relative z-0">
       <Carousel>
         {FINANCIAL_PRODUCTS_ITEMS.map((item, index) => {
           return (

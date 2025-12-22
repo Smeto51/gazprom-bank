@@ -71,8 +71,6 @@ export const TASKS = [
   },
 ];
 
-export const TASKS_2 = [];
-
 export const NAME_AGE = [
   { id: 1, name: "Ann", age: 25, isActive: true },
   { id: 10, name: "Bob", age: 17, isActive: true },
@@ -80,3 +78,60 @@ export const NAME_AGE = [
 ];
 
 export const TEST_NUMBER_ARRAY = [5, 8, 12, 3, 1];
+
+export const TASKS_2 = [
+  {
+    title: "Получить только продукты категории food",
+    desc: "",
+    taskCode: `TEST_PRODUCTS = [
+  { id: 1, title: "Milk", price: 1.2, category: "food" },
+  { id: 2, title: "TV", price: 300, category: "electronics" },
+  { id: 3, title: "Bread", price: 0.8, category: "food" },
+  { id: 4, title: "Laptop", price: 1200, category: "electronics" },
+  { id: 5, title: "Chair", price: 85, category: "furniture" },
+  { id: 6, title: "Apple", price: 0.5, category: "food" },
+  { id: 7, title: "Smartphone", price: 800, category: "electronics" },
+  { id: 8, title: "Table", price: 200, category: "furniture" },
+  { id: 9, title: "Eggs", price: 2.5, category: "food" },
+  { id: 10, title: "Headphones", price: 150, category: "electronics" },
+  { id: 11, title: "Sofa", price: 500, category: "furniture" },
+  { id: 12, title: "Cheese", price: 3.5, category: "food" },
+  { id: 13, title: "Monitor", price: 250, category: "electronics" },
+  { id: 14, title: "Bookshelf", price: 120, category: "furniture" },
+  { id: 15, title: "Banana", price: 0.3, category: "food" },
+  { id: 16, title: "Keyboard", price: 75, category: "electronics" },
+  { id: 17, title: "Bed", price: 400, category: "furniture" },
+  { id: 18, title: "Chicken", price: 5, category: "food" },
+  { id: 19, title: "Mouse", price: 40, category: "electronics" },
+  { id: 20, title: "Desk", price: 180, category: "furniture" },
+];`,
+  },
+  { title: "Список названий товаров:" },
+  {
+    title:
+      "Посчитать суммарную стоимость по категориям, вывести количество товаров:",
+  },
+];
+
+export const TEST_PRODUCTS = [
+  { id: 1, title: "Milk", price: 1.2, category: "food" },
+  { id: 2, title: "TV", price: 300, category: "electronics" },
+  { id: 3, title: "Bread", price: 0.8, category: "food" },
+  { id: 4, title: "Laptop", price: 1200, category: "electronics" },
+  { id: 5, title: "Chair", price: 85, category: "furniture" },
+  { id: 6, title: "Apple", price: 0.5, category: "food" },
+  { id: 7, title: "Smartphone", price: 800, category: "electronics" },
+  { id: 8, title: "Table", price: 200, category: "furniture" },
+  { id: 9, title: "Eggs", price: 2.5, category: "food" },
+  { id: 10, title: "Headphones", price: 150, category: "electronics" },
+  { id: 11, title: "Sofa", price: 500, category: "furniture" },
+  { id: 12, title: "Cheese", price: 3.5, category: "food" },
+  { id: 13, title: "Monitor", price: 250, category: "electronics" },
+  { id: 14, title: "Bookshelf", price: 120, category: "furniture" },
+  { id: 15, title: "Banana", price: 0.3, category: "food" },
+  { id: 16, title: "Keyboard", price: 75, category: "electronics" },
+  { id: 17, title: "Bed", price: 400, category: "furniture" },
+  { id: 18, title: "Chicken", price: 5, category: "food" },
+  { id: 19, title: "Mouse", price: 40, category: "electronics" },
+  { id: 20, title: "Desk", price: 180, category: "furniture" },
+];

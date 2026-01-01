@@ -1,7 +1,10 @@
 "use client";
 
 import { TEST_PRODUCTS } from "./data/constant";
-import { CategoryTotal } from "./utils/tasks";
+
+export interface CategoryTotal {
+  [key: string]: number;
+}
 
 interface Product {
   sumTotal: number;

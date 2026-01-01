@@ -45,7 +45,9 @@ export const TestBlock = () => {
             key={index}
           >
             <h3 className="text-3xl font-semibold leading-8">{task.title}</h3>
-            <p className="whitespace-pre-line mb-5 text-xl">{task.desc}</p>
+            <p className="whitespace-pre-line mb-5 text-xl leading-5">
+              {task.desc}
+            </p>
 
             {task.taskCode && (
               <pre className="bg-gray-800 text-green-400 rounded-lg font-mono text-sm whitespace-pre-wrap overflow-x-auto p-4 mb-6 w-fit">

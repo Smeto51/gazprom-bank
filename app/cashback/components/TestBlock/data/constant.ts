@@ -151,7 +151,6 @@ child.hasOwnProperty("kind")
     7) Ломаем this стрелкой
     8) call/apply/bind`,
   },
-  {},
 ];
 
 export const TEST_PRODUCTS = [

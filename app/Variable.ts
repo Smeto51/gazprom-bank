@@ -21,8 +21,8 @@ export const FINANCIAL_PRODUCTS_ITEMS = [
   },
   {
     id: 1,
-    href: "#",
-    title: "Накопительный счет ",
+    href: "/posts/",
+    title: "Posts + Comments(AJAX)",
     titleColor: "#ffffff",
     description: "Повышенная ставка новым клиентам на 2 месяца",
     ArrowColor: "#000000",

@@ -19,7 +19,7 @@ export async function GET(_request: Request, context: ParamsPostProps) {
     const res = await fetch(`${POSTS_URL}/${id}`);
     if (!res.ok) {
       if (res.status === 404) {
-        return NextResponse.json({ error: "Not found" }, { status: 404 });
+        return NextResponse.json({ error: "Пост не найден" }, { status: 404 });
       }
       upstreamError(res);
     }

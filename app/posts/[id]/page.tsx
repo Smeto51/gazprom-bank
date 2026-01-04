@@ -23,6 +23,9 @@ export default function PostPage({ params }: PageProps) {
 
         const res = await fetch(`/api/posts/${id}`);
         if (!res.ok) {
+          if (res.status === 404) {
+            throw new Error(`Пост не найден ${res.status}`);
+          }
           throw new Error(`Запрос завершился с ошибкой ${res.status}`);
         }
 

@@ -1,5 +1,8 @@
 "use client";
-import { Case2Task2 } from "../Case2Task2";
+import { Case2Block } from "../Case2Block";
+import { Case2Task2, CategoryTotal } from "../Case2Task2";
+import { Case2Task4 } from "../Case2Task4";
+import { Case2Task5 } from "../Case2Task5";
 import { NAME_AGE, TEST_NUMBER_ARRAY, TEST_PRODUCTS } from "../data/constant";
 
 export const taskcase = (index: number) => {
@@ -61,10 +64,6 @@ export const taskcase = (index: number) => {
   }
 };
 
-export interface CategoryTotal {
-  [key: string]: number;
-}
-
 export const case2Task2 = () => {
   const total: CategoryTotal = TEST_PRODUCTS.reduce(
     (sum: CategoryTotal, el) => {
@@ -102,7 +101,18 @@ export const taskcase2 = (index: number) => {
       return TEST_PRODUCTS.map((el) => el.title + ", ");
     case 2:
       return case2Task2();
-
+    case 3:
+      const user = { name: "Ann" };
+      return user instanceof Object ||
+        Object.getPrototypeOf(user) === Object.prototype ? (
+        <Case2Block result={"true"} />
+      ) : (
+        <Case2Block result={"false"} />
+      );
+    case 4:
+      return Case2Task4();
+    case 5:
+      return Case2Task5();
     default:
       return "";
   }

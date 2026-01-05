@@ -111,6 +111,46 @@ export const TASKS_2 = [
     title:
       "Посчитать суммарную стоимость по категориям, вывести количество товаров:",
   },
+  {
+    title: `1) Object.getPrototypeOf`,
+    desc: `Создай объект user = { name: "Ann" }.
+Выведи в консоль:`,
+
+    taskCode: `Object.getPrototypeOf(user) === Object.prototype (что будет?)`,
+  },
+  {
+    title: `Задачи 4`,
+    desc: `Object.create
+
+Создай base = { kind: "base" } и child = Object.create(base).
+Проверь:
+есть ли у child собственное свойство kind?
+чему равен child.kind?
+
+
+3) hasOwnProperty vs доступ по прототипу
+Для child из задачи 2:
+child.hasOwnProperty("kind") → ?
+"kind" in child → ?
+
+
+4) Shadowing (перекрытие свойства)
+Добавь child.kind = "child" и проверь:
+child.kind
+base.kind
+child.hasOwnProperty("kind")
+
+
+5) Удаление перекрытия
+Сделай delete child.kind и проверь, что снова берётся из прототипа.`,
+  },
+  {
+    title: "Задачи 5",
+    desc: `методы и this
+    6) Метод в прототипе через Object.create
+    7) Ломаем this стрелкой
+    8) call/apply/bind`,
+  },
 ];
 
 export const TEST_PRODUCTS = [

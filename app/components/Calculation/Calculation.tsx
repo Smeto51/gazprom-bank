@@ -169,7 +169,7 @@ export const Calculation = () => {
         />
 
         <div
-          className={`fixed top-0 bottom-0 w-3xl bg-white z-45 max-w-3xl pointer-events-none min-lg:hidden
+          className={`max-lg:ml-2 fixed top-0 bottom-0 w-3xl bg-white z-45 max-w-3xl pointer-events-none min-lg:hidden
               ${isOpenCalculation ? "opacity-100" : "opacity-0"}`}
           style={{
             transform: isOpenCalculation

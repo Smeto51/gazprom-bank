@@ -23,9 +23,15 @@ export async function upstreamError(res: Response) {
   );
 }
 
-export function upstreamError502Catch() {
+export const upstreamError500Catch = () => {
   return NextResponse.json(
     { error: "Не удалось получить посты" },
     { status: 500 }
   );
-}
+};
+
+export const isErrorNotFound = (postId: number) => {
+  if (!Number.isFinite(postId) || postId <= 0) {
+    return NextResponse.json({ error: "Ничего не найдено" }, { status: 404 });
+  }
+};

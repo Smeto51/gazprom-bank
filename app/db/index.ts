@@ -4,7 +4,7 @@ import "server-only";
 import postgres from "postgres";
 import { drizzle } from "drizzle-orm/postgres-js";
 
-const connectionString = process.env.DATAVASE_URL!;
+const connectionString = process.env.DATABASE_URL!;
 
 const sql = postgres(connectionString, { max: 10 });
 

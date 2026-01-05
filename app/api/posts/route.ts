@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Post } from "./types";
-import { POSTS_URL, upstreamError, upstreamError502Catch } from "./posthelper";
+import { POSTS_URL, upstreamError, upstreamError500Catch } from "./posthelper";
 
 export async function GET() {
   try {
@@ -24,6 +24,6 @@ export async function GET() {
 
     return NextResponse.json(posts, { status: 200 });
   } catch {
-    upstreamError502Catch();
+    upstreamError500Catch();
   }
 }

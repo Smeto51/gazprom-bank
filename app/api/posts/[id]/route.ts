@@ -1,19 +1,17 @@
 import { NextResponse } from "next/server";
 import { ParamsPostProps, Post } from "../types";
-import { POSTS_URL, upstreamError, upstreamError502Catch } from "../posthelper";
+import {
+  isErrorNotFound,
+  POSTS_URL,
+  upstreamError,
+  upstreamError500Catch,
+} from "../posthelper";
 
-export async function GET(_request: Request, context: ParamsPostProps) {
-  const idStr = context.params.id;
+export async function GET(_request: Request, { params }: ParamsPostProps) {
+  const idStr = params.id;
   const id = Number(idStr);
 
-  if (!Number.isFinite(id) || id <= 0) {
-    return NextResponse.json(
-      {
-        error: "Такой страницы не существует",
-      },
-      { status: 404 }
-    );
-  }
+  isErrorNotFound(id);
 
   try {
     const res = await fetch(`${POSTS_URL}/${id}`);
@@ -32,6 +30,6 @@ export async function GET(_request: Request, context: ParamsPostProps) {
     };
     return NextResponse.json(post, { status: 200 });
   } catch {
-    upstreamError502Catch();
+    upstreamError500Catch();
   }
 }

@@ -1,15 +1,16 @@
 import { NextResponse } from "next/server";
-import { ParamsPostProps, Post } from "../types";
+import { Post } from "../types";
 import {
   isErrorNotFound,
   POSTS_URL,
   upstreamError,
   upstreamError500Catch,
 } from "../posthelper";
+import { Context } from "./comments/route";
 
-export async function GET(_request: Request, { params }: ParamsPostProps) {
-  const idStr = params.id;
-  const id = Number(idStr);
+export async function GET(_request: Request, { params }: Context) {
+  const idParams = (await params).id;
+  const id = Number(idParams);
 
   isErrorNotFound(id);
 

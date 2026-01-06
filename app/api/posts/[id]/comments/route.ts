@@ -4,7 +4,7 @@ import { comments } from "@/app/db/schema";
 import { desc, eq } from "drizzle-orm";
 import { isErrorNotFound } from "../../posthelper";
 
-type Context = {
+export type Context = {
   params: Promise<{ id: string }>;
 };
 

@@ -79,7 +79,7 @@ export const CommnetsSection = ({
         {!commentsLoading && !commentsError && comments.length > 0 ? (
           <ul className="space-y-4 mt-4">
             {comments.map((c, index) => (
-              <CommentItem key={c.id} c={c} index={index} />
+              <CommentItem key={c.id} c={c} index={comments.length - index} />
             ))}
           </ul>
         ) : (

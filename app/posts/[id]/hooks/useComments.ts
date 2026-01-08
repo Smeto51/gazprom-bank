@@ -1,10 +1,11 @@
 import { FormEvent, useEffect, useState } from "react";
 
 export type Comment = {
-  id: number;
+  id: number | string;
   postId: number;
   text: string;
   createdAt: string;
+  pending?: boolean;
 };
 
 export const useCommnets = (id: string) => {
@@ -19,11 +20,23 @@ export const useCommnets = (id: string) => {
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setSubmitError(null);
-
-    if (text.trim().length < 3) {
+    const trimmed = text.trim();
+    if (trimmed.length < 3) {
       setSubmitError("Комментарий должен быть минимум 3 символа");
       return;
     }
+
+    const tempId = `temp-${crypto.randomUUID}`;
+    const optimistic: Comment = {
+      id: tempId,
+      postId: Number(id),
+      text: trimmed,
+      createdAt: new Date().toLocaleString(),
+      pending: true,
+    };
+
+    setComments((prev) => [optimistic, ...prev]);
+    setText("");
 
     try {
       setIsSubmitting(true);
@@ -48,13 +61,18 @@ export const useCommnets = (id: string) => {
       }
 
       const created: Comment = await res.json();
-      console.log("CREATED COMMENT", created);
-      setComments((prev) => [created, ...prev]);
+
+      setComments((prev) =>
+        prev.map((comment) => (comment.id === tempId ? created : comment))
+      );
+
       setText("");
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Неизвестная ошибка";
+      setComments((prev) => prev.filter((comments) => comments.id !== tempId));
       setSubmitError(message);
+      setText(trimmed);
     } finally {
       setIsSubmitting(false);
     }

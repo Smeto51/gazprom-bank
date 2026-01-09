@@ -16,7 +16,7 @@ type CommentsPage = {
 
 const DEFAULT_LIMIT = 10;
 
-export const useCommnets = (id: string) => {
+export const useComments = (id: string) => {
   const [nextCursor, setNextCursor] = useState<string | null>(null);
 
   const [comments, setComments] = useState<Comment[]>([]);
@@ -54,15 +54,15 @@ export const useCommnets = (id: string) => {
   const refresh = useCallback(async () => {
     abortRef.current?.abort();
 
-    const contoller = new AbortController();
-    abortRef.current = contoller;
+    const controller = new AbortController();
+    abortRef.current = controller;
 
     try {
       setCommentsLoading(true);
       setCommentsError(null);
-      const page = await fetchPage(null, contoller.signal);
+      const page = await fetchPage(null, controller.signal);
 
-      setTotal(page.total);
+      setTotal(Number(page.total) || 0);
       setComments(page.items);
       setNextCursor(page.nextCursor);
     } catch (e) {
@@ -73,7 +73,7 @@ export const useCommnets = (id: string) => {
       const message = e instanceof Error ? e.message : "Неизвестная ошибка";
       setCommentsError(message);
     } finally {
-      if (!contoller.signal.aborted) {
+      if (!controller.signal.aborted) {
         setCommentsLoading(false);
       }
     }
@@ -98,7 +98,7 @@ export const useCommnets = (id: string) => {
     };
 
     setComments((prev) => [optimistic, ...prev]);
-    setTotal((t) => Number(t) + 1);
+    setTotal((t) => t + 1);
     setText("");
 
     try {
@@ -134,7 +134,7 @@ export const useCommnets = (id: string) => {
       const message =
         error instanceof Error ? error.message : "Неизвестная ошибка";
       setComments((prev) => prev.filter((comments) => comments.id !== tempId));
-
+      setTotal((t) => Math.max(0, t - 1));
       setSubmitError(message);
       setText(trimmed);
     } finally {
@@ -155,7 +155,7 @@ export const useCommnets = (id: string) => {
       setCommentsError(null);
 
       const page = await fetchPage(nextCursor, controller.signal);
-
+      setTotal(Number(page.total) || 0);
       setComments((prev) => {
         const prevIdArray = prev.map((comment) => comment.id);
 

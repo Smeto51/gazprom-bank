@@ -3,13 +3,13 @@
 import { Loading } from "../components/Loading";
 import { ErrorComponent } from "../components/ErrorComponent";
 import { usePost } from "./hooks/usePost";
-import { useCommnets } from "./hooks/useComments";
+import { useComments } from "./hooks/useComments";
 import { PostCard } from "./components/PostCard";
 import { CommnetsSection } from "./components/CommentsSection";
 
 export default function PostsClient({ id }: { id: string }) {
   const { posts, postLoading, postError } = usePost(id);
-  const commentsApi = useCommnets(id);
+  const commentsApi = useComments(id);
 
   if (postLoading) {
     return <Loading />;

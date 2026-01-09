@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 
 export type Comment = {
   id: number | string;
@@ -17,6 +17,43 @@ export const useCommnets = (id: string) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  const abortRef = useRef<AbortController | null>(null);
+
+  const refresh = useCallback(async () => {
+    abortRef.current?.abort();
+
+    const contoller = new AbortController();
+    abortRef.current = contoller;
+
+    try {
+      setCommentsLoading(true);
+      setCommentsError(null);
+
+      const res = await fetch(`/api/posts/${id}/comments`, {
+        signal: contoller.signal,
+      });
+
+      if (!res.ok) {
+        throw new Error(`Ошибка загрузки комментариев ${res.status}`);
+      }
+
+      const data: Comment[] = await res.json();
+
+      setComments(data);
+    } catch (e) {
+      if (e instanceof DOMException && e.name === "AbortError") {
+        return;
+      }
+
+      const message = e instanceof Error ? e.message : "Неизвестная ошибка";
+      setCommentsError(message);
+    } finally {
+      if (!contoller.signal.aborted) {
+        setCommentsLoading(false);
+      }
+    }
+  }, [id]);
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setSubmitError(null);
@@ -26,7 +63,7 @@ export const useCommnets = (id: string) => {
       return;
     }
 
-    const tempId = `temp-${crypto.randomUUID}`;
+    const tempId = `temp-${crypto.randomUUID()}`;
     const optimistic: Comment = {
       id: tempId,
       postId: Number(id),
@@ -46,7 +83,7 @@ export const useCommnets = (id: string) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text: trimmed }),
       });
 
       if (!res.ok) {
@@ -79,36 +116,12 @@ export const useCommnets = (id: string) => {
   }
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function loadCommnet() {
-      try {
-        setCommentsLoading(true);
-        setCommentsError(null);
-
-        const res = await fetch(`/api/posts/${id}/comments`);
-        if (!res.ok) {
-          throw new Error(`Ошибка загрузки комментариев ${res.status}`);
-        }
-
-        const data: Comment[] = await res.json();
-
-        if (!cancelled) {
-          setComments(data);
-        }
-      } catch (e) {
-        const message = e instanceof Error ? e.message : "Неизвестная ошибка";
-        if (!cancelled) setCommentsError(message);
-      } finally {
-        if (!cancelled) setCommentsLoading(false);
-      }
-    }
-    loadCommnet();
+    refresh();
 
     return () => {
-      cancelled = true;
+      abortRef.current?.abort();
     };
-  }, [id]);
+  }, [refresh]);
 
   return {
     comments,
@@ -119,5 +132,6 @@ export const useCommnets = (id: string) => {
     isSubmitting,
     submitError,
     handleSubmit,
+    refresh,
   };
 };

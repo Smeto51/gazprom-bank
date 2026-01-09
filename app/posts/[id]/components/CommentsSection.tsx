@@ -15,6 +15,8 @@ type Props = {
   comments: Comment[];
   commentsLoading: boolean;
   commentsError: string | null;
+
+  refresh: () => void;
 };
 
 export const CommnetsSection = ({
@@ -28,10 +30,13 @@ export const CommnetsSection = ({
   comments,
   commentsLoading,
   commentsError,
+
+  refresh,
 }: Props) => {
   return (
-    <section className="ml-3 mr-3 mt-8 p-6 bg-white rounded-lg border border-gray-200">
+    <section className="relative ml-3 mr-3 mt-8 p-6 bg-white rounded-lg border border-gray-200">
       <h2 className="text-3xl font-semibold mb-4 text-center">Комментарии</h2>
+
       <form className="realtive max-w-2xl mx-auto" onSubmit={handleSubmit}>
         <label className="text-sm font-medium text-gray-700 mb-2">
           Добавить комментарий
@@ -46,8 +51,25 @@ export const CommnetsSection = ({
         />
 
         {submitError && (
-          <p className="absolute mt-2 text-sm text-red-600">{submitError}</p>
+          <p className="absolute -mt-2 text-sm text-red-600">{submitError}</p>
         )}
+        <div className="relative mt-2">
+          <button
+            type="button"
+            onClick={refresh}
+            className="absolute px-3 py-2 rounded-md border border-gray-300 text-gray-700
+               hover:border-indigo-300 hover:text-indigo-700 transition-colors
+               "
+            disabled={commentsLoading}
+          >
+            {commentsLoading ? "Обновляю..." : "Обновить"}
+          </button>
+          {commentsLoading && (
+            <p className="absolute right-1/2 translate-x-1/2 text-center text-gray-500 mt-3">
+              Обновляю...
+            </p>
+          )}
+        </div>
 
         <div className="flex justify-end">
           <button
@@ -69,20 +91,22 @@ export const CommnetsSection = ({
         </div>
       </form>
 
-      <div>
-        {commentsLoading && <p className="text-center text-3xl">Загрузка...</p>}
+      <div className="relative">
         {commentsError && (
           <p className="text-center text-3xl text-red-600">
             Ошибка: {commentsError}
           </p>
         )}
-        {!commentsLoading && !commentsError && comments.length > 0 ? (
+
+        {comments.length > 0 && (
           <ul className="space-y-4 mt-4">
             {comments.map((c, index) => (
               <CommentItem key={c.id} c={c} index={comments.length - index} />
             ))}
           </ul>
-        ) : (
+        )}
+
+        {!commentsLoading && !commentsError && comments.length === 0 && (
           <p className="text-xl text-center text-gray-600">Пока пусто…</p>
         )}
       </div>

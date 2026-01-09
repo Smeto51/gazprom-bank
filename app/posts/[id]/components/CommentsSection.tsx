@@ -17,6 +17,11 @@ type Props = {
   commentsError: string | null;
 
   refresh: () => void;
+
+  nextCursor: string | null;
+  loadmore: () => void;
+  commentsLoadingMore: boolean;
+  total: number;
 };
 
 export const CommnetsSection = ({
@@ -32,6 +37,10 @@ export const CommnetsSection = ({
   commentsError,
 
   refresh,
+  nextCursor,
+  loadmore,
+  commentsLoadingMore,
+  total,
 }: Props) => {
   return (
     <section className="relative ml-3 mr-3 mt-8 p-6 bg-white rounded-lg border border-gray-200">
@@ -101,7 +110,7 @@ export const CommnetsSection = ({
         {comments.length > 0 && (
           <ul className="space-y-4 mt-4">
             {comments.map((c, index) => (
-              <CommentItem key={c.id} c={c} index={comments.length - index} />
+              <CommentItem key={c.id} c={c} index={total - index} />
             ))}
           </ul>
         )}
@@ -109,6 +118,22 @@ export const CommnetsSection = ({
         {!commentsLoading && !commentsError && comments.length === 0 && (
           <p className="text-xl text-center text-gray-600">Пока пусто…</p>
         )}
+        <div className="mt-4">
+          {nextCursor ? (
+            <button
+              type="button"
+              onClick={loadmore}
+              disabled={commentsLoadingMore}
+              className="px-4 py-2 rounded-md border border-gray-300 text-gray-700
+                       hover:border-indigo-300 hover:text-indigo-700 transition-colors
+                       disabled:opacity-50"
+            >
+              {commentsLoadingMore ? "Загружаю..." : "Загрузить ещё"}
+            </button>
+          ) : (
+            <p className="text-sm text-gray-500">Больше комментариев нет</p>
+          )}
+        </div>
       </div>
     </section>
   );

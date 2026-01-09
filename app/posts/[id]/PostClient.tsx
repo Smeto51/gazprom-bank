@@ -36,6 +36,10 @@ export default function PostsClient({ id }: { id: string }) {
             commentsLoading={commentsApi.commentsLoading}
             commentsError={commentsApi.commentsError}
             refresh={commentsApi.refresh}
+            loadmore={commentsApi.loadMore}
+            nextCursor={commentsApi.nextCursor}
+            commentsLoadingMore={commentsApi.commentsLoadingMore}
+            total={commentsApi.total}
           />
         </div>
       </section>

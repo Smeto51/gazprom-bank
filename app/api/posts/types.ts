@@ -3,7 +3,3 @@ export type Post = {
   title: string;
   body: string;
 };
-
-export type ParamsPostProps = {
-  params: { id: string };
-};
